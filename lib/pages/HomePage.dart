@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/pages/DiscoverGamesPage.dart';
+import 'package:game_app/pages/ProfilePage.dart';
+import 'package:game_app/pages/SavedGamesPage.dart';
+import 'package:game_app/pages/YourGamesPage.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
@@ -10,10 +14,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int _selectedIndex =0;
+  var pages = [YourGamesPage(), DiscoverGamesPage(), SavedGamesPage(), ProfilePage() ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: pages[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
@@ -49,8 +55,8 @@ class _HomePageState extends State<HomePage> {
                     iconActiveColor: Colors.white,
                   ),
                   GButton(
-                    icon: LineAwesomeIcons.gear,
-                    text: 'Settings',
+                    icon: LineAwesomeIcons.user,
+                    text: 'Profile',
                     textStyle: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),
                     iconActiveColor: Colors.white,
                   ),

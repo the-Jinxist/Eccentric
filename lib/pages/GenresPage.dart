@@ -29,24 +29,6 @@ class _GenresPageState extends State<GenresPage> {
               Text("Select genres that excite you!", style: Theme.of(context).textTheme.subtitle,),
               SizedBox(height: 10),
               loadGenres(),
-//              Wrap(
-//                runSpacing: 3,
-//                spacing: 10,
-//                children: <Widget>[
-//                  FilterChipWidget('Arcade'),
-//                  FilterChipWidget('Adventure'),
-//                  FilterChipWidget('Drama'),
-//                  FilterChipWidget('Sports'),
-//                  FilterChipWidget("Hack N' Slash"),
-//                  FilterChipWidget('Racing'),
-//                  FilterChipWidget('Shooting'),
-//                  FilterChipWidget('Battle Royale'),
-//                  FilterChipWidget('Shooting'),
-//                  FilterChipWidget('Drama'),
-//                  FilterChipWidget('Sports'),
-//                  FilterChipWidget("Hack N' Slash"),
-//                ],
-//              ),
               SizedBox(height: 30),
               GestureDetector(
                 onTap: (){
@@ -55,7 +37,7 @@ class _GenresPageState extends State<GenresPage> {
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)
+                    borderRadius: BorderRadius.circular(25)
                   ),
                   elevation: 5,
                   color: Colors.orange,

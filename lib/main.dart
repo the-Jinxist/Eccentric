@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:game_app/pages/HomePage.dart';
+import 'package:game_app/pages/YourGamesPage.dart';
 import 'pages/GenresPage.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.white,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark
+      )
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Games!',
@@ -16,6 +32,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
+          size: 24
         ),
         backgroundColor: Colors.white,
         accentColor: Colors.orange,
@@ -47,7 +64,7 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: GenresPage(),
+      home: HomePage(),
     );
   }
 }
