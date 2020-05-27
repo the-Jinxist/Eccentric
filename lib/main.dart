@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_app/pages/HomePage.dart';
+import 'package:game_app/pages/LandingPage.dart';
 import 'package:game_app/pages/YourGamesPage.dart';
 import 'pages/GenresPage.dart';
 
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }

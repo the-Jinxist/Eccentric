@@ -71,6 +71,7 @@ class _GenresPageState extends State<GenresPage> {
           );
 
         }else if(snapshot.hasError){
+          print("Genres Loading Error: ${snapshot.error.toString()}");
           return Container(
             height: 300,
             width: MediaQuery.of(context).size.width,
@@ -117,10 +118,16 @@ class _GenresPageState extends State<GenresPage> {
   Future<GenreModel> getGenres() async {
     var response  = await api.getGenres();
     await repo.getGenreString().then((string){
-      alreadySelectedGenres = string.split(", ");
-      genreList = alreadySelectedGenres;
-      print("Already selected genres: ${alreadySelectedGenres.toString()}");
-      print("Initial genres: ${genreList.toString()}");
+      if(string != null) {
+        alreadySelectedGenres = string.split(", ");
+        genreList = alreadySelectedGenres;
+        print("Already selected genres: ${alreadySelectedGenres.toString()}");
+        print("Initial genres: ${genreList.toString()}");
+      }else{
+        alreadySelectedGenres = [];
+        print("Already selected genres: ${alreadySelectedGenres.toString()}");
+        print("Initial genres: ${genreList.toString()}");
+      }
     });
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
@@ -134,7 +141,7 @@ class _GenresPageState extends State<GenresPage> {
 
   Future saveAndProceed(String substring) async {
     await repo.setGenreString(substring);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
   }
 }
 
