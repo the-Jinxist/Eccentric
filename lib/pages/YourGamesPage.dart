@@ -55,6 +55,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
               );
             }else if(snapshot.hasError){
               return Container(
+                padding: EdgeInsets.all(20),
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 child: Center(

@@ -18,5 +18,13 @@ Future<http.Response> getPublishers() async{
   return http.get("https://api.rawg.io/api/publishers");
 }
 
+Future<http.Response> getPopular() async{
+  return http.get("https://api.rawg.io/api/games?dates=2019-06-01,2020-12-31&ordering=-added");
+}
+
+Future<http.Response> getDevelopers() async{
+  return http.get("https://api.rawg.io/api/developers");
+}
+
 //Game id: 36755
 
