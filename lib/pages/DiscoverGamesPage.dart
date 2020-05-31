@@ -93,8 +93,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Most Anticipated Games in 2020", style: Theme.of(context).textTheme.headline,),
-                  Text("We're all waiting for these!!", style: Theme.of(context).textTheme.display2,),
+                  Text("Most Awaited Games in 2020", style: Theme.of(context).textTheme.headline,),
+                  Text("We're all anticipating for these games", style: Theme.of(context).textTheme.display2,),
                 ],
               ),
               Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
