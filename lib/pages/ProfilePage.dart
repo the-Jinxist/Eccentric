@@ -13,6 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             color: Colors.white,
             padding: EdgeInsets.only(top: 40, left: 15, right: 15),
             child: Column(

@@ -46,9 +46,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-#  assets:
-#  - assets/images/happy_image.jpg
-#  - assets/images/happy_imageii.jpg
+  assets:
+  - assets/images/aizen.jpg
+  - assets/images/kratos.jpg
 #  - assets/images/blank_canvas.svg
 #  - assets/images/note.png
 #  - assets/images/news_app_splash.png

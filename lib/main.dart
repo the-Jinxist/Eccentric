@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_app/pages/HomePage.dart';
 import 'package:game_app/pages/LandingPage.dart';
-import 'package:game_app/pages/YourGamesPage.dart';
-import 'pages/GenresPage.dart';
 
 void main() => runApp(MyApp());
 
@@ -48,6 +45,7 @@ class MyApp extends StatelessWidget {
             fontSize: 17,
             color: Colors.black,
           ),
+
           display1: TextStyle(
             fontFamily: "Poppins",
             fontSize: 15,
@@ -60,10 +58,21 @@ class MyApp extends StatelessWidget {
           ),
           headline: TextStyle(
             fontFamily: "Poppins_Extrabold",
-            fontSize: 12,
+            fontSize: 20,
             color: Colors.black,
           )
         ),
+      tooltipTheme: TooltipThemeData(
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.orange
+        ),
+        textStyle: TextStyle(
+          fontFamily: "Poppins",
+          fontSize: 12,
+          color: Colors.white,
+          ),
+        )
       ),
       home: LandingPage(),
     );
