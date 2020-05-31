@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:game_app/GameView.dart';
+import 'package:game_app/models/GameModel.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:game_app/repo/PrefsRepo.dart' as repo;
+import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/pages/GenresPage.dart';
 
 class YourGamesPage extends StatefulWidget {
@@ -36,14 +41,76 @@ class _YourGamesPageState extends State<YourGamesPage> {
             ],
           ),
         ), preferredSize: Size.fromHeight(100)),
-        body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (context, position){
-            return GameView();
+        body: FutureBuilder(
+          future: getGames(),
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              var gameModel = snapshot.data as GameModel;
+
+              return ListView.builder(
+                itemCount: gameModel.results.length,
+                itemBuilder: (context, position){
+                  return GameView(gameModel.results[position]);
+                }
+              );
+            }else if(snapshot.hasError){
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Sorry an error occured:\n${snapshot.error.toString()}"),
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: (){
+                          getGames();
+                        },
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          elevation: 5,
+                          color: Colors.orange,
+                          child: Container(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(child: Text("Reload", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }else{
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
           },
-        ),
+        )
       ),
     );
+  }
+
+  Future<GameModel> getGames() async {
+
+    var genreString = await repo.getGenreString();
+    var response  = await api.getGames(genreString);
+
+    if (response.statusCode == 200){
+      var responseBody = json.decode(response.body);
+      print("Genre Model: $responseBody");
+      return GameModel.fromJson(responseBody);
+    }else{
+      print("Categories Error: ${response.statusCode}");
+      return null;
+    }
   }
 }

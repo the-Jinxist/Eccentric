@@ -7,6 +7,13 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+  final formKey = new GlobalKey<FormState>();
+  String email;
+  String password;
+
+  bool enabledText = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,20 +25,117 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.only(top: 40, left: 15, right: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text("Profile", style: Theme.of(context).textTheme.title,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text("You've taken a fancy to these, I see", style: Theme.of(context).textTheme.subtitle,),
-                    IconButton(
-                      onPressed: (){
+                Text("Join us and keep your interests and data safe across multipe deveices", style: Theme.of(context).textTheme.subtitle,),
+                SizedBox(height: 20,),
+                Icon(LineAwesomeIcons.user, size: 30, color: Colors.orange,),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      TextFormField(
+                        autofocus: true,
+                        enabled: enabledText,
+                        keyboardType: TextInputType.emailAddress,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 1.0
+                                )
+                            ),
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0
+                                )
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0
+                                )
+                            ),
+                            hintText: "youremail@email.com",
+                            hintStyle: TextStyle(
+                                fontSize: 17.0, color: Colors.grey
+                            )
+                        ),
+                        validator: (value){
+                          if(value.isEmpty){
+                            return "Please provide an email";
+                          }else{
+                            email = value.trim();
+                            return null;
+                          }
+                        },
+                      ),
+                      SizedBox(height: 30,),
+                      TextFormField(
+                        enabled: enabledText,
+                        maxLines: 1,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orange,
+                                    width: 1.0
+                                )
+                            ),
+                            errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.red,
+                                    width: 1.0
+                                )
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey,
+                                    width: 1.0
+                                )
+                            ),
+                            hintText: "Password",
+                            hintStyle: TextStyle(
+                                fontSize: 17.0, color: Colors.grey
+                            )
+                        ),
+                        obscureText: true,
+                        validator: (value){
+                          if(value.isEmpty){
+                            return "Please input your password";
+                          }else{
+                            password = value.trim();
+                            return null;
+                          }
+                        },
+                      ),
 
-                      },
-                      icon: Icon(LineAwesomeIcons.gear),
-                    )
-                  ],
-                )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 50),
+                GestureDetector(
+                  onTap: (){
+
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)
+                    ),
+                    elevation: 5,
+                    color: Colors.orange,
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(child: Text("Sign Up!", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
+                    ),
+                  ),
+                ),
               ],
             ),
           )

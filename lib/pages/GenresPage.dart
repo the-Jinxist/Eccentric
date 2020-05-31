@@ -81,6 +81,7 @@ class _GenresPageState extends State<GenresPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text("An error occurred. Please check your internet connection"),
+                  SizedBox(height: 10),
                   GestureDetector(
                     onTap: (){
                       loadGenres();

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'models/GameModel.dart';
 
 class GameView extends StatefulWidget {
+
+  final Result result;
+
+  GameView(this.result);
+
   @override
   _GameViewState createState() => _GameViewState();
 }
@@ -22,7 +28,7 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Image.asset("assets/images/kratos.jpg", height: 400, width: double.maxFinite, fit: BoxFit.cover, ),
+            FadeInImage.assetNetwork(placeholder: "assets/images/kratos.jpg", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,),
             Positioned(
               right: 10,
               top: 10,
@@ -35,6 +41,19 @@ class _GameViewState extends State<GameView> {
               ),
 
             ),
+
+            Positioned(
+              right: 20,
+              top: 10,
+              child: IconButton(
+                onPressed: (){
+
+                },
+                tooltip: "Share Game",
+                icon: Icon(LineAwesomeIcons.share, color: Colors.white,),
+              ),
+
+            ),
             Positioned(
               bottom: 20,
               left: 20,
@@ -42,19 +61,40 @@ class _GameViewState extends State<GameView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("God Of War IV",
+                  Text("${widget.result.name}",
                     style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
                     textAlign: TextAlign.start,
                   ),
+                  SizedBox(height: 10,),
+                  Text("Released: ${widget.result.released}",
+                    style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 5,),
+                  Text("Rated: ${widget.result.rating} out of 10",
+                    style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(height: 5,),
                   SizedBox(
                     width: 300,
-                    child: Text("The 6th installment in the God of War series. Won Game of the year",
+                    child: Text("MetaCritic Rating: ${widget.result.metacritic} out of 10. Play time: ${widget.result.playtime}",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
                       textAlign: TextAlign.start,
                     ),
                   ),
+
+//                  SizedBox(
+//                    width: 300,
+//                    child: Text("The 6th installment in the God of War series. Won Game of the year",
+//                      maxLines: 1,
+//                      overflow: TextOverflow.ellipsis,
+//                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+//                      textAlign: TextAlign.start,
+//                    ),
+//                  ),
                 ],
               ),
 
