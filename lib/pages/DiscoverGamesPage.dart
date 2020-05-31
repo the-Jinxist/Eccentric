@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class DiscoverGamesPage extends StatefulWidget {
   @override
@@ -20,6 +21,24 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             children: <Widget>[
               Text("Discover", style: Theme.of(context).textTheme.title,),
               Text("Find games from all categories..", style: Theme.of(context).textTheme.subtitle,),
+              SizedBox(height: 20),
+              Container(
+                height: 60,
+                padding: EdgeInsets.only(left: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.grey.withOpacity(0.3)
+                ),
+                width: double.maxFinite,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(LineAwesomeIcons.search),
+                    SizedBox(width: 10,),
+                    Text("Search", style: Theme.of(context).textTheme.subtitle,)
+                  ],
+                )
+              ),
             ],
           ),
         )

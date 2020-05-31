@@ -18,3 +18,5 @@ Future<http.Response> getPublishers() async{
   return http.get("https://api.rawg.io/api/publishers");
 }
 
+//Game id: 36755
+

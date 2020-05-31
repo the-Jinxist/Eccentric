@@ -62,8 +62,8 @@ class _YourGamesPageState extends State<YourGamesPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Sorry an error occured:\n${snapshot.error.toString()}"),
-                      SizedBox(height: 10),
+                      Text("Sorry an error occured:\n${snapshot.error.toString()}", textAlign: TextAlign.center,),
+                      SizedBox(height: 20),
                       GestureDetector(
                         onTap: (){
                           getGames();
@@ -107,7 +107,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Game Model: ${GameModel.fromJson(responseBody).results[3]}");
+      print("Game Model: ${GameModel.fromJson(responseBody).results[3].slug}");
       return GameModel.fromJson(responseBody);
     }else{
       print("Game Model Error: ${response.statusCode}");
