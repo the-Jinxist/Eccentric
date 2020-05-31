@@ -30,7 +30,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text("Profile", style: Theme.of(context).textTheme.title,),
                 Text("Join us and keep your interests and data safe across multipe deveices", style: Theme.of(context).textTheme.subtitle,),
                 SizedBox(height: 20,),
-                Icon(LineAwesomeIcons.user, size: 30, color: Colors.orange,),
+                Icon(LineAwesomeIcons.user, size: 100, color: Colors.orange,),
+                SizedBox(height: 20,),
                 Form(
                   key: formKey,
                   child: Column(
@@ -62,9 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 )
                             ),
                             hintText: "youremail@email.com",
-                            hintStyle: TextStyle(
-                                fontSize: 17.0, color: Colors.grey
-                            )
+                            hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey)
                         ),
                         validator: (value){
                           if(value.isEmpty){
@@ -74,8 +73,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             return null;
                           }
                         },
+                        style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black),
                       ),
-                      SizedBox(height: 30,),
+                      SizedBox(height: 20,),
                       TextFormField(
                         enabled: enabledText,
                         maxLines: 1,
@@ -100,10 +100,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 )
                             ),
                             hintText: "Password",
-                            hintStyle: TextStyle(
-                                fontSize: 17.0, color: Colors.grey
-                            )
+                            hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
+
                         ),
+                        style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black),
                         obscureText: true,
                         validator: (value){
                           if(value.isEmpty){
@@ -118,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-                SizedBox(height: 50),
+                SizedBox(height:40),
                 GestureDetector(
                   onTap: (){
 

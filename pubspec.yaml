@@ -29,6 +29,7 @@ dependencies:
   shared_preferences:
   google_nav_bar: ^2.2.0
   line_awesome_icons: ^1.0.4+2
+  flutter_rating_bar: ^3.0.1+1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ flutter:
   assets:
   - assets/images/aizen.jpg
   - assets/images/kratos.jpg
+  - assets/images/placeholder.png
 #  - assets/images/blank_canvas.svg
 #  - assets/images/note.png
 #  - assets/images/news_app_splash.png

@@ -24,11 +24,11 @@ class GameModel{
       String released = json['released'] as String;
       bool tba = json['tba'] as bool;
       String backgroundImage = json['background_image'] as String;
-      int rating = json['rating'] as int;
+      double rating = json['rating'] as double;
       int ratingTop = json['rating_top'] as int;
       Object ratings = json['ratings'] as Object;
       int ratingsCount = json['ratings_count'] as int;
-      String reviewsTextCount = json['reviews_text_count'] as String;
+      int reviewsTextCount = json['reviews_text_count'] as int;
       int added = json['added'] as int;
       Object addedByStatus = json['added_by_status'] as Object;
       int metacritic = json['metacritic'] as int;
@@ -42,6 +42,7 @@ class GameModel{
       metacritic: metacritic, playtime: playtime, rating: rating, ratings: ratings,
       ratingsCount: ratingsCount, ratingsTop: ratingTop, reviewsTextCount: reviewsTextCount,
       suggestionsCount: suggestionsCount);
+
       results.add(result);
     }
 
@@ -58,11 +59,11 @@ class Result{
   final String released;
   final bool tba;
   final String backgroundImage;
-  final int rating;
+  final double rating;
   final int ratingsTop;
   final Object ratings;
   final int ratingsCount;
-  final String reviewsTextCount;
+  final int reviewsTextCount;
   final int added;
   final Object addedByStatus;
   final int metacritic;

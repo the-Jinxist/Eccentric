@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'models/GameModel.dart';
 
@@ -20,7 +21,7 @@ class _GameViewState extends State<GameView> {
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: BorderRadius.circular(30)
       ),
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -28,22 +29,41 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            FadeInImage.assetNetwork(placeholder: "assets/images/kratos.jpg", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,),
+            FadeInImage.assetNetwork(placeholder: "assets/images/placeholder.png", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,),
+            Container(
+              height: 400,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topCenter,
+                  end: FractionalOffset.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.5),
+                    Colors.black
+                  ],
+                  stops: [
+                    0.2,
+                    1.0
+                  ]
+                )
+              ),
+            ),
+
             Positioned(
-              right: 10,
+              right: 5,
               top: 10,
               child: IconButton(
                 onPressed: (){
 
                 },
                 tooltip: "Save Game",
-                icon: Icon(LineAwesomeIcons.heart, color: Colors.white,),
+                icon: Icon(LineAwesomeIcons.heart_o, color: Colors.white,),
               ),
 
             ),
 
             Positioned(
-              right: 20,
+              right: 40,
               top: 10,
               child: IconButton(
                 onPressed: (){
@@ -65,36 +85,51 @@ class _GameViewState extends State<GameView> {
                     style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 3,),
                   Text("Released: ${widget.result.released}",
-                    style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 5,),
-                  Text("Rated: ${widget.result.rating} out of 10",
-                    style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
-                    textAlign: TextAlign.start,
-                  ),
-                  SizedBox(height: 5,),
                   SizedBox(
                     width: 300,
-                    child: Text("MetaCritic Rating: ${widget.result.metacritic} out of 10. Play time: ${widget.result.playtime}",
-                      maxLines: 1,
+                    child: Text("MetaCritic Rating: ${widget.result.metacritic} out of 10. Play time: ${widget.result.playtime}. "
+                        "Suggestions: ${widget.result.suggestionsCount}",
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),
                       textAlign: TextAlign.start,
                     ),
                   ),
+                  SizedBox(height: 10),
+                  Text("Rating",
+                    style: Theme.of(context).textTheme.display2.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      RatingBar(
+                        onRatingUpdate: (rating){
 
-//                  SizedBox(
-//                    width: 300,
-//                    child: Text("The 6th installment in the God of War series. Won Game of the year",
-//                      maxLines: 1,
-//                      overflow: TextOverflow.ellipsis,
-//                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
-//                      textAlign: TextAlign.start,
-//                    ),
-//                  ),
+                        },
+                        itemSize: 20.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                        ),
+                        allowHalfRating: true,
+                        ignoreGestures: true,
+                        itemCount: widget.result.ratingsTop,
+                        tapOnlyMode: false,
+                        direction: Axis.horizontal,
+                        initialRating: widget.result.rating,
+                      ),
+                      SizedBox(width: 5),
+                      Text("Rates: ${widget.result.ratingsCount}",
+                        style: Theme.of(context).textTheme.display2.copyWith(color: Colors.white),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  )
                 ],
               ),
 

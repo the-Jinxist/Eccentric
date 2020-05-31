@@ -34,7 +34,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
               ),
               IconButton(
                 onPressed: (){
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GenresPage()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => GenresPage()));
                 },
                 icon: Icon(LineAwesomeIcons.gear,),
               )
@@ -60,6 +60,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                 child: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text("Sorry an error occured:\n${snapshot.error.toString()}"),
                       SizedBox(height: 10),
@@ -106,10 +107,10 @@ class _YourGamesPageState extends State<YourGamesPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Genre Model: $responseBody");
+      print("Game Model: ${GameModel.fromJson(responseBody).results[3]}");
       return GameModel.fromJson(responseBody);
     }else{
-      print("Categories Error: ${response.statusCode}");
+      print("Game Model Error: ${response.statusCode}");
       return null;
     }
   }
