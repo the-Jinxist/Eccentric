@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/GameModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
+import 'package:game_app/view/AnticipatedView.dart';
 import 'package:game_app/view/PlatformView.dart';
 import 'package:game_app/view/PopularView.dart';
 import 'package:game_app/view/PublisherView.dart';
@@ -22,7 +23,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   Future publisherFuture;
   Future developerFuture;
   Future platformFuture;
-
+  Future anticipatedFuture;
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     publisherFuture = _getPublishers();
     developerFuture = _getDevelopers();
     platformFuture = _getPlatforms();
+    anticipatedFuture = _getAnticipatedGames();
 
     super.initState();
   }
@@ -208,6 +210,67 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                       onTap: () {
                         setState(() {
                           popularFuture = _getPopularGames();
+                        });
+                      },
+                      child: Text("Reload", style: Theme.of(context).
+                      textTheme.headline.copyWith(color: Colors.orange),),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else if(snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else{
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+  Widget _buildAnticipatedGames(){
+    return FutureBuilder(
+        future: anticipatedFuture,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            var models = (snapshot.data as GameModel).results;
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, position){
+                    var model = models[Random().nextInt(models.length - 1)];
+                    return AnticipatedView(model);
+                  }),
+            );
+          }else if(snapshot.hasError){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Sorry an error occurred", style: Theme.of(context).
+                    textTheme.display1,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          anticipatedFuture = _getAnticipatedGames();
                         });
                       },
                       child: Text("Reload", style: Theme.of(context).
@@ -432,6 +495,18 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 
   Future<GameModel> _getPopularGames() async{
     var response = await api.getPopular();
+    if(response.statusCode == 200){
+      var model = GameModel.fromJson(json.decode(response.body));
+      return model;
+    }else{
+      print("Discover - Popular Error: ${response.statusCode}");
+      return null;
+    }
+
+  }
+
+  Future<GameModel> _getAnticipatedGames() async{
+    var response = await api.getAnticipated();
     if(response.statusCode == 200){
       var model = GameModel.fromJson(json.decode(response.body));
       return model;

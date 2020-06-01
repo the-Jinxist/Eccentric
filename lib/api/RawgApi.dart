@@ -19,7 +19,11 @@ Future<http.Response> getPublishers() async{
 }
 
 Future<http.Response> getPopular() async{
-  return http.get("https://api.rawg.io/api/games?dates=2019-06-01,2020-12-31&ordering=-added");
+  return http.get("https://api.rawg.io/api/games?dates=2019-06-01,2020-06-01&ordering=-added");
+}
+
+Future<http.Response> getAnticipated() async{
+  return http.get("https://api.rawg.io/api/games?dates=2020-06-01,2021-06-01&ordering=-added");
 }
 
 Future<http.Response> getDevelopers() async{
