@@ -1,5 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:game_app/models/GameModel.dart';
+import 'package:game_app/models/PlatformModel.dart';
+import 'package:game_app/models/PublishersModel.dart';
+import 'package:game_app/view/PlatformView.dart';
+import 'package:game_app/view/PopularView.dart';
+import 'package:game_app/view/PublisherView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:game_app/api/RawgApi.dart' as api;
 
 class DiscoverGamesPage extends StatefulWidget {
   @override
@@ -7,11 +17,28 @@ class DiscoverGamesPage extends StatefulWidget {
 }
 
 class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
+
+  Future popularFuture;
+  Future publisherFuture;
+  Future developerFuture;
+  Future platformFuture;
+
+
+  @override
+  void initState() {
+    popularFuture = _getPopularGames();
+    publisherFuture = _getPublishers();
+    developerFuture = _getDevelopers();
+    platformFuture = _getPlatforms();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-        appBar: PreferredSize(child: Container(
+      appBar: PreferredSize(child: Container(
           padding: EdgeInsets.only(top: 10, left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,67 +70,27 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               )
           ),
           SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Popular in 2020", style: Theme.of(context).textTheme.headline,),
-                  Text("The most popular games this year!", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
+          //
+          //
+          // - Popular
+          //
+          //
+          _buildSectionLabel("Popular In 2020", "The biggest games this year!", (){}),
           SizedBox(height: 10),
-          Container(
-              height: 200,
-              width: double.maxFinite,
-              child: PageView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, position){
-                    return Container(
-                        height: 100,
-                        margin: EdgeInsets.only( right: 10),
-                        padding: EdgeInsets.only(left: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: position % 2 == 0 ? Colors.blue : Colors.orange
-                        ),
-                        width:10,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(LineAwesomeIcons.search),
-                            SizedBox(width: 10,),
-                            Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                          ],
-                        )
-                    );
-                  }),
-          ),
-
+          _buildPopularGames(),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Most Awaited Games in 2020", style: Theme.of(context).textTheme.headline,),
-                  Text("We're all anticipating for these games", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
+
+          //
+          //
+          // - Anticipated
+          //
+          //
+
+          _buildSectionLabel("Anticipated Games in 2020", "We're all waiting for these games", (){}),
           SizedBox(height: 10),
           Container(
             height: 100,
-            width: 10,
+            width: double.maxFinite,
             child: PageView.builder(
                 itemCount: 5,
                 itemBuilder: (context, position){
@@ -128,173 +115,35 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 }),
           ),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Publishers", style: Theme.of(context).textTheme.headline,),
-                  Text("Your favourite game publishers", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
+
+          //
+          //
+          // - Publishers
+          //
+          //
+          _buildSectionLabel("Publishers", "Your favourite game publishers", (){}),
           SizedBox(height: 10),
-          Container(
-            height: 200,
-            width: double.maxFinite,
-            child: PageView.builder(
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  return Container(
-                      height: 100,
-                      margin: EdgeInsets.only( right: 10),
-                      padding: EdgeInsets.only(left: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: position % 2 == 0 ? Colors.blue : Colors.orange
-                      ),
-                      width:300,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(LineAwesomeIcons.search),
-                          SizedBox(width: 10,),
-                          Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                        ],
-                      )
-                  );
-                }),
-          ),
+          _buildPublishers(),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Developers", style: Theme.of(context).textTheme.headline,),
-                  Text("The best, biggest game developers!", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
+
+          //
+          //
+          // - Developers
+          //
+          //
+          _buildSectionLabel("Developers", "The best, biggest game developers!", (){}),
           SizedBox(height: 10),
-          Container(
-            height: 200,
-            width: double.maxFinite,
-            child: PageView.builder(
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  return Container(
-                      height: 100,
-                      margin: EdgeInsets.only( right: 10),
-                      padding: EdgeInsets.only(left: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: position % 2 == 0 ? Colors.blue : Colors.orange
-                      ),
-                      width:300,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(LineAwesomeIcons.search),
-                          SizedBox(width: 10,),
-                          Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                        ],
-                      )
-                  );
-                }),
-          ),
+          _buildDevelopers(),
           SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Platforms", style: Theme.of(context).textTheme.headline,),
-                  Text("Each and every specific device you play a game on!", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
+
+          //
+          //
+          // - Platforms
+          //
+          //
+          _buildSectionLabel("Platforms", "Every device you play a game on!", (){}),
           SizedBox(height: 10),
-          Container(
-            height: 200,
-            width: double.maxFinite,
-            child: PageView.builder(
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  return Container(
-                      height: 100,
-                      margin: EdgeInsets.only( right: 10),
-                      padding: EdgeInsets.only(left: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: position % 2 == 0 ? Colors.blue : Colors.orange
-                      ),
-                      width:300,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(LineAwesomeIcons.search),
-                          SizedBox(width: 10,),
-                          Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                        ],
-                      )
-                  );
-                }),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text("Parent Platforms", style: Theme.of(context).textTheme.headline,),
-                  Text("Your favourite consoles by sections", style: Theme.of(context).textTheme.display2,),
-                ],
-              ),
-              Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),)
-            ],
-          ),
-          SizedBox(height: 10),
-          Container(
-            height: 200,
-            width: double.maxFinite,
-            child: PageView.builder(
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  return Container(
-                      height: 100,
-                      margin: EdgeInsets.only( right: 10),
-                      padding: EdgeInsets.only(left: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: position % 2 == 0 ? Colors.blue : Colors.orange
-                      ),
-                      width: 200,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(LineAwesomeIcons.search),
-                          SizedBox(width: 10,),
-                          Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                        ],
-                      )
-                  );
-                }),
-          ),
+          _buildPlatform(),
           SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -307,4 +156,326 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
       ),
     );
   }
+
+
+  Widget _buildSectionLabel(String title,String desc, Function onTapViewMore){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text("$title", style: Theme.of(context).textTheme.headline,),
+            Text("$desc", style: Theme.of(context).textTheme.display2,),
+          ],
+        ),
+        InkWell(
+          onTap: (){
+            onTapViewMore();
+          },
+          child: Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),))
+      ],
+    );
+  }
+
+  Widget _buildPopularGames(){
+    return FutureBuilder(
+        future: popularFuture,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            var models = (snapshot.data as GameModel).results;
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: PageView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, position){
+                    var model = models[Random().nextInt(models.length - 1)];
+                    return PopularView(model);
+                  }),
+            );
+          }else if(snapshot.hasError){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Sorry an error occurred", style: Theme.of(context).
+                    textTheme.display1,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          popularFuture = _getPopularGames();
+                        });
+                      },
+                      child: Text("Reload", style: Theme.of(context).
+                      textTheme.headline.copyWith(color: Colors.orange),),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else if(snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else{
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+  Widget _buildPublishers(){
+    return FutureBuilder(
+        future: publisherFuture,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: PageView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, position){
+                    var model = (snapshot.data as PublishersModel).results[position];
+                    return PublisherView(model);
+                  }),
+            );
+          }else if(snapshot.hasError){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Sorry an error occurred", style: Theme.of(context).
+                    textTheme.display1,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          publisherFuture = _getPublishers();
+                        });
+                      },
+                      child: Text("Reload", style: Theme.of(context).
+                      textTheme.headline.copyWith(color: Colors.orange),),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else if(snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else{
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+  Widget _buildDevelopers(){
+    return FutureBuilder(
+        future: developerFuture,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: PageView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, position){
+                    var model = (snapshot.data as PublishersModel).results[position];
+                    return PublisherView(model);
+                  }),
+            );
+          }else if(snapshot.hasError){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Sorry an error occurred", style: Theme.of(context).
+                    textTheme.display1,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          developerFuture = _getDevelopers();
+                        });
+                      },
+                      child: Text("Reload", style: Theme.of(context).
+                      textTheme.headline.copyWith(color: Colors.orange),),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else if(snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else{
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+  Widget _buildPlatform(){
+    return FutureBuilder(
+        future: platformFuture,
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, position){
+                    var model = (snapshot.data as PlatformModel).results[position];
+                    return PlatformView(model);
+                  }),
+            );
+          }else if(snapshot.hasError){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Text("Sorry an error occurred", style: Theme.of(context).
+                    textTheme.display1,),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          platformFuture = _getPlatforms();
+                        });
+                      },
+                      child: Text("Reload", style: Theme.of(context).
+                      textTheme.headline.copyWith(color: Colors.orange),),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }else if(snapshot.connectionState == ConnectionState.waiting){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          else{
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+    );
+  }
+
+//  Future<GameModel>_buildAnticipatedGames() async{
+//    var response = await api.getPopular();
+//    if(response.statusCode == 200){
+//      var model = GameModel.fromJson(json.decode(response.body));
+//      return model;
+//    }else{
+//      print("Discover - Popular Error: ${response.statusCode}")
+//      return null;
+//    }
+//
+//  }
+
+  Future<GameModel> _getPopularGames() async{
+    var response = await api.getPopular();
+    if(response.statusCode == 200){
+      var model = GameModel.fromJson(json.decode(response.body));
+      return model;
+    }else{
+      print("Discover - Popular Error: ${response.statusCode}");
+      return null;
+    }
+
+  }
+
+  Future<PublishersModel>_getDevelopers() async{
+    var response = await api.getDevelopers();
+    if(response.statusCode == 200){
+      var model = PublishersModel.fromJson(json.decode(response.body));
+      return model;
+    }else{
+      print("Discover - Popular Error: ${response.statusCode}");
+      return null;
+    }
+
+  }
+
+  Future<PublishersModel>_getPublishers() async{
+    var response = await api.getPublishers();
+    if(response.statusCode == 200){
+      var model = PublishersModel.fromJson(json.decode(response.body));
+      return model;
+    }else{
+      print("Discover - Popular Error: ${response.statusCode}");
+      return null;
+    }
+
+  }
+
+  Future<PlatformModel>_getPlatforms() async{
+    var response = await api.getPlatforms();
+    if(response.statusCode == 200){
+      var model = PlatformModel.fromJson(json.decode(response.body));
+      return model;
+    }else{
+      print("Discover - Popular Error: ${response.statusCode}");
+      return null;
+    }
+
+  }
+
 }

@@ -16,6 +16,14 @@ class _GenresPageState extends State<GenresPage> {
   List<String> genreList = [];
   List<String> alreadySelectedGenres;
 
+  Future future;
+
+  @override
+  void initState() {
+    future = getGenres();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +92,9 @@ class _GenresPageState extends State<GenresPage> {
                   SizedBox(height: 10),
                   GestureDetector(
                     onTap: (){
-                      loadGenres();
+                      setState(() {
+                        future = getGenres();
+                      });
                     },
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -103,7 +113,15 @@ class _GenresPageState extends State<GenresPage> {
               ),
             ),
           );
-        }else{
+        }else if(snapshot.connectionState == ConnectionState.waiting){
+          return Container(
+            height: 300,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else{
           return Container(
             height: 300,
             width: MediaQuery.of(context).size.width,

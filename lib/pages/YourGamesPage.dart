@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/GameView.dart';
+import 'package:game_app/view/GameView.dart';
 import 'package:game_app/models/GameModel.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/repo/PrefsRepo.dart' as repo;
@@ -14,6 +14,15 @@ class YourGamesPage extends StatefulWidget {
 }
 
 class _YourGamesPageState extends State<YourGamesPage> {
+
+  Future future;
+
+  @override
+  void initState() {
+    future = getGames();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,7 +51,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
           ),
         ), preferredSize: Size.fromHeight(100)),
         body: FutureBuilder(
-          future: getGames(),
+          future: future,
           builder: (context, snapshot){
             if(snapshot.hasData){
               var gameModel = snapshot.data as GameModel;
@@ -67,7 +76,9 @@ class _YourGamesPageState extends State<YourGamesPage> {
                       SizedBox(height: 20),
                       GestureDetector(
                         onTap: (){
-                          getGames();
+                          setState(() {
+                            future = getGames();
+                          });
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
@@ -86,7 +97,15 @@ class _YourGamesPageState extends State<YourGamesPage> {
                   ),
                 ),
               );
-            }else{
+            }else if(snapshot.connectionState == ConnectionState.waiting){
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else{
               return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
