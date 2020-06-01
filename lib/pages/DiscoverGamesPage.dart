@@ -178,6 +178,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               width: double.maxFinite,
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text("Sorry an error occurred", style: Theme.of(context).
                     textTheme.display1,),
@@ -187,8 +189,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           popularFuture = _getPopularGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).
-                      textTheme.headline.copyWith(color: Colors.orange),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                     )
                   ],
                 ),
@@ -239,6 +240,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               width: double.maxFinite,
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text("Sorry an error occurred", style: Theme.of(context).
                     textTheme.display1,),
@@ -248,8 +251,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           anticipatedFuture = _getAnticipatedGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).
-                      textTheme.headline.copyWith(color: Colors.orange),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                     )
                   ],
                 ),
@@ -298,6 +300,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               width: double.maxFinite,
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text("Sorry an error occurred", style: Theme.of(context).
                     textTheme.display1,),
@@ -307,8 +311,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           publisherFuture = _getPublishers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).
-                      textTheme.headline.copyWith(color: Colors.orange),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                     )
                   ],
                 ),
@@ -357,6 +360,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               width: double.maxFinite,
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text("Sorry an error occurred", style: Theme.of(context).
                     textTheme.display1,),
@@ -366,8 +371,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           developerFuture = _getDevelopers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).
-                      textTheme.headline.copyWith(color: Colors.orange),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                     )
                   ],
                 ),
@@ -418,6 +422,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               width: double.maxFinite,
               child: Center(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text("Sorry an error occurred", style: Theme.of(context).
                     textTheme.display1,),
@@ -427,8 +433,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           platformFuture = _getPlatforms();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).
-                      textTheme.headline.copyWith(color: Colors.orange),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                     )
                   ],
                 ),

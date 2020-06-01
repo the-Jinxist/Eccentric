@@ -96,18 +96,7 @@ class _GenresPageState extends State<GenresPage> {
                         future = getGenres();
                       });
                     },
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5)
-                      ),
-                      elevation: 5,
-                      color: Colors.orange,
-                      child: Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        child: Center(child: Text("Reload", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
-                      ),
-                    ),
+                    child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
                   ),
                 ],
               ),
