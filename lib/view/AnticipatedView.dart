@@ -24,7 +24,7 @@ class _AnticipatedViewState extends State<AnticipatedView> {
       margin: EdgeInsets.only(right: 5, bottom: 5),
       child: Container(
         height: 200,
-        width: 100,
+        width: 250,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -60,6 +60,8 @@ class _AnticipatedViewState extends State<AnticipatedView> {
                   children: <Widget>[
 
                     Text("${widget.result.name}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
                       textAlign: TextAlign.start,
                     ),

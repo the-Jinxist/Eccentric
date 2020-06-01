@@ -90,32 +90,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 
           _buildSectionLabel("Anticipated Games in 2020", "We're all waiting for these games", (){}),
           SizedBox(height: 10),
-          Container(
-            height: 100,
-            width: double.maxFinite,
-            child: PageView.builder(
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  return Container(
-                      height: 50,
-                      margin: EdgeInsets.only( right: 10),
-                      padding: EdgeInsets.only(left: 20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: position % 2 == 0 ? Colors.blue : Colors.orange
-                      ),
-                      width:10,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(LineAwesomeIcons.search),
-                          SizedBox(width: 10,),
-                          Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                        ],
-                      )
-                  );
-                }),
-          ),
+          _buildAnticipatedGames(),
           SizedBox(height: 20),
 
           //
