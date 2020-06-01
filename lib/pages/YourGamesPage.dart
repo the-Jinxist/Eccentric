@@ -86,7 +86,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                   ),
                 ),
               );
-            }else if(snapshot.connectionState == ConnectionState.waiting){
+            }else if(snapshot.connectionState == ConnectionState.done){
               return Container(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,

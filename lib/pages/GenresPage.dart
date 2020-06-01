@@ -102,7 +102,7 @@ class _GenresPageState extends State<GenresPage> {
               ),
             ),
           );
-        }else if(snapshot.connectionState == ConnectionState.waiting){
+        }else if(snapshot.connectionState == ConnectionState.done){
           return Container(
             height: 300,
             width: MediaQuery.of(context).size.width,
