@@ -68,7 +68,15 @@ class _GenresPageState extends State<GenresPage> {
     return FutureBuilder(
       future: getGenres(),
       builder: (context, snapshot){
-        if(snapshot.hasData){
+        if(snapshot.connectionState != ConnectionState.done){
+          return Container(
+            height: 300,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }else if(snapshot.hasData){
           var results = (snapshot.data as GenreModel).results;
           return Wrap(
             runSpacing: 3,
@@ -96,18 +104,10 @@ class _GenresPageState extends State<GenresPage> {
                         future = getGenres();
                       });
                     },
-                    child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                    child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                   ),
                 ],
               ),
-            ),
-          );
-        }else if(snapshot.connectionState != ConnectionState.done){
-          return Container(
-            height: 300,
-            width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: CircularProgressIndicator(),
             ),
           );
         } else{

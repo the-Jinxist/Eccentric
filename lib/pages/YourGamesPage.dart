@@ -53,7 +53,15 @@ class _YourGamesPageState extends State<YourGamesPage> {
         body: FutureBuilder(
           future: future,
           builder: (context, snapshot){
-            if(snapshot.hasData){
+            if(snapshot.connectionState != ConnectionState.done){
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            } else if(snapshot.hasData){
               var gameModel = snapshot.data as GameModel;
 
               return ListView.builder(
@@ -72,26 +80,18 @@ class _YourGamesPageState extends State<YourGamesPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("Sorry an error occured:\n${snapshot.error.toString()}", textAlign: TextAlign.center,),
-                      SizedBox(height: 20),
+                      Text("Sorry an error occured",style: Theme.of(context).
+                      textTheme.display1, textAlign: TextAlign.center,),
                       GestureDetector(
                         onTap: (){
                           setState(() {
                             future = getGames();
                           });
                         },
-                        child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                        child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                       ),
                     ],
                   ),
-                ),
-              );
-            }else if(snapshot.connectionState != ConnectionState.done){
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: CircularProgressIndicator(),
                 ),
               );
             } else{

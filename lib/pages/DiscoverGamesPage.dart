@@ -160,7 +160,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return FutureBuilder(
         future: popularFuture,
         builder: (context, snapshot){
-          if(snapshot.hasData){
+          if(snapshot.connectionState != ConnectionState.done){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else if(snapshot.hasData){
             var models = (snapshot.data as GameModel).results;
             return Container(
               height: 200,
@@ -189,18 +197,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           popularFuture = _getPopularGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     )
                   ],
                 ),
-              ),
-            );
-          }else if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
               ),
             );
           }
@@ -221,7 +221,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return FutureBuilder(
         future: anticipatedFuture,
         builder: (context, snapshot){
-          if(snapshot.hasData){
+          if(snapshot.connectionState != ConnectionState.done){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else if(snapshot.hasData){
             var models = (snapshot.data as GameModel).results;
             return Container(
               height: 200,
@@ -251,18 +259,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           anticipatedFuture = _getAnticipatedGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     )
                   ],
                 ),
-              ),
-            );
-          }else if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
               ),
             );
           }
@@ -283,7 +283,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return FutureBuilder(
         future: publisherFuture,
         builder: (context, snapshot){
-          if(snapshot.hasData){
+          if(snapshot.connectionState != ConnectionState.done){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else if(snapshot.hasData){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -311,18 +319,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           publisherFuture = _getPublishers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     )
                   ],
                 ),
-              ),
-            );
-          }else if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
               ),
             );
           }
@@ -343,7 +343,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return FutureBuilder(
         future: developerFuture,
         builder: (context, snapshot){
-          if(snapshot.hasData){
+          if(snapshot.connectionState != ConnectionState.done){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else if(snapshot.hasData){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -371,18 +379,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           developerFuture = _getDevelopers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     )
                   ],
                 ),
-              ),
-            );
-          }else if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
               ),
             );
           }
@@ -403,7 +403,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return FutureBuilder(
         future: platformFuture,
         builder: (context, snapshot){
-          if(snapshot.hasData){
+          if(snapshot.connectionState != ConnectionState.done){
+            return Container(
+              height: 200,
+              width: double.maxFinite,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }else if(snapshot.hasData){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -433,18 +441,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                           platformFuture = _getPlatforms();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 20),),
+                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     )
                   ],
                 ),
-              ),
-            );
-          }else if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
               ),
             );
           }
