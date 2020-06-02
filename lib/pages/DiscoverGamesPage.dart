@@ -46,7 +46,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Discover Game", style: Theme.of(context).textTheme.title,),
+              Text("Discover Games", style: Theme.of(context).textTheme.title,),
               Text("Find games from all categories", style: Theme.of(context).textTheme.subtitle,),
             ],
           ),
