@@ -53,26 +53,67 @@ class GameModel{
 
 class Result{
 
-  final int id;
-  final String slug;
-  final String name;
-  final String released;
-  final bool tba;
-  final String backgroundImage;
-  final double rating;
-  final int ratingsTop;
-  final Object ratings;
-  final int ratingsCount;
-  final int reviewsTextCount;
-  final int added;
-  final Object addedByStatus;
-  final int metacritic;
-  final int playtime;
-  final int suggestionsCount;
+  int id;
+  String slug;
+  String name;
+  String released;
+  bool tba;
+  String backgroundImage;
+  double rating;
+  int ratingsTop;
+  Object ratings;
+  int ratingsCount;
+  int reviewsTextCount;
+  int added;
+  Object addedByStatus;
+  int metacritic;
+  int playtime;
+  int suggestionsCount;
+
+
+
+  Map<String, dynamic> toMap(){
+    var map = Map<String, dynamic>();
+    map['id'] = id;
+    map['slug'] = slug;
+    map ['name'] = name;
+    map ['released'] = released;
+    map ['tba'] = tba;
+    map ['backgroundImage'] = backgroundImage;
+    map ['rating'] = rating;
+    map ['ratingsTop'] = ratingsTop;
+    map ['ratings'] = ratings;
+    map ['ratingsCount'] = ratingsCount;
+    map ['reviewsTextCount'] = reviewsTextCount;
+    map ['added'] = added;
+    map ['addedByStatus'] = addedByStatus;
+    map ['metacritic'] = metacritic;
+    map ['playtime'] = playtime;
+    map ['suggestionsCount'] = suggestionsCount;
+    return map;
+  }
+
+  Result.fromMapObject(Map<String, dynamic> map){
+    this.id = map['id'];
+    this.slug = map['slug'];
+    this.name = map['name'];
+    this.added = map['added'];
+    this.addedByStatus = map['addedByStatus'];
+    this.backgroundImage = map['backgroundImage'];
+    this.metacritic = map['metacritic'];
+    this.rating = map['rating'];
+    this.ratings = map['ratings'];
+    this.ratingsCount = map['raringsCount'];
+    this.ratingsTop = map['ratingsTop'];
+    this.released = map['released'];
+    this.playtime = map['playtime'];
+    this.reviewsTextCount = map['reviewsTextCount'];
+    this.suggestionsCount = map['suggestionsCount'];
+    this.tba = map['tba'];
+  }
 
   Result({this.id, this.slug, this.name,
     this.released, this.tba, this.backgroundImage, this.rating, this.ratingsTop,
     this.ratings, this.ratingsCount, this.reviewsTextCount, this.added,
     this.addedByStatus, this.metacritic, this.playtime, this.suggestionsCount});
-
 }

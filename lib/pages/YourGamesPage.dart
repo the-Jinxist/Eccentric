@@ -8,6 +8,10 @@ import 'package:game_app/repo/PrefsRepo.dart' as repo;
 import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/pages/GenresPage.dart';
 
+import 'package:sqflite/sqflite.dart';
+import 'package:game_app/models/DatabaseModel.dart';
+import 'dart:async';
+
 class YourGamesPage extends StatefulWidget {
   @override
   _YourGamesPageState createState() => _YourGamesPageState();
@@ -15,6 +19,7 @@ class YourGamesPage extends StatefulWidget {
 
 class _YourGamesPageState extends State<YourGamesPage> {
 
+  DatabaseHelper databaseHelper = DatabaseHelper();
   Future future;
 
   @override
@@ -59,7 +64,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
               return ListView.builder(
                 itemCount: gameModel.results.length,
                 itemBuilder: (context, position){
-                  return GameView(gameModel.results[position]);
+                  return GameView(gameModel.results[position], save());
                 }
               );
             }else if(snapshot.hasError){
@@ -122,5 +127,9 @@ class _YourGamesPageState extends State<YourGamesPage> {
       print("Game Model Error: ${response.statusCode}");
       return null;
     }
+  }
+
+  save() async{
+
   }
 }

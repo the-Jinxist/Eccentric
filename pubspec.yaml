@@ -26,7 +26,8 @@ dependencies:
   http:
   sqflite:
   provider:
-  shared_preferences:
+  path_provider:
+  shared_preferences: 0.4.3
   google_nav_bar: ^2.2.0
   line_awesome_icons: ^1.0.4+2
   flutter_rating_bar: ^3.0.1+1
