@@ -195,7 +195,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 ),
               ),
             );
-          }else if(snapshot.connectionState == ConnectionState.done){
+          }else if(snapshot.connectionState != ConnectionState.done){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -257,7 +257,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 ),
               ),
             );
-          }else if(snapshot.connectionState == ConnectionState.done){
+          }else if(snapshot.connectionState != ConnectionState.done){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -317,7 +317,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 ),
               ),
             );
-          }else if(snapshot.connectionState == ConnectionState.done){
+          }else if(snapshot.connectionState != ConnectionState.done){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -377,7 +377,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 ),
               ),
             );
-          }else if(snapshot.connectionState == ConnectionState.done){
+          }else if(snapshot.connectionState != ConnectionState.done){
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -439,7 +439,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 ),
               ),
             );
-          }else if(snapshot.connectionState == ConnectionState.done){
+          }else if(snapshot.connectionState != ConnectionState.done){
             return Container(
               height: 200,
               width: double.maxFinite,
