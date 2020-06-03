@@ -41,6 +41,11 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return Scaffold(
       extendBody: true,
       appBar: PreferredSize(child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
+          ]
+        ),
           padding: EdgeInsets.only(top: 10, left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

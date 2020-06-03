@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/utils/GameDetailDelegate.dart';
 
 class GameDetailsPage extends StatefulWidget {
 
@@ -38,30 +37,25 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool isScrolled){
-          return <Widget>[
-            SliverPersistentHeader(
-              pinned: true,
-              floating: true,
-              delegate: GameDetailDelegate(
-                  suggestionsCount: widget.suggestionsCount,
-                  ratingsTop: widget.ratingsTop,
-                  ratingsCount: widget.ratingsCount,
-                  rating: widget.rating,
-                  backgroundImage: widget.backgroundImage,
-                  name: widget.name,
-                  metacriticRating: widget.metacriticRating,
-                  playTime: widget.playTime,
-                  releaseDate: widget.releaseDate
-              )
-            ),
-          ];
-        },
-        body: FutureBuilder(
-          builder: null
-        )
-      )
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("${widget.name}", style: Theme.of(context).textTheme.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  Text("Released: ${widget.releaseDate}!", style: Theme.of(context).textTheme.subtitle,),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
