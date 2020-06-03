@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:game_app/pages/GameDetailsPage.dart';
 import 'package:game_app/view/GameView.dart';
 import 'package:game_app/models/GameModel.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -67,7 +68,23 @@ class _YourGamesPageState extends State<YourGamesPage> {
               return ListView.builder(
                 itemCount: gameModel.results.length,
                 itemBuilder: (context, position){
-                  return GameView(gameModel.results[position]);
+                  var currentGame = gameModel.results[position];
+                  return InkWell(child: GameView(gameModel.results[position]),
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                      backgroundImage: currentGame.backgroundImage,
+                      id: currentGame.id,
+                      metacriticRating: currentGame.metacritic,
+                      name: currentGame.name,
+                      playTime: currentGame.playtime,
+                      rating: currentGame.rating,
+                      ratingsCount: currentGame.ratingsCount,
+                      ratingsTop: currentGame.ratingsTop,
+                      releaseDate: currentGame.released,
+                      slug: currentGame.slug,
+                      suggestionsCount: currentGame.suggestionsCount,
+                    )));
+                  },);
                 }
               );
             }else if(snapshot.hasError){
