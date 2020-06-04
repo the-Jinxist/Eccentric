@@ -133,7 +133,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
       print("Game Model Error: ${response.statusCode}");

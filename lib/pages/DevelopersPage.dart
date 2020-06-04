@@ -128,7 +128,7 @@ class _DevelopersPageState extends State<DevelopersPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
       print("Developers Page: ${response.statusCode}");

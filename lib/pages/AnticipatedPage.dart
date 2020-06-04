@@ -120,7 +120,7 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
       print("Anticipated Page: ${response.statusCode}");

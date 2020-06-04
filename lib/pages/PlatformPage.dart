@@ -85,6 +85,7 @@ class _PlatformPageState extends State<PlatformPage> {
                   }
               );
             }else if(snapshot.hasError){
+              print("Platform Page: ${snapshot.error}");
               return Container(
                 padding: EdgeInsets.all(20),
                 height: MediaQuery.of(context).size.height,
@@ -128,7 +129,7 @@ class _PlatformPageState extends State<PlatformPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
       print("Platform Page: ${response.statusCode}");

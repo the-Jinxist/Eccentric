@@ -127,7 +127,7 @@ class _PublishersPageState extends State<PublishersPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
       print("Publishers Error: ${response.statusCode}");

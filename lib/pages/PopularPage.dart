@@ -120,7 +120,7 @@ class _PopularPageState extends State<PopularPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Platform Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Platform Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
       print("Popular Page: ${response.statusCode}");
