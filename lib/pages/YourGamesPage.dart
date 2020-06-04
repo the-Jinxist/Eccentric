@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
 import 'package:game_app/view/GameView.dart';
-import 'package:game_app/models/GameModel.dart';
+import 'package:game_app/models/GamesModel.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/repo/PrefsRepo.dart' as repo;
 import 'package:game_app/api/RawgApi.dart' as api;
@@ -68,7 +68,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                 ),
               );
             } else if(snapshot.hasData){
-              var gameModel = snapshot.data as GameModel;
+              var gameModel = snapshot.data as GamesModel;
 
               return ListView.builder(
                 itemCount: gameModel.results.length,
@@ -131,15 +131,15 @@ class _YourGamesPageState extends State<YourGamesPage> {
     );
   }
 
-  Future<GameModel> getGames() async {
+  Future<GamesModel> getGames() async {
 
     var genreString = await repo.getGenreString();
     var response  = await api.getGames(genreString);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Game Model: ${GameModel.fromJson(responseBody).results[3].slug}");
-      return GameModel.fromJson(responseBody);
+      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
+      return GamesModel.fromJson(responseBody);
     }else{
       print("Game Model Error: ${response.statusCode}");
       return null;

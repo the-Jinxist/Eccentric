@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/models/GameModel.dart';
+import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
 import 'package:game_app/view/AnticipatedView.dart';
@@ -174,7 +174,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               ),
             );
           }else if(snapshot.hasData){
-            var models = (snapshot.data as GameModel).results;
+            var models = (snapshot.data as GamesModel).results;
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -235,7 +235,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               ),
             );
           }else if(snapshot.hasData){
-            var models = (snapshot.data as GameModel).results;
+            var models = (snapshot.data as GamesModel).results;
             return Container(
               height: 200,
               width: double.maxFinite,
@@ -478,10 +478,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 //
 //  }
 
-  Future<GameModel> _getPopularGames() async{
+  Future<GamesModel> _getPopularGames() async{
     var response = await api.getPopular();
     if(response.statusCode == 200){
-      var model = GameModel.fromJson(json.decode(response.body));
+      var model = GamesModel.fromJson(json.decode(response.body));
       return model;
     }else{
       print("Discover - Popular Error: ${response.statusCode}");
@@ -490,10 +490,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 
   }
 
-  Future<GameModel> _getAnticipatedGames() async{
+  Future<GamesModel> _getAnticipatedGames() async{
     var response = await api.getAnticipated();
     if(response.statusCode == 200){
-      var model = GameModel.fromJson(json.decode(response.body));
+      var model = GamesModel.fromJson(json.decode(response.body));
       return model;
     }else{
       print("Discover - Popular Error: ${response.statusCode}");

@@ -1,14 +1,14 @@
 
-class GameModel{
+class GamesModel{
 
   final int count;
   final String next;
   final String previous;
   final List<Result> results;
 
-  GameModel(this.count, this.next, this.previous, this.results);
+  GamesModel(this.count, this.next, this.previous, this.results);
 
-  factory GameModel.fromJson(Map<String, dynamic> json){
+  factory GamesModel.fromJson(Map<String, dynamic> json){
 
     List<Result> results = [];
 
@@ -46,7 +46,7 @@ class GameModel{
       results.add(result);
     }
 
-    return GameModel(count, next, previous, results);
+    return GamesModel(count, next, previous, results);
   }
 
 }

@@ -14,6 +14,18 @@ Future<http.Response> getGameDetail(int id) async{
   return http.get("https://api.rawg.io/api/games/$id");
 }
 
+Future<http.Response> getGameScreenshots(String slug) async{
+  return http.get("https://api.rawg.io/api/games/$slug/screenshots");
+}
+
+Future<http.Response> getGameTrailer(String slug) async{
+  return http.get("https://api.rawg.io/api/games/$slug/movies");
+}
+
+Future<http.Response> getGameAchievement(int id) async{
+  return http.get("https://api.rawg.io/api/games/$id/achievements");
+}
+
 Future<http.Response> getPlatforms() async{
   return http.get("https://api.rawg.io/api/platforms?ordering=year_start");
 }
