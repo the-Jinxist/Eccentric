@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/models/PublishersModel.dart';
+import 'package:game_app/pages/PublishersPage.dart';
 import 'package:game_app/view/PublisherView.dart';
 
 class AllPublishersPage extends StatefulWidget {
@@ -51,10 +52,16 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
             var publisherModel = snapshot.data as PublishersModel;
 
             return ListView.builder(
+                padding: EdgeInsets.only(left: 10, right: 5),
                 itemCount: publisherModel.results.length,
                 itemBuilder: (context, position){
                   var model = publisherModel.results[position];
-                  return PublisherView(model);
+                  return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PublishersPage(model)));
+                      },
+                      child: PublisherView(model)
+                  );
                 }
             );
           }else if(snapshot.hasError){

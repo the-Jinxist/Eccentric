@@ -92,7 +92,7 @@ class _GameViewState extends State<GameView> {
                   ),
                   SizedBox(
                     width: 300,
-                    child: Text("MetaCritic Rating: ${widget.result.metacritic}. Play time: ${widget.result.playtime}. "
+                    child: Text("MetaCritic Rating: ${widget.result.metacritic != null ? widget.result.metacritic : "None"}. Play time: ${widget.result.playtime}. "
                         "Suggestions: ${widget.result.suggestionsCount}",
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,

@@ -93,9 +93,10 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           SizedBox(height: 20,),
           Text("Screenshots", style: Theme.of(context).textTheme.headline,),
           _buildGameScreenshots(),
-          SizedBox(height: 20,),
-          Text("Trailers", style: Theme.of(context).textTheme.headline,),
-          SizedBox(height: 20,),
+          SizedBox(height: 50,),
+//          Text("Trailers", style: Theme.of(context).textTheme.headline,),
+//          _buildGameTrailer(),
+//          SizedBox(height: 20,),
 
         ],
       ),
@@ -315,9 +316,10 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
             );
           }else if(snapshot.hasData){
             var model = (snapshot.data as TrailersModel);
+            print("Trailer: ${model.preview}, ${model.data}");
             return Container(
               height: 300,
-              child: model.preview != "null"  && model.preview.isNotEmpty
+              child: model.preview != null
 
               ? VideoPlayerView(
                 model.preview
