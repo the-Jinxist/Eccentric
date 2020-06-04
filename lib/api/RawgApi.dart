@@ -18,6 +18,10 @@ Future<http.Response> getGamesFromPublishers(String publishers) async{
   return http.get("https://api.rawg.io/api/games?publishers=$publishers");
 }
 
+Future<http.Response> getGamesFromPlatform(String platforms) async{
+  return http.get("https://api.rawg.io/api/games?platforms=$platforms");
+}
+
 Future<http.Response> getGameDetail(int id) async{
   return http.get("https://api.rawg.io/api/games/$id");
 }

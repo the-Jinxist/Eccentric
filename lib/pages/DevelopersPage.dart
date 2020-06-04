@@ -131,7 +131,7 @@ class _DevelopersPageState extends State<DevelopersPage> {
       print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
-      print("Game Model Error: ${response.statusCode}");
+      print("Developers Page: ${response.statusCode}");
       return null;
     }
   }

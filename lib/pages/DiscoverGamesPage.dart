@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
+import 'package:game_app/pages/AllPublishersPage.dart';
+import 'package:game_app/pages/AnticipatedPage.dart';
+import 'package:game_app/pages/DevelopersPage.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
+import 'package:game_app/pages/PlatformPage.dart';
+import 'package:game_app/pages/PopularPage.dart';
+import 'package:game_app/pages/PublishersPage.dart';
 import 'package:game_app/view/AnticipatedView.dart';
 import 'package:game_app/view/PlatformView.dart';
 import 'package:game_app/view/PopularView.dart';
@@ -78,7 +84,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Popular
           //
           //
-          _buildSectionLabel("Popular In 2020", "The biggest games this year!", (){}),
+          _buildSectionLabel("Popular In 2020", "The biggest games this year!", (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PopularPage()));
+          }),
           SizedBox(height: 10),
           _buildPopularGames(),
           SizedBox(height: 20),
@@ -89,7 +97,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           //
           //
 
-          _buildSectionLabel("Anticipated Games in 2020", "We're all waiting for these games", (){}),
+          _buildSectionLabel("Anticipated Games in 2020", "We're all waiting for these games", (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnticipatedPage()));
+          }),
           SizedBox(height: 10),
           _buildAnticipatedGames(),
           SizedBox(height: 20),
@@ -99,7 +109,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Publishers
           //
           //
-          _buildSectionLabel("Publishers", "Your favourite game publishers", (){}),
+          _buildSectionLabel("Publishers", "Your favourite game publishers", (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPublishersPage()));
+          }),
           SizedBox(height: 10),
           _buildPublishers(),
           SizedBox(height: 20),
@@ -109,7 +121,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Developers
           //
           //
-          _buildSectionLabel("Developers", "The best, biggest game developers!", (){}),
+          _buildSectionLabel("Developers", "The best, biggest game developers!", (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPublishersPage()));
+          }),
           SizedBox(height: 10),
           _buildDevelopers(),
           SizedBox(height: 20),
@@ -119,7 +133,14 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Platforms
           //
           //
-          _buildSectionLabel("Platforms", "Every device you play a game on!", (){}),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("Platforms", style: Theme.of(context).textTheme.headline,),
+              Text("All the devices you play a game on", style: Theme.of(context).textTheme.display2,),
+            ],
+          ),
           SizedBox(height: 10),
           _buildPlatform(),
           SizedBox(height: 30),
@@ -334,7 +355,12 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   itemCount: 10,
                   itemBuilder: (context, position){
                     var model = (snapshot.data as PublishersModel).results[position];
-                    return PublisherView(model);
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PublishersPage(model)));
+                      },
+                      child: PublisherView(model)
+                    );
                   }),
             );
           }else if(snapshot.hasError){
@@ -394,7 +420,12 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   itemCount: 10,
                   itemBuilder: (context, position){
                     var model = (snapshot.data as PublishersModel).results[position];
-                    return PublisherView(model);
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
+                      },
+                      child: PublisherView(model)
+                    );
                   }),
             );
           }else if(snapshot.hasError){
@@ -453,10 +484,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: 10,
+                  itemCount: (snapshot.data as PlatformModel).results.length,
                   itemBuilder: (context, position){
                     var model = (snapshot.data as PlatformModel).results[position];
-                    return PlatformView(model);
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlatformPage(model)));
+                      },
+                      child: PlatformView(model)
+                    );
                   }),
             );
           }else if(snapshot.hasError){

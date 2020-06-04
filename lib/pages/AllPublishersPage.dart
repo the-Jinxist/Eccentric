@@ -101,7 +101,7 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
       var model = PublishersModel.fromJson(json.decode(response.body));
       return model;
     }else{
-      print("Discover - Popular Error: ${response.statusCode}");
+      print("All Publishers Page Error: ${response.statusCode}");
       return null;
     }
 
