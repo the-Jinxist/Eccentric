@@ -28,11 +28,14 @@ class _PopularViewState extends State<PopularView> {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              FadeInImage.assetNetwork(
-                placeholder: "assets/images/placeholder.png",
-                image: widget.result.backgroundImage,
-                fit: BoxFit.cover, height: 200,
-                width: MediaQuery.of(context).size.width,),
+              Hero(
+                tag: widget.result.name,
+                child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/placeholder.png",
+                  image: widget.result.backgroundImage,
+                  fit: BoxFit.cover, height: 200,
+                  width: MediaQuery.of(context).size.width,),
+              ),
               Container(
                 height: 200,
                 width: MediaQuery.of(context).size.width,

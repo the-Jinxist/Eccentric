@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
+import 'package:game_app/pages/GameDetailsPage.dart';
 import 'package:game_app/view/AnticipatedView.dart';
 import 'package:game_app/view/PlatformView.dart';
 import 'package:game_app/view/PopularView.dart';
@@ -177,7 +178,24 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   itemCount: 5,
                   itemBuilder: (context, position){
                     var model = models[Random().nextInt(models.length - 1)];
-                    return PopularView(model);
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                          backgroundImage: model.backgroundImage,
+                          id: model.id,
+                          metacriticRating: model.metacritic,
+                          name: model.name,
+                          playTime: model.playtime,
+                          rating: model.rating,
+                          ratingsCount: model.ratingsCount,
+                          ratingsTop: model.ratingsTop,
+                          releaseDate: model.released,
+                          slug: model.slug,
+                          suggestionsCount: model.suggestionsCount,
+                        )));
+                      },
+                      child: PopularView(model)
+                    );
                   }),
             );
           }else if(snapshot.hasError){
@@ -239,7 +257,24 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   itemCount: 5,
                   itemBuilder: (context, position){
                     var model = models[Random().nextInt(models.length - 1)];
-                    return AnticipatedView(model);
+                    return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                          backgroundImage: model.backgroundImage,
+                          id: model.id,
+                          metacriticRating: model.metacritic,
+                          name: model.name,
+                          playTime: model.playtime,
+                          rating: model.rating,
+                          ratingsCount: model.ratingsCount,
+                          ratingsTop: model.ratingsTop,
+                          releaseDate: model.released,
+                          slug: model.slug,
+                          suggestionsCount: model.suggestionsCount,
+                        )));
+                      },
+                      child: AnticipatedView(model)
+                    );
                   }),
             );
           }else if(snapshot.hasError){
