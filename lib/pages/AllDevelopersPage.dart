@@ -60,7 +60,7 @@ class _AllDevelopersPageState extends State<AllDevelopersPage> {
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
                       },
-                      child: PublisherView(model)
+                      child: Container(margin: EdgeInsets.only(bottom: 5, top: 5),child: PublisherView(model))
                   );
                 }
             );

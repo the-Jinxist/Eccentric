@@ -6,6 +6,7 @@ import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
 import 'package:game_app/pages/AllPublishersPage.dart';
+import 'package:game_app/pages/AllDevelopersPage.dart';
 import 'package:game_app/pages/AnticipatedPage.dart';
 import 'package:game_app/pages/DevelopersPage.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
@@ -122,7 +123,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           //
           //
           _buildSectionLabel("Developers", "The best, biggest game developers!", (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPublishersPage()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDevelopersPage()));
           }),
           SizedBox(height: 10),
           _buildDevelopers(),
