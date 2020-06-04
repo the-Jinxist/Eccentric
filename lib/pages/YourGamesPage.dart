@@ -30,11 +30,6 @@ class _YourGamesPageState extends State<YourGamesPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: PreferredSize(child: Container(
-          decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-              ]
-          ),
           padding: EdgeInsets.only(top: 10, left: 15, right: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

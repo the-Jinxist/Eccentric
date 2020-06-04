@@ -11,17 +11,17 @@ class BlandPictureView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
+      margin: EdgeInsets.only(top: 5, bottom: 5),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30)
+          borderRadius: BorderRadius.circular(10)
       ),
       child: Container(
-        height: 400,
+        height: 200,
         child: FadeInImage.assetNetwork(
           placeholder: "assets/images/placeholder.png",
           image: imageString,
           fit: BoxFit.cover,
-          height: 400,
+          height: 200,
           width: double.maxFinite,),
       ),
     );

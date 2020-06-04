@@ -41,17 +41,12 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return Scaffold(
       extendBody: true,
       appBar: PreferredSize(child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-          ]
-        ),
           padding: EdgeInsets.only(top: 10, left: 15, right: 15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Discover Games", style: Theme.of(context).textTheme.title,),
+              Text("Discover Games", style: Theme.of(context).textTheme.title, ),
               Text("Find games from all categories", style: Theme.of(context).textTheme.subtitle,),
             ],
           ),

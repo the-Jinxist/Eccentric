@@ -56,54 +56,47 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-          child: ListView(
+      body: ListView(
+        padding: EdgeInsets.only(top: 50, left: 15, right: 15),
+        children: <Widget>[
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("${widget.name}", style: Theme.of(context).textTheme.title, maxLines: 1, overflow: TextOverflow.ellipsis,),
-                      Text("Released: ${widget.releaseDate}!", style: Theme.of(context).textTheme.subtitle,),
-                      RatingBar(
-                        onRatingUpdate: (rating){},
-                        allowHalfRating: true,
-                        itemCount: widget.ratingsTop,
-                        itemSize: 20,
-                        ignoreGestures: true,
-                        initialRating: widget.rating,
-                        glow: true,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.orange,
-                        ),
+              Text("${widget.name}", style: Theme.of(context).textTheme.title.copyWith(fontSize: 30), maxLines: 1, overflow: TextOverflow.ellipsis,),
+              Text("Released: ${widget.releaseDate}!", style: Theme.of(context).textTheme.subtitle,),
+              RatingBar(
+                onRatingUpdate: (rating){},
+                allowHalfRating: true,
+                itemCount: widget.ratingsTop,
+                itemSize: 20,
+                ignoreGestures: true,
+                initialRating: widget.rating,
+                glow: true,
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.orange,
+                ),
 
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 10,),
-              BlandPictureView(widget.backgroundImage),
-              SizedBox(height: 10,),
-              Text("Description", style: Theme.of(context).textTheme.headline,),
-              SizedBox(height: 5,),
-              _buildGameDetails(),
-              Text("Achievements", style: Theme.of(context).textTheme.headline,),
-              _buildGameAchievements(),
-              Text("Screenshots", style: Theme.of(context).textTheme.headline,),
-              _buildGameScreenshots(),
-              Text("Trailers", style: Theme.of(context).textTheme.headline,),
-              SizedBox(height: 5,),
-
+              )
             ],
           ),
-        ),
+          SizedBox(height: 10,),
+          Hero(tag: widget.name,child: BlandPictureView(widget.backgroundImage)),
+          SizedBox(height: 20,),
+          Text("Description", style: Theme.of(context).textTheme.headline,),
+          _buildGameDetails(),
+          SizedBox(height: 20,),
+          Text("Achievements", style: Theme.of(context).textTheme.headline,),
+          _buildGameAchievements(),
+          SizedBox(height: 20,),
+          Text("Screenshots", style: Theme.of(context).textTheme.headline,),
+          _buildGameScreenshots(),
+          SizedBox(height: 20,),
+          Text("Trailers", style: Theme.of(context).textTheme.headline,),
+          SizedBox(height: 5,),
+
+        ],
       ),
     );
   }
@@ -128,22 +121,26 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  BlandPictureView(model.backgroundImageAdditional,),
                   SizedBox(height: 5,),
-                  Text("${model.description}", style: Theme.of(context).textTheme.display1,),
+                  Text("${model.description
+                      .replaceAll("<p>", "")
+                      .replaceAll("</p>", "")
+                      .replaceAll("<br />",  "\n")}", style: Theme.of(context).textTheme.display1,),
                   SizedBox(height: 2,),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Icon(
-                        LineAwesomeIcons.internet_explorer, size: 15,
+                        LineAwesomeIcons.internet_explorer, size: 30,
                       ),
                       SizedBox(width: 10),
                       Icon(
-                          LineAwesomeIcons.reddit, size: 15
+                          LineAwesomeIcons.reddit, size: 30
                       )
                     ],
-                  )
-
+                  ),
+                  SizedBox(height: 10,),
+                  BlandPictureView(model.backgroundImageAdditional,),
                 ],
               )
             );
@@ -199,14 +196,14 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
             var model = (snapshot.data as AchievementModel);
             return Container(
                 width: double.maxFinite,
-                child: Column(
+                child: model.name == "null" && model.description == "null" ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text("${model.name}", style: Theme.of(context).textTheme.display1,),
                     Text("${model.description}", style: Theme.of(context).textTheme.display1,),
                   ],
-                )
+                ):Text("No achievements to speak of.. For now", style: Theme.of(context).textTheme.display1,),
             );
           }else if(snapshot.hasError){
             return Container(
@@ -259,12 +256,12 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }else if(snapshot.hasData){
             var model = (snapshot.data as ScreenshotsModel);
             return Container(
-              height: 300,
+              height: 250,
               width: double.maxFinite,
               child: PageView.builder(
                   itemCount: model.results.length,
                   itemBuilder: (context, position){
-                    return BlandPictureView(model.results[position].image);
+                    return Container(margin: EdgeInsets.only(right: 5,),child: BlandPictureView(model.results[position].image));
                   }),
             );
           }else if(snapshot.hasError){

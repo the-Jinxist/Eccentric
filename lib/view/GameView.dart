@@ -29,7 +29,7 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            FadeInImage.assetNetwork(placeholder: "assets/images/placeholder.png", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,),
+            Hero(tag: widget.result.name,child: FadeInImage.assetNetwork(placeholder: "assets/images/placeholder.png", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,)),
             Container(
               height: 400,
               width: MediaQuery.of(context).size.width,
