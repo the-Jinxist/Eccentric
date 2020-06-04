@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
@@ -29,7 +30,18 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Hero(tag: widget.result.name,child: FadeInImage.assetNetwork(placeholder: "assets/images/placeholder.png", image: widget.result.backgroundImage, fit: BoxFit.cover, height: 400, width: double.maxFinite,)),
+            Hero(tag: widget.result.name,
+                child: CachedNetworkImage(
+                  height: 400,
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
+                  imageUrl: widget.result.backgroundImage,
+                  placeholder: (context, url){
+                    return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
+                      width: MediaQuery.of(context).size.width,);
+                  },
+                )
+            ),
             Container(
               height: 400,
               width: MediaQuery.of(context).size.width,

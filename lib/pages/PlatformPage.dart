@@ -125,11 +125,15 @@ class _PlatformPageState extends State<PlatformPage> {
 
   Future<gameModel.GamesModel> getGames() async {
 
+    print("Platform slug: ${widget.result.slug}");
+    //nintendo-64
+    //android
+    //playstation4
     var response  = await api.getGamesFromPlatform(widget.result.slug);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
       print("Platform Page: ${response.statusCode}");

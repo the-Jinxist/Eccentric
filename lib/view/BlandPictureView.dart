@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,12 +18,16 @@ class BlandPictureView extends StatelessWidget {
       ),
       child: Container(
         height: 200,
-        child: FadeInImage.assetNetwork(
-          placeholder: "assets/images/placeholder.png",
-          image: imageString,
-          fit: BoxFit.cover,
+        child: CachedNetworkImage(
           height: 200,
-          width: double.maxFinite,),
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+          imageUrl: imageString,
+          placeholder: (context, url){
+            return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
+              width: MediaQuery.of(context).size.width,);
+          },
+        )
       ),
     );
   }
