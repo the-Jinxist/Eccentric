@@ -32,7 +32,7 @@ class _PlatformViewState extends State<PlatformView> {
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
-              imageUrl: widget.result.image,
+              imageUrl: widget.result.image != null ? widget.result.image: "wfwf",
               placeholder: (context, url){
                 return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
                   width: MediaQuery.of(context).size.width,);
