@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/models/AchievementModel.dart';
 import 'package:game_app/models/GameDetailModel.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/models/ScreenshotsModel.dart';
 import 'package:game_app/models/TrailersModel.dart';
 import 'package:game_app/view/BlandPictureView.dart';
-import 'package:game_app/view/VideoPlayerView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-
 
 class GameDetailsPage extends StatefulWidget {
 
@@ -44,7 +41,6 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     gameDetailFuture = _getGameDetails();
@@ -94,6 +90,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           Text("Screenshots", style: Theme.of(context).textTheme.headline,),
           _buildGameScreenshots(),
           SizedBox(height: 50,),
+          //TODO: Might add trailer some.
 //          Text("Trailers", style: Theme.of(context).textTheme.headline,),
 //          _buildGameTrailer(),
 //          SizedBox(height: 20,),
@@ -292,71 +289,6 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           else{
             return Container(
               height: 200,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }
-    );
-  }
-
-  Widget _buildGameTrailer(){
-    return FutureBuilder(
-        future: gameTrailerFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: 300,
-              width: double.maxFinite,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else if(snapshot.hasData){
-            var model = (snapshot.data as TrailersModel);
-            print("Trailer: ${model.preview}, ${model.data}");
-            return Container(
-              height: 300,
-              child: model.preview != null
-
-              ? VideoPlayerView(
-                model.preview
-              )
-
-              : Center(
-                child: Text("No trailers for this game", style: Theme.of(context).
-                textTheme.display1,),
-              ),
-
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              width: double.maxFinite,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          gameTrailerFuture = _getGameTrailers();
-                        });
-                      },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }
-          else{
-            return Container(
-              height: 300,
               width: double.maxFinite,
               child: Center(
                 child: CircularProgressIndicator(),

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 Future<http.Response> getGenres() async{
-  return http.get("https://api.rawg.io/api/genres&page=1",
+  return http.get("https://api.rawg.io/api/genres",
     headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"},
   );
 }
