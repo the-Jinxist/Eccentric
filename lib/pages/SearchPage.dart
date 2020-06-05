@@ -82,6 +82,7 @@ class _SearchPageState extends State<SearchPage> {
                       onPressed: (){
                         //Search Functionality
                         var string = controller.text;
+                        print("Search Page: Controller Text: $string");
                         if(string.isNotEmpty){
                           setState(() {
                             query = string.toLowerCase().trim();
@@ -212,7 +213,7 @@ class _SearchPageState extends State<SearchPage> {
 //      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
-      print("Publishers Error: ${response.statusCode}");
+      print("Search Page Error: ${response.statusCode}");
       return null;
     }
   }

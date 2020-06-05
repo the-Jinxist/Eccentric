@@ -142,7 +142,7 @@ class _GenresPageState extends State<GenresPage> {
       print("Genre Model: $responseBody");
       return GenreModel.fromJson(responseBody);
     }else{
-      print("Categories Error: ${response.statusCode}");
+      print("Genre Error: ${response.statusCode}");
       return null;
     }
   }
