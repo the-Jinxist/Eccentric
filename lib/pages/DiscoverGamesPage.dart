@@ -13,6 +13,7 @@ import 'package:game_app/pages/GameDetailsPage.dart';
 import 'package:game_app/pages/PlatformPage.dart';
 import 'package:game_app/pages/PopularPage.dart';
 import 'package:game_app/pages/PublishersPage.dart';
+import 'package:game_app/pages/SearchPage.dart';
 import 'package:game_app/view/AnticipatedView.dart';
 import 'package:game_app/view/PlatformView.dart';
 import 'package:game_app/view/PopularView.dart';
@@ -62,22 +63,27 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
       body: ListView(
         padding: EdgeInsets.only( left: 15, right: 15),
         children: <Widget>[
-          Container(
-              height: 60,
-              padding: EdgeInsets.only(left: 20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(40),
-                  color: Colors.grey.withOpacity(0.3)
-              ),
-              width: double.maxFinite,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(LineAwesomeIcons.search),
-                  SizedBox(width: 10,),
-                  Text("Search", style: Theme.of(context).textTheme.subtitle,)
-                ],
-              )
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage()));
+            },
+            child: Container(
+                height: 60,
+                padding: EdgeInsets.only(left: 20),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40),
+                    color: Colors.grey.withOpacity(0.3)
+                ),
+                width: double.maxFinite,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(LineAwesomeIcons.search),
+                    SizedBox(width: 10,),
+                    Text("Search", style: Theme.of(context).textTheme.subtitle,)
+                  ],
+                )
+            ),
           ),
           SizedBox(height: 30),
           //

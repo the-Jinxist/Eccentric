@@ -29,6 +29,11 @@ Future<http.Response> getGamesFromPlatform(String platforms) async{
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
+Future<http.Response> getGamesFromSearch(String query) async{
+  return http.get("https://api.rawg.io/api/games?search=$query&page=1",
+      headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
+}
+
 Future<http.Response> getGameDetail(int id) async{
   return http.get("https://api.rawg.io/api/games/$id",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});

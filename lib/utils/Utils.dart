@@ -6,3 +6,11 @@ enum AuthType{
   SIGN_UP
 
 }
+
+enum LoadingStates{
+
+  IDLE,
+
+  LOADING,
+
+}
