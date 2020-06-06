@@ -32,6 +32,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: PreferredSize(child: Container(
         padding: EdgeInsets.only(top: 10, left: 15, right: 15),
         child: Row(
@@ -42,22 +43,24 @@ class _SearchPageState extends State<SearchPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text("Search Games", style: Theme.of(context).textTheme.title,),
+                SizedBox(height: 10),
                 Row(
                   children: <Widget>[
                     Container(
                         height: 60,
-                        padding: EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
                             border: Border.all(color: Colors.orange)
                         ),
-                        width: 400,
+                        width: 300,
                         child: TextField(
                           controller: controller,
                           onSubmitted: (string){
                             if(string.isNotEmpty){
                               setState(() {
                                 query = string.toLowerCase().trim();
+                                searchFuture = getGames(query);
                                 state = LoadingStates.LOADING;
                               });
                             }
@@ -75,6 +78,7 @@ class _SearchPageState extends State<SearchPage> {
                             enabledBorder: null,
                             border: null,
 
+
                           ),
                         )
                     ),
@@ -86,6 +90,7 @@ class _SearchPageState extends State<SearchPage> {
                         if(string.isNotEmpty){
                           setState(() {
                             query = string.toLowerCase().trim();
+                            searchFuture = getGames(query);
                             state = LoadingStates.LOADING;
                           });
 
@@ -116,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               Icon(LineAwesomeIcons.search, size: 50, color: Colors.grey,),
               SizedBox(height: 5,),
-              Text("Search a repository of 350, 000+ games!"),
+              Text("Search a repository of 350, 000+ games!", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),),
             ],
           ),
         ),
@@ -210,7 +215,7 @@ class _SearchPageState extends State<SearchPage> {
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+      print("Search Page Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
       print("Search Page Error: ${response.statusCode}");

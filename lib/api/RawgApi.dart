@@ -3,6 +3,21 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+int getCurrentYear(){
+  print("Rawg Api: ${DateTime.now().year}");
+  return DateTime.now().year;
+}
+
+int getPastYear(){
+  print("Rawg Api: ${DateTime.now().year -1}");
+  return DateTime.now().year - 1;
+}
+
+int getNextYear(){
+  print("Rawg Api: ${DateTime.now().year + 1}");
+  return DateTime.now().year + 1;
+}
+
 Future<http.Response> getGenres() async{
   return http.get("https://api.rawg.io/api/genres",
     headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"},
@@ -65,12 +80,12 @@ Future<http.Response> getPublishers() async{
 }
 
 Future<http.Response> getPopular() async{
-  return http.get("https://api.rawg.io/api/games?dates=2019-06-01,2020-06-01&ordering=-added&page=1",
+  return http.get("https://api.rawg.io/api/games?dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
 Future<http.Response> getAnticipated() async{
-  return http.get("https://api.rawg.io/api/games?dates=2020-06-01,2021-06-01&ordering=-added&page=1",
+  return http.get("https://api.rawg.io/api/games?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 

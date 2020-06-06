@@ -33,6 +33,7 @@ class _DevelopersPageState extends State<DevelopersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: PreferredSize(
             child: Container(
               padding: EdgeInsets.only(top: 10, left: 15, right: 15),

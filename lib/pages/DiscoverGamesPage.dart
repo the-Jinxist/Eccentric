@@ -48,6 +48,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       extendBody: true,
       appBar: PreferredSize(child: Container(
           padding: EdgeInsets.only(top: 10, left: 15, right: 15),
@@ -91,7 +92,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Popular
           //
           //
-          _buildSectionLabel("Popular In 2020", "The biggest games this year!", (){
+          _buildSectionLabel("Popular In ${api.getCurrentYear()}", "The biggest games this year!", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => PopularPage()));
           }),
           SizedBox(height: 10),
@@ -104,7 +105,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           //
           //
 
-          _buildSectionLabel("Anticipated Games in 2020", "We're all waiting for these games", (){
+          _buildSectionLabel("Anticipated Games in ${api.getCurrentYear()}", "We're all waiting for these games", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnticipatedPage()));
           }),
           SizedBox(height: 10),
