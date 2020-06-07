@@ -121,7 +121,8 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               Icon(LineAwesomeIcons.search, size: 50, color: Colors.grey,),
               SizedBox(height: 5,),
-              Text("Search a repository of 350, 000+ games!", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),),
+              Text("Search a repository of 350, 000+ games!", style:
+              Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),),
             ],
           ),
         ),
@@ -189,7 +190,8 @@ class _SearchPageState extends State<SearchPage> {
                           searchFuture = getGames(query);
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: Text("Reload", style:
+                      Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
                     ),
                   ],
                 ),
