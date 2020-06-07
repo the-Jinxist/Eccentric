@@ -72,11 +72,11 @@ class _SearchPageState extends State<SearchPage> {
                           decoration: InputDecoration(
                             hintText: "Search",
                             hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
-                            errorBorder: null,
-                            focusedBorder: null,
-                            disabledBorder: null,
-                            enabledBorder: null,
-                            border: null,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            border: InputBorder.none,
 
 
                           ),
