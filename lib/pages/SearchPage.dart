@@ -34,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(child: Container(
-        padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+        padding: EdgeInsets.only(top: 30, left: 15, right: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -45,40 +45,43 @@ class _SearchPageState extends State<SearchPage> {
                 Text("Search Games", style: Theme.of(context).textTheme.title,),
                 SizedBox(height: 10),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        height: 60,
+                        height: 50,
                         padding: EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
-                            border: Border.all(color: Colors.orange)
+                            color: Colors.grey.withOpacity(0.3)
                         ),
                         width: 300,
-                        child: TextField(
-                          controller: controller,
-                          onSubmitted: (string){
-                            if(string.isNotEmpty){
-                              setState(() {
-                                query = string.toLowerCase().trim();
-                                searchFuture = getGames(query);
-                                state = LoadingStates.LOADING;
-                              });
-                            }
-                          },
-                          maxLines: 1,
-                          textInputAction: TextInputAction.search,
-                          style: Theme.of(context).textTheme.subtitle,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            hintText: "Search",
-                            hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
-                            errorBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            border: InputBorder.none,
+                        child: Center(
+                          child: TextField(
+                            controller: controller,
+                            onSubmitted: (string){
+                              if(string.isNotEmpty){
+                                setState(() {
+                                  query = string.toLowerCase().trim();
+                                  searchFuture = getGames(query);
+                                  state = LoadingStates.LOADING;
+                                });
+                              }
+                            },
+                            maxLines: 1,
+                            textInputAction: TextInputAction.search,
+                            style: Theme.of(context).textTheme.subtitle,
+                            autofocus: true,
+                            decoration: InputDecoration(
+                              hintText: "Search",
+                              hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
+                              errorBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              border: InputBorder.none,
 
 
+                            ),
                           ),
                         )
                     ),
@@ -128,14 +131,6 @@ class _SearchPageState extends State<SearchPage> {
         ),
       );
     }else if(state == LoadingStates.LOADING){
-      return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Center(
-          child: CircularProgressIndicator(),
-        )
-      );
-    }else{
       return FutureBuilder(
         future: searchFuture,
         builder: (context, snapshot){

@@ -206,7 +206,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               child: PageView.builder(
                   itemCount: 5,
                   itemBuilder: (context, position){
-                    var model = models[Random().nextInt(models.length - 1)];
+                    var model = models[position];
                     return InkWell(
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
@@ -285,7 +285,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
                   itemBuilder: (context, position){
-                    var model = models[Random().nextInt(models.length - 1)];
+                    var model = models[position];
                     return InkWell(
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
