@@ -1,14 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/models/PublishersModel.dart';
 
 class PublisherView extends StatefulWidget {
 
   final Result result;
+  final String type;
 
-  PublisherView(this.result);
+  PublisherView(this.result, this.type);
 
   @override
   _PublisherViewState createState() => _PublisherViewState();
@@ -30,16 +28,11 @@ class _PublisherViewState extends State<PublisherView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            CachedNetworkImage(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.cover,
-              imageUrl: widget.result.imageBackground,
-              placeholder: (context, url){
-                return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
-                  width: MediaQuery.of(context).size.width,);
-              },
-            ),
+            FadeInImage.assetNetwork(
+              placeholder: "assets/images/placeholder.png",
+              image: widget.result.imageBackground,
+              fit: BoxFit.cover, height: 200,
+              width: double.maxFinite,),
             Container(
               height: 200,
               width: MediaQuery.of(context).size.width,

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/models/PlatformModel.dart';
 
@@ -28,16 +27,11 @@ class _PlatformViewState extends State<PlatformView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            CachedNetworkImage(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.cover,
-              imageUrl: widget.result.image != null ? widget.result.image: "wfwf",
-              placeholder: (context, url){
-                return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
-                  width: MediaQuery.of(context).size.width,);
-              },
-            ),
+            FadeInImage.assetNetwork(
+              placeholder: "assets/images/placeholder.png",
+              image: widget.result.imageBackground,
+              fit: BoxFit.cover, height: 200,
+              width: double.maxFinite,),
             Container(
               height: 200,
               width: MediaQuery.of(context).size.width,

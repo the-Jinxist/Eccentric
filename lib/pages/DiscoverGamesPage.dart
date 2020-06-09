@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:game_app/api/RawgApi.dart' as api;
 import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/models/PublishersModel.dart';
-import 'package:game_app/pages/AllPublishersPage.dart';
 import 'package:game_app/pages/AllDevelopersPage.dart';
+import 'package:game_app/pages/AllPublishersPage.dart';
 import 'package:game_app/pages/AnticipatedPage.dart';
 import 'package:game_app/pages/DevelopersPage.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
@@ -19,7 +19,6 @@ import 'package:game_app/view/PlatformView.dart';
 import 'package:game_app/view/PopularView.dart';
 import 'package:game_app/view/PublisherView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
 
 class DiscoverGamesPage extends StatefulWidget {
   @override
@@ -367,7 +366,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => PublishersPage(model)));
                       },
-                      child: PublisherView(model)
+                      child: PublisherView(model, "publishers")
                     );
                   }),
             );
@@ -432,7 +431,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                       onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
                       },
-                      child: PublisherView(model)
+                      child: PublisherView(model, "developers")
                     );
                   }),
             );

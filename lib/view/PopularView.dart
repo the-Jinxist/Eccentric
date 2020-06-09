@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:game_app/models/GamesModel.dart';
@@ -31,16 +30,11 @@ class _PopularViewState extends State<PopularView> {
             children: <Widget>[
               Hero(
                 tag: widget.result.name,
-                child: CachedNetworkImage(
-                  height: 200,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                  imageUrl: widget.result.backgroundImage,
-                  placeholder: (context, url){
-                    return Image.asset("assets/images/placeholder.png", fit: BoxFit.cover, height: 200,
-                      width: MediaQuery.of(context).size.width,);
-                  },
-                )
+                child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/placeholder.png",
+                  image: widget.result.backgroundImage,
+                  fit: BoxFit.cover, height: 200,
+                  width: MediaQuery.of(context).size.width,),
               ),
               Container(
                 height: 200,
