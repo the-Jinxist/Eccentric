@@ -34,6 +34,10 @@ class _GameViewState extends State<GameView> {
                   placeholder: "assets/images/placeholder.png",
                   image: widget.result.backgroundImage,
                   fit: BoxFit.cover,
+                  imageCacheHeight: 200,
+                  imageCacheWidth: 400,
+                  placeholderCacheHeight: 400,
+                  placeholderCacheWidth: 400,
                   height: 400,
                   width: double.maxFinite,
                 )

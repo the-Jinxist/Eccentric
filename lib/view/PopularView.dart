@@ -34,6 +34,10 @@ class _PopularViewState extends State<PopularView> {
                   placeholder: "assets/images/placeholder.png",
                   image: widget.result.backgroundImage,
                   fit: BoxFit.cover, height: 200,
+                  imageCacheHeight: 200,
+                  imageCacheWidth: 400,
+                  placeholderCacheHeight: 400,
+                  placeholderCacheWidth: 400,
                   width: MediaQuery.of(context).size.width,),
               ),
               Container(

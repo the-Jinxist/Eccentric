@@ -129,12 +129,26 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Icon(
-                        LineAwesomeIcons.internet_explorer, size: 30,
+                      GestureDetector(
+                        onTap: (){
+                          if(model.website != null){
+                            //Navigate to website
+                          }
+                        },
+                        child: Icon(
+                          LineAwesomeIcons.internet_explorer, size: 30,
+                        ),
                       ),
                       SizedBox(width: 10),
-                      Icon(
-                          LineAwesomeIcons.reddit, size: 30
+                      GestureDetector(
+                        onTap: (){
+                          if(model.redditUrl != null){
+                            //Navigate to website
+                          }
+                        },
+                        child: Icon(
+                            LineAwesomeIcons.reddit, size: 30
+                        ),
                       )
                     ],
                   ),

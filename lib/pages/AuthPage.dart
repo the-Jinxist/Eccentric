@@ -79,7 +79,10 @@ class _AuthPageState extends State<AuthPage> {
                         if(value.isEmpty){
                           return "Please provide an email";
                         }else{
-                          email = value.trim();
+                          setState(() {
+                            email = value.trim();
+                          });
+
                           return null;
                         }
                       },
@@ -119,7 +122,10 @@ class _AuthPageState extends State<AuthPage> {
                         if(value.isEmpty){
                           return "Please input your password";
                         }else{
-                          password = value.trim();
+                          setState(() {
+                            password = value.trim();
+                          });
+
                           return null;
                         }
                       },
@@ -131,7 +137,11 @@ class _AuthPageState extends State<AuthPage> {
               SizedBox(height:40),
               GestureDetector(
                 onTap: (){
-
+                  if(widget.type == AuthType.SIGN_IN){
+                    //Sign In
+                  }else{
+                    //Sign Up
+                  }
                 },
                 child: Card(
                   shape: RoundedRectangleBorder(

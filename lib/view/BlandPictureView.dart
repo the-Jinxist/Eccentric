@@ -20,6 +20,8 @@ class BlandPictureView extends StatelessWidget {
         child: FadeInImage.assetNetwork(
           placeholder: "assets/images/placeholder.png",
           image: imageString,
+          placeholderCacheHeight: 400,
+          placeholderCacheWidth: 400,
           fit: BoxFit.cover,
           height: 400,
           width: double.maxFinite,),
