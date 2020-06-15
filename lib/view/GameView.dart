@@ -6,9 +6,8 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 class GameView extends StatefulWidget {
 
   final Result result;
-  var save;
 
-  GameView(this.result, this.save);
+  GameView(this.result);
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -67,7 +66,7 @@ class _GameViewState extends State<GameView> {
               top: 10,
               child: IconButton(
                 onPressed: (){
-                  widget.save();
+
                 },
                 tooltip: "Save Game",
                 icon: Icon(LineAwesomeIcons.heart_o, color: Colors.white,),

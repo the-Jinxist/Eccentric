@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
-import 'GameModel.dart';
+import 'GamesModel.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
@@ -22,8 +22,8 @@ class DatabaseHelper {
   String colReviewsTextCount = 'reviewsTextCount';
   String colAdded = 'added';
   String colAddedByStatus = 'addedByStatus';
-  String colMetacritic = 'Metacritic';
-  String colPlaytime = 'Playtime';
+  String colMetacritic = 'metacritic';
+  String colPlaytime = 'playtime';
   String colSuggestionsCount = 'suggestionsCount';
 
   DatabaseHelper._createInstance();
@@ -51,7 +51,7 @@ class DatabaseHelper {
 
   void createDb(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE $gameTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colAdded INTEGER, $colAddedByStatus TEXT,$colBackgroundImage TEXT, $colMetacritic INTEGER, $colName TEXT, $colPlaytime INTEGER, $colRating DOUBLE, $colRatings INTEGER, $colRatingsCount INTEGER, $colRatingsTop INTEGER, $colReleased TEXT, $colReviewsTextCount INTEGER, $colSlug TEXT, $colSuggestionsCount INTEGER, $colTba TEXT)');
+        'CREATE TABLE $gameTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colAdded INTEGER, $colAddedByStatus TEXT,$colBackgroundImage TEXT, $colMetacritic INTEGER, $colName TEXT, $colPlaytime INTEGER, $colRating DOUBLE, $colRatings TEXT, $colRatingsCount INTEGER, $colRatingsTop INTEGER, $colReleased TEXT, $colReviewsTextCount INTEGER, $colSlug TEXT, $colSuggestionsCount INTEGER, $colTba TEXT)');
   }
 
   Future<List<Map<String, dynamic>>>getGameList() async{

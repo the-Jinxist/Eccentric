@@ -82,11 +82,11 @@ class Result{
     map ['backgroundImage'] = backgroundImage;
     map ['rating'] = rating;
     map ['ratingsTop'] = ratingsTop;
-    map ['ratings'] = ratings;
+    map ['ratings'] = ratings.toString();
     map ['ratingsCount'] = ratingsCount;
     map ['reviewsTextCount'] = reviewsTextCount;
     map ['added'] = added;
-    map ['addedByStatus'] = addedByStatus;
+    map ['addedByStatus'] = addedByStatus.toString();
     map ['metacritic'] = metacritic;
     map ['playtime'] = playtime;
     map ['suggestionsCount'] = suggestionsCount;
@@ -103,7 +103,7 @@ class Result{
     this.metacritic = map['metacritic'];
     this.rating = map['rating'];
     this.ratings = map['ratings'];
-    this.ratingsCount = map['raringsCount'];
+    this.ratingsCount = map['ratingsCount'];
     this.ratingsTop = map['ratingsTop'];
     this.released = map['released'];
     this.playtime = map['playtime'];
