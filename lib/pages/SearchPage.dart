@@ -108,7 +108,7 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ), preferredSize: Size.fromHeight(120)),
-      body: loadWidgets(state),
+      body: Builder(builder: (context) => loadWidgets(state)),
     );
   }
 
@@ -149,24 +149,46 @@ class _SearchPageState extends State<SearchPage> {
                 itemCount: gameModeL.results.length,
                 itemBuilder: (context, position){
                   var currentGame = gameModeL.results[position];
-                  return InkWell(child: GameView(gameModeL.results[position]),
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                        backgroundImage: currentGame.backgroundImage,
-                        id: currentGame.id,
-                        metacriticRating: currentGame.metacritic,
-                        name: currentGame.name,
-                        playTime: currentGame.playtime,
-                        rating: currentGame.rating,
-                        ratingsCount: currentGame.ratingsCount,
-                        ratingsTop: currentGame.ratingsTop,
-                        releaseDate: currentGame.released,
-                        slug: currentGame.slug,
-                        suggestionsCount: currentGame.suggestionsCount,
-                      )));
-                    },);
+                  return InkWell(
+                    child:
+                      GameView(
+                        onSavedTap: (string) {
+                          if (string == "Added") {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                    backgroundColor: Colors.black,
+                                    content: Text("Game added to favourite!")
+                                )
+                            );
+                          } else {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                    backgroundColor: Colors.black,
+                                    content: Text("Game removed from favourite!")
+                                )
+                            );
+                          }
+                        },
+                        result: gameModeL.results[position]
+                      ),
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                          backgroundImage: currentGame.backgroundImage,
+                          id: currentGame.id,
+                          metacriticRating: currentGame.metacritic,
+                          name: currentGame.name,
+                          playTime: currentGame.playtime,
+                          rating: currentGame.rating,
+                          ratingsCount: currentGame.ratingsCount,
+                          ratingsTop: currentGame.ratingsTop,
+                          releaseDate: currentGame.released,
+                          slug: currentGame.slug,
+                          suggestionsCount: currentGame.suggestionsCount,
+                        )));
+                      },
+                  );
                 }
-            );
+              );
           }else if(snapshot.hasError){
             return Container(
               padding: EdgeInsets.all(20),

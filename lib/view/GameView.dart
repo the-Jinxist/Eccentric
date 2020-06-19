@@ -7,8 +7,9 @@ import 'package:line_awesome_icons/line_awesome_icons.dart';
 class GameView extends StatefulWidget {
 
   final Result result;
+  Function onSavedTap;
 
-  GameView(this.result);
+  GameView({@required this.result, this.onSavedTap});
 
   @override
   _GameViewState createState() => _GameViewState();
@@ -94,6 +95,8 @@ class _GameViewState extends State<GameView> {
                               });
                             });
 
+                            if(widget.onSavedTap != null) widget.onSavedTap("Added");
+
                           },
                           tooltip: "Save Game",
                           icon: Icon(LineAwesomeIcons.heart_o, color: Colors.white,),
@@ -105,7 +108,10 @@ class _GameViewState extends State<GameView> {
                               setState(() {
                                 savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
                               });
+
                             });
+
+                            if(widget.onSavedTap != null) widget.onSavedTap("Removed");
                           },
                           tooltip: "Save Game",
                           icon: Icon(LineAwesomeIcons.heart, color: Colors.white,),
@@ -128,7 +134,7 @@ class _GameViewState extends State<GameView> {
 
                         },
                         tooltip: "Save Game",
-                        icon: Icon(LineAwesomeIcons.info, color: Colors.red,),
+                        icon: Icon(LineAwesomeIcons.heartbeat, color: Colors.orange,),
                       );
                     }
                   }

@@ -51,75 +51,97 @@ class _YourGamesPageState extends State<YourGamesPage> {
             ],
           ),
         ), preferredSize: Size.fromHeight(100)),
-        body: FutureBuilder(
-          future: future,
-          builder: (context, snapshot){
-            if(snapshot.connectionState != ConnectionState.done){
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            } else if(snapshot.hasData){
-              var gameModel = snapshot.data as GamesModel;
+        body: Builder(
+          builder: (context){
+            return FutureBuilder(
+              future: future,
+              builder: (context, snapshot){
+                if(snapshot.connectionState != ConnectionState.done){
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if(snapshot.hasData){
+                  var gameModel = snapshot.data as GamesModel;
 
-              return ListView.builder(
-                itemCount: gameModel.results.length,
-                itemBuilder: (context, position){
-                  var currentGame = gameModel.results[position];
-                  return InkWell(child: GameView(gameModel.results[position]),
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                      backgroundImage: currentGame.backgroundImage,
-                      id: currentGame.id,
-                      metacriticRating: currentGame.metacritic,
-                      name: currentGame.name,
-                      playTime: currentGame.playtime,
-                      rating: currentGame.rating,
-                      ratingsCount: currentGame.ratingsCount,
-                      ratingsTop: currentGame.ratingsTop,
-                      releaseDate: currentGame.released,
-                      slug: currentGame.slug,
-                      suggestionsCount: currentGame.suggestionsCount,
-                    )));
-                  },);
-                }
-              );
-            }else if(snapshot.hasError){
-              return Container(
-                padding: EdgeInsets.all(20),
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Sorry an error occured",style: Theme.of(context).
-                      textTheme.display1, textAlign: TextAlign.center,),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            future = getGames();
-                          });
-                        },
-                        child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                  return ListView.builder(
+                      itemCount: gameModel.results.length,
+                      itemBuilder: (context, position){
+                        var currentGame = gameModel.results[position];
+                        return InkWell(child: GameView(
+                            onSavedTap: (string) {
+                              if (string == "Added") {
+                                Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game added to favourite!")
+                                    )
+                                );
+                              } else {
+                                Scaffold.of(context).showSnackBar(
+                                    SnackBar(
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game removed from favourite!")
+                                    )
+                                );
+                              }
+                            },
+                            result: gameModel.results[position]),
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                              backgroundImage: currentGame.backgroundImage,
+                              id: currentGame.id,
+                              metacriticRating: currentGame.metacritic,
+                              name: currentGame.name,
+                              playTime: currentGame.playtime,
+                              rating: currentGame.rating,
+                              ratingsCount: currentGame.ratingsCount,
+                              ratingsTop: currentGame.ratingsTop,
+                              releaseDate: currentGame.released,
+                              slug: currentGame.slug,
+                              suggestionsCount: currentGame.suggestionsCount,
+                            )));
+                          },);
+                      }
+                  );
+                }else if(snapshot.hasError){
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("Sorry an error occured",style: Theme.of(context).
+                          textTheme.display1, textAlign: TextAlign.center,),
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                future = getGames();
+                              });
+                            },
+                            child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              );
-            } else{
-              return Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
+                    ),
+                  );
+                } else{
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
+            );
           },
         )
       ),
