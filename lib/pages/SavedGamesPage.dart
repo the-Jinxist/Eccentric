@@ -73,16 +73,22 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                             onSavedTap: (string){
                               if(string == "Added"){
                                 Scaffold.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: Colors.black,
-                                    content: Text("Game added from favourite!")
-                                  )
+                                    SnackBar(
+                                        elevation: 5,
+                                        backgroundColor: Colors.orange,
+                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
+                                            color: Colors.white
+                                        ))
+                                    )
                                 );
                               }else{
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        backgroundColor: Colors.black,
-                                        content: Text("Game removed from favourite!")
+                                        elevation: 5,
+                                        backgroundColor: Colors.orange,
+                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
+                                            color: Colors.white
+                                        ))
                                     )
                                 );
                               }
