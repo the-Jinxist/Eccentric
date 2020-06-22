@@ -1,4 +1,4 @@
-# game_app
+# Eccentric Catalog!
 
 The app uses the RAWG API to pull game information and show it to the user!
 
