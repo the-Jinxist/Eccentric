@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "245310904643",
+    "firebase_url": "https://eccentric-46543.firebaseio.com",
+    "project_id": "eccentric-46543",
+    "storage_bucket": "eccentric-46543.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245310904643:android:18a34a0825442ea68477f6",
+        "android_client_info": {
+          "package_name": "com.exceptos.gameapp.game_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "245310904643-5qh1sdo0ubs92lvp2cor79hdcvkct6mm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB2jODPhWNVFVo1k4e5bwnhWWzUZbBM34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "245310904643-5qh1sdo0ubs92lvp2cor79hdcvkct6mm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
