@@ -13,4 +13,6 @@ enum LoadingStates{
 
   LOADING,
 
+  ERROR
+
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/pages/HomePage.dart';
+import 'package:game_app/repo/AuthRepo.dart';
 import 'package:game_app/utils/Utils.dart';
 
 class AuthPage extends StatefulWidget {
@@ -16,6 +18,7 @@ class _AuthPageState extends State<AuthPage> {
   final formKey = new GlobalKey<FormState>();
   String email;
   String password;
+  LoadingStates states = LoadingStates.IDLE;
 
   bool enabledText = true;
 
@@ -134,13 +137,44 @@ class _AuthPageState extends State<AuthPage> {
                   ],
                 ),
               ),
-              SizedBox(height:40),
+              states == LoadingStates.IDLE ? SizedBox(height:40)
+                  : states == LoadingStates.LOADING ? SizedBox(
+                    height:40,
+                    width: MediaQuery.of(context).size.width,
+                child: Center(
+                child: CircularProgressIndicator(),
+              ),): states == LoadingStates.ERROR ? SizedBox(
+                  height:40,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Text("Sorry an error occurred. Check your internet and try again!", style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red, fontWeight: FontWeight.bold),),
+                  )): Container(),
               GestureDetector(
                 onTap: (){
                   if(widget.type == AuthType.SIGN_IN){
                     //Sign In
+                    setState(() {
+                      states = LoadingStates.LOADING;
+                    });
+                    AuthRepo().signInWithEmailAndPassword(email: email, password: password).then((value){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                    }, onError: (){
+                      setState(() {
+                        states  = LoadingStates.ERROR;
+                      });
+                    });
                   }else{
                     //Sign Up
+                    setState(() {
+                      states = LoadingStates.LOADING;
+                    });
+                    AuthRepo().signUpWithEmailAndPassword(email: email, password: password).then((value){
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                    }, onError: (){
+                      setState(() {
+                        states  = LoadingStates.ERROR;
+                      });
+                    });
                   }
                 },
                 child: Card(
