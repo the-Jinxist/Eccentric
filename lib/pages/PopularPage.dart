@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:game_app/api/RawgApi.dart' as api;
+import 'package:game_app/models/DatabaseModel.dart';
 import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
+import 'package:game_app/repo/AuthRepo.dart';
+import 'package:game_app/repo/DatabaseRepo.dart';
 import 'package:game_app/view/GameView.dart';
 
 class PopularPage extends StatefulWidget {
@@ -61,7 +64,25 @@ class _PopularPageState extends State<PopularPage> {
                         itemCount: gameModeL.results.length,
                         itemBuilder: (context, position){
                           var currentGame = gameModeL.results[position];
-                          return InkWell(child: GameView(result: gameModeL.results[position]),
+                          return InkWell(child: GameView(result: gameModeL.results[position],
+                              onSavedTap: (string) {
+
+                                if (string == "Added") {
+                                  Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.black,
+                                          content: Text("Game added to favourite!")
+                                      )
+                                  );
+                                } else {
+                                  Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                          backgroundColor: Colors.black,
+                                          content: Text("Game removed from favourite!")
+                                      )
+                                  );
+                                }
+                              },),
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                                 backgroundImage: currentGame.backgroundImage,
@@ -76,7 +97,9 @@ class _PopularPageState extends State<PopularPage> {
                                 slug: currentGame.slug,
                                 suggestionsCount: currentGame.suggestionsCount,
                               )));
-                            },);
+                            },
+
+                          );
                         }
                     );
                   }else if(snapshot.hasError){

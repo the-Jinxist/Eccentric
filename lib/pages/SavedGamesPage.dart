@@ -142,17 +142,4 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
       ),
     );
   }
-
-  updatescreen() {
-    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
-    dbFuture.then((database) {
-      Future<List<Result>> gameList = databaseHelper.getResult();
-      gameList.then((resultList) {
-        setState(() {
-          this.resultList = resultList;
-          this.count = resultList.length;
-        });
-      });
-    });
-  }
 }

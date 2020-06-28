@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/models/DatabaseModel.dart';
 import 'package:game_app/pages/DiscoverGamesPage.dart';
 import 'package:game_app/pages/ProfilePage.dart';
 import 'package:game_app/pages/SavedGamesPage.dart';
 import 'package:game_app/pages/YourGamesPage.dart';
+import 'package:game_app/repo/AuthRepo.dart';
+import 'package:game_app/repo/DatabaseRepo.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
@@ -15,6 +18,13 @@ class _HomePageState extends State<HomePage> {
 
   int _selectedIndex =0;
   var pages = [YourGamesPage(), DiscoverGamesPage(), SavedGamesPage(), ProfilePage() ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    storeSavedGames();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,5 +81,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future storeSavedGames() async{
+    var user = await AuthRepo.getCurrentUser();
+    if(user != null){
+      var map = await DatabaseHelper().getGameList();
+      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
+    }
+
   }
 }

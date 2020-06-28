@@ -17,14 +17,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String password;
 
   bool enabledText = true;
-
-  AuthRepo authRepo;
   Future getCurrentUser;
 
   @override
   void initState() {
-    authRepo = AuthRepo();
-    getCurrentUser = authRepo.getCurrentUser();
+    getCurrentUser = AuthRepo.getCurrentUser();
     super.initState();
   }
 
@@ -64,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         GestureDetector(
                           onTap: (){
                             setState(() {
-                              getCurrentUser = authRepo.getCurrentUser();
+                              getCurrentUser = AuthRepo.getCurrentUser();
                             });
                           },
                           child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),

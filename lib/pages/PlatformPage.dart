@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:game_app/api/RawgApi.dart' as api;
+import 'package:game_app/models/DatabaseModel.dart';
 import 'package:game_app/models/GamesModel.dart' as gameModel;
 import 'package:game_app/models/PlatformModel.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
+import 'package:game_app/repo/AuthRepo.dart';
+import 'package:game_app/repo/DatabaseRepo.dart';
 import 'package:game_app/view/GameView.dart';
 
 class PlatformPage extends StatefulWidget {

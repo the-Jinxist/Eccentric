@@ -1,3 +1,5 @@
+import 'package:game_app/repo/AuthRepo.dart';
+import 'package:game_app/repo/DatabaseRepo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'dart:async';
@@ -54,7 +56,7 @@ class DatabaseHelper {
         'CREATE TABLE $gameTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colAdded INTEGER, $colAddedByStatus TEXT,$colBackgroundImage TEXT, $colMetacritic INTEGER, $colName TEXT, $colPlaytime INTEGER, $colRating DOUBLE, $colRatings TEXT, $colRatingsCount INTEGER, $colRatingsTop INTEGER, $colReleased TEXT, $colReviewsTextCount INTEGER, $colSlug TEXT, $colSuggestionsCount INTEGER, $colTba TEXT)');
   }
 
-  Future<List<Map<String, dynamic>>>getGameList() async{
+  Future<List<Map<String, dynamic>>> getGameList() async{
     Database db = await this.database;
 
     var result = await db.query(gameTable);
@@ -74,6 +76,13 @@ class DatabaseHelper {
 
     var result = await db.insert(gameTable, results.toMap());
 
+
+    var user = await AuthRepo.getCurrentUser();
+    if(user != null){
+      var map = await DatabaseHelper().getGameList();
+      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
+    }
+
     return result;
   }
   
@@ -81,6 +90,12 @@ class DatabaseHelper {
     Database db = await this.database;
     
     var result =  await db.delete(gameTable, where: "$colId = ?", whereArgs: [id]);
+
+    var user = await AuthRepo.getCurrentUser();
+    if(user != null){
+      var map = await DatabaseHelper().getGameList();
+      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
+    }
 
     return result;
   }

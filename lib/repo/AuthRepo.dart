@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepo{
 
-  FirebaseAuth _authInstance;
+  static FirebaseAuth _authInstance;
 
-  FirebaseAuth _getInstance(){
+  static FirebaseAuth _getInstance(){
     if(_authInstance != null){
       return _authInstance;
 
@@ -14,21 +14,21 @@ class AuthRepo{
     }
   }
 
-  Future<AuthResult> signInWithEmailAndPassword({String email, String password}){
+  static Future<AuthResult> signInWithEmailAndPassword({String email, String password}){
     return _getInstance().signInWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<AuthResult> signUpWithEmailAndPassword({String email, String password}){
+  static Future<AuthResult> signUpWithEmailAndPassword({String email, String password}){
     return _getInstance().createUserWithEmailAndPassword(email: email, password: password);
   }
 
-  Future<void> signOut() => _getInstance().signOut();
+  static Future<void> signOut() => _getInstance().signOut();
 
-  Future<FirebaseUser> getCurrentUser() async {
+  static Future<FirebaseUser> getCurrentUser() async {
     return await _getInstance().currentUser();
   }
 
-  Future<bool> isUserSignIn() async {
+  static Future<bool> isUserSignIn() async {
     var user = await _getInstance().currentUser();
     return user != null;
   }

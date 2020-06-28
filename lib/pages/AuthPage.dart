@@ -156,7 +156,7 @@ class _AuthPageState extends State<AuthPage> {
                     setState(() {
                       states = LoadingStates.LOADING;
                     });
-                    AuthRepo().signInWithEmailAndPassword(email: email, password: password).then((value){
+                    AuthRepo.signInWithEmailAndPassword(email: email, password: password).then((value){
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                     }, onError: (){
                       setState(() {
@@ -168,7 +168,7 @@ class _AuthPageState extends State<AuthPage> {
                     setState(() {
                       states = LoadingStates.LOADING;
                     });
-                    AuthRepo().signUpWithEmailAndPassword(email: email, password: password).then((value){
+                    AuthRepo.signUpWithEmailAndPassword(email: email, password: password).then((value){
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
                     }, onError: (){
                       setState(() {
