@@ -30,6 +30,15 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   @override
+  void dispose() {
+    setState(() {
+      searchFuture = null;
+    });
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

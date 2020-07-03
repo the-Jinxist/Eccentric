@@ -32,8 +32,8 @@ class _AnticipatedViewState extends State<AnticipatedView> {
               tag: widget.result.name,
               child: FadeInImage.assetNetwork(
                 placeholder: "assets/images/placeholder.png",
-                imageCacheHeight: 350,
-                imageCacheWidth: 700,
+                imageCacheHeight: 450,
+                imageCacheWidth: 800,
                 placeholderCacheHeight: 400,
                 placeholderCacheWidth: 400,
                 image: widget.result.backgroundImage,

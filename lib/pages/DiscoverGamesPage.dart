@@ -45,6 +45,20 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   }
 
   @override
+  void dispose() {
+
+    setState(() {
+      popularFuture = null;
+      publisherFuture = null;
+      developerFuture = null;
+      platformFuture = null;
+      anticipatedFuture = null;
+    });
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

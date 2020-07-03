@@ -31,8 +31,8 @@ class _PublisherViewState extends State<PublisherView> {
             FadeInImage.assetNetwork(
               placeholder: "assets/images/placeholder.png",
               image: widget.result.imageBackground,
-              imageCacheHeight: 350,
-              imageCacheWidth: 700,
+              imageCacheHeight: 450,
+              imageCacheWidth: 800,
               placeholderCacheHeight: 400,
               placeholderCacheWidth: 400,
               fit: BoxFit.cover, height: 200,
