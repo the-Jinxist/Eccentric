@@ -85,6 +85,20 @@ class DatabaseHelper {
 
     return result;
   }
+
+  //TODO: THIS SHOULD INSERT A LIST OF GAMES..
+  Future<List<dynamic>> insertGames(List<Result> results) async{
+    Database db = await this.database;
+
+    var batch = db.batch();
+    results.forEach((result){
+      batch.insert(gameTable, result.toMap());
+    });
+
+    var insertResult  =  await batch.commit();
+
+    return insertResult;
+  }
   
   Future<int> delete(int id) async{
     Database db = await this.database;

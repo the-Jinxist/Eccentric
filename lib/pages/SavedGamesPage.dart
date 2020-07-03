@@ -1,11 +1,14 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/models/DatabaseModel.dart';
+import 'package:game_app/models/GamesModel.dart';
 import 'package:game_app/pages/GameDetailsPage.dart';
 import 'package:game_app/view/GameView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dart:async';
+import 'package:game_app/repo/AuthRepo.dart';
+import 'package:game_app/repo/DatabaseRepo.dart';
 
 class SavedGamesPage extends StatefulWidget {
   @override
@@ -28,6 +31,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: PreferredSize(child: Container(
         padding: EdgeInsets.only(top: 10, left: 15, right: 15),
@@ -133,6 +137,39 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                         SizedBox(height: 5,),
                         Text("You've not found a game you like? How strange. How strange indeed", style:
                         Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
+                        SizedBox(height: 20,),
+                        FutureBuilder(
+                          future: AuthRepo.getCurrentUser(),
+                          builder: (context, snapshot){
+                            if(snapshot.hasData){
+                              var user = snapshot.data as FirebaseUser;
+                              if(user != null){
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("Well, since you've signed in. You could get your saved games we last store \n If you has any", style:
+                                    Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
+                                    SizedBox(height: 5,),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+
+                                        });
+                                      },
+                                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                                    ),
+                                  ],
+                                );
+                              }else{
+                                return SizedBox();
+                              }
+
+                            }else{
+                              return SizedBox();
+                            }
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -142,4 +179,50 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
       ),
     );
   }
+
+  Future syncFromDb(BuildContext context, String userID) async{
+
+    Scaffold.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(label: "Dismiss", onPressed: (){
+
+          }),
+            elevation: 5,
+            backgroundColor: Colors.orange,
+            content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
+                color: Colors.white
+            ))
+        )
+    );
+
+    var results = await DatabaseRepo.saveCloudGamesToDB(userID: userID);
+    if(results != null){
+
+      Scaffold.of(context).showSnackBar(
+          SnackBar(
+              elevation: 5,
+              backgroundColor: Colors.orange,
+              content: Text("Syncing", style: Theme.of(context).textTheme.subtitle.copyWith(
+                  color: Colors.white
+              ))
+          )
+      );
+
+      setState(() {
+        savedFuture = databaseHelper.getResult();
+      });
+
+    }else{
+      Scaffold.of(context).showSnackBar(
+          SnackBar(
+              elevation: 5,
+              backgroundColor: Colors.orange,
+              content: Text("Sorry, you have no games saved :(", style: Theme.of(context).textTheme.subtitle.copyWith(
+                  color: Colors.white
+              ))
+          )
+      );
+    }
+  }
+
 }
