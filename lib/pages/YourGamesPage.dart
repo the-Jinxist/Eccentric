@@ -25,14 +25,6 @@ class _YourGamesPageState extends State<YourGamesPage> {
   }
 
   @override
-  void dispose() {
-    setState(() {
-      future = null;
-    });
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

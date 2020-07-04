@@ -29,14 +29,6 @@ class _SearchPageState extends State<SearchPage> {
     searchFuture = getGames(query);
   }
 
-  @override
-  void dispose() {
-    setState(() {
-      searchFuture = null;
-    });
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
