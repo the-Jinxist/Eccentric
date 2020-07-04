@@ -33,6 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: FutureBuilder(
             future: getCurrentUser,
             builder: (context, snapshot){
+              print("Profile data: ${snapshot.data}");
               if(snapshot.connectionState != ConnectionState.done){
                 return Container(
                   height: MediaQuery.of(context).size.height,
@@ -44,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }
               else if(snapshot.hasData){
+                print("Profile has data: ${snapshot.data}");
                 var user = (snapshot.data as FirebaseUser);
                 return user != null ? userPage(user) : noUserPage();
               }else if(snapshot.hasError){
@@ -71,6 +73,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               }else{
+                if(snapshot.data == null){
+                  return noUserPage();
+                }
                 return Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
@@ -141,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget userPage(FirebaseUser user){
     return Container(
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height - 50,
       width: MediaQuery.of(context).size.width,
       color: Colors.white,
       padding: EdgeInsets.only(top: 40, left: 15, right: 15),
@@ -149,25 +154,33 @@ class _ProfilePageState extends State<ProfilePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(LineAwesomeIcons.user, size: 30,),
+          Icon(LineAwesomeIcons.user, size: 50,),
           Text("${user.email}", style: Theme.of(context).textTheme.display1,),
-          SizedBox(height: 10,),
-          Row(
-            children: <Widget>[
-              Text("Hey there!", style: Theme.of(context).textTheme.title.copyWith(fontSize: 20),),
-              SizedBox(width: 10,),
-              Text("We ddn't save a username so, what's up there! :)", style: Theme.of(context).textTheme.display1.copyWith(fontSize: 10),),
-
-            ],
-          ),
-          Text("${user.displayName} hmm? Anyways, we're constantly updating your saved games to our servers. To make sure you can"
+          SizedBox(height: 20,),
+          Text("Hey there!", style: Theme.of(context).textTheme.title.copyWith(fontSize: 20),),
+          Text("We ddn't save a username so, what's up there! :)", style: Theme.of(context).textTheme.display1.copyWith(fontSize: 10),),
+          SizedBox(height: 30,),
+          Text("${user.email} hmm? Anyways, we're constantly updating your saved games to our servers. To make sure you can"
               "access these games on various devices.",
             style: Theme.of(context).textTheme.display1,),
-
+          SizedBox(height: 50,),
+          GestureDetector(
+            onTap: (){
+              AuthRepo.signOut();
+            },
+            child: Text("SIGN OUT", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 20),),
+          )
 
         ],
       ),
     );
+  }
+
+  Future signOut() async{
+    await AuthRepo.signOut();
+    setState(() {
+      getCurrentUser = AuthRepo.getCurrentUser();
+    });
   }
 
 }

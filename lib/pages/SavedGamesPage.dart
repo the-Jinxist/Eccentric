@@ -141,6 +141,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                         FutureBuilder(
                           future: AuthRepo.getCurrentUser(),
                           builder: (context, snapshot){
+                            print("Profile from saved games: ${snapshot.data}");
                             if(snapshot.hasData){
                               var user = snapshot.data as FirebaseUser;
                               if(user != null){
@@ -223,6 +224,11 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
           )
       );
     }
+  }
+
+  Future loadSyncButton() async{
+    var user =  await AuthRepo.getCurrentUser();
+    if(user == null) return;
   }
 
 }

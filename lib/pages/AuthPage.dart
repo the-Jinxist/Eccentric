@@ -57,6 +57,7 @@ class _AuthPageState extends State<AuthPage> {
                       keyboardType: TextInputType.emailAddress,
                       maxLines: 1,
                       decoration: InputDecoration(
+                          errorStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Colors.orange,
@@ -97,6 +98,7 @@ class _AuthPageState extends State<AuthPage> {
                       maxLines: 1,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
+                        errorStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.red),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.orange,
@@ -142,7 +144,13 @@ class _AuthPageState extends State<AuthPage> {
                     height:40,
                     width: MediaQuery.of(context).size.width,
                 child: Center(
-                child: CircularProgressIndicator(),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height:20),
+                    CircularProgressIndicator(),
+                    SizedBox(height:20),
+                  ],
+                ),
               ),): states == LoadingStates.ERROR ? SizedBox(
                   height:40,
                   width: MediaQuery.of(context).size.width,
@@ -153,28 +161,40 @@ class _AuthPageState extends State<AuthPage> {
                 onTap: (){
                   if(widget.type == AuthType.SIGN_IN){
                     //Sign In
-                    setState(() {
-                      states = LoadingStates.LOADING;
-                    });
-                    AuthRepo.signInWithEmailAndPassword(email: email, password: password).then((value){
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                    }, onError: (){
+
+                    var validated = formKey.currentState.validate();
+                    if(validated){
                       setState(() {
-                        states  = LoadingStates.ERROR;
+                        states = LoadingStates.LOADING;
                       });
-                    });
+                      AuthRepo.signInWithEmailAndPassword(email: email, password: password).then((value){
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                      }, onError: (){
+                        setState(() {
+                          states  = LoadingStates.ERROR;
+                        });
+                      });
+
+                    }
+
                   }else{
                     //Sign Up
-                    setState(() {
-                      states = LoadingStates.LOADING;
-                    });
-                    AuthRepo.signUpWithEmailAndPassword(email: email, password: password).then((value){
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-                    }, onError: (){
+
+                    var validated = formKey.currentState.validate();
+                    if(validated){
                       setState(() {
-                        states  = LoadingStates.ERROR;
+                        states = LoadingStates.LOADING;
                       });
-                    });
+                      AuthRepo.signUpWithEmailAndPassword(email: email, password: password).then((value){
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+                      }, onError: (object){
+                        setState(() {
+                          states  = LoadingStates.ERROR;
+                        });
+                      });
+
+                    }
+
                   }
                 },
                 child: Card(
