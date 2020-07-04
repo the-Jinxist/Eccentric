@@ -17,19 +17,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int _selectedIndex =0;
-  var pages = [YourGamesPage(), DiscoverGamesPage(), SavedGamesPage(), ProfilePage() ];
+  var pageController;
 
   @override
   void initState() {
-    // TODO: implement initState
+
     storeSavedGames();
+    pageController = PageController(initialPage: 0, keepPage: true);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[_selectedIndex],
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (position){
+          setState(() {
+            _selectedIndex = position;
+          });
+        },
+        children: <Widget>[
+          YourGamesPage(), DiscoverGamesPage(), SavedGamesPage(), ProfilePage()
+        ],
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
@@ -75,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                 onTabChange: (index) {
                   setState(() {
                     _selectedIndex = index;
+                    pageController.animateToPage(_selectedIndex, duration: Duration(microseconds: 10), curve: ElasticInCurve(0.8));
                   });
                 }),
           ),
@@ -84,10 +96,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future storeSavedGames() async{
+    print("Finding user");
     var user = await AuthRepo.getCurrentUser();
     if(user != null){
+      print("User dey");
       var map = await DatabaseHelper().getGameList();
       DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
+    }else{
+      print("User no dey");
     }
 
   }
