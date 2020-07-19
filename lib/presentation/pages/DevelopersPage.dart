@@ -1,60 +1,58 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/view/GameView.dart';
-import 'package:game_app/models/GamesModel.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/repo/PrefsRepo.dart' as repo;
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/pages/GenresPage.dart';
+import 'package:game_app/domain/models/GamesModel.dart' as gameModel;
+import 'package:game_app/domain/models/PublishersModel.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/view/GameView.dart';
 
-class YourGamesPage extends StatefulWidget {
+class DevelopersPage extends StatefulWidget {
+
+  final Result result;
+
+  DevelopersPage(this.result);
+
   @override
-  _YourGamesPageState createState() => _YourGamesPageState();
+  _DevelopersPageState createState() => _DevelopersPageState();
 }
 
-class _YourGamesPageState extends State<YourGamesPage> {
+class _DevelopersPageState extends State<DevelopersPage> {
 
-  Future future;
+  Future loadGamesFuture;
 
   @override
   void initState() {
-    future = getGames();
+    // TODO: implement initState
     super.initState();
+
+    loadGamesFuture = getGames();
   }
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
-        appBar: PreferredSize(child: Container(
-          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
+        appBar: PreferredSize(
+            child: Container(
+              padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Your Games", style: Theme.of(context).textTheme.title,),
-                  Text("Games that match your interests!", style: Theme.of(context).textTheme.subtitle,),
+                  Text("Games from", style: Theme.of(context).textTheme.subtitle,),
+                  Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
+
                 ],
               ),
-              IconButton(
-                onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => GenresPage()));
-                },
-                icon: Icon(LineAwesomeIcons.gear,),
-              )
-            ],
-          ),
-        ), preferredSize: Size.fromHeight(100)),
+            ),
+            preferredSize: Size.fromHeight(100)
+        ),
         body: Builder(
           builder: (context){
             return FutureBuilder(
-              future: future,
+              future: loadGamesFuture,
               builder: (context, snapshot){
                 if(snapshot.connectionState != ConnectionState.done){
                   return Container(
@@ -65,37 +63,31 @@ class _YourGamesPageState extends State<YourGamesPage> {
                     ),
                   );
                 } else if(snapshot.hasData){
-                  var gameModel = snapshot.data as GamesModel;
+                  var gameModeL = snapshot.data as gameModel.GamesModel;
 
                   return ListView.builder(
-                      itemCount: gameModel.results.length,
+                      itemCount: gameModeL.results.length,
                       itemBuilder: (context, position){
-                        var currentGame = gameModel.results[position];
+                        var currentGame = gameModeL.results[position];
                         return InkWell(child: GameView(
                             onSavedTap: (string) {
                               if (string == "Added") {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        elevation: 5,
-                                        backgroundColor: Colors.orange,
-                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game added to favourite!")
                                     )
                                 );
                               } else {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        elevation: 5,
-                                        backgroundColor: Colors.orange,
-                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game removed from favourite!")
                                     )
                                 );
                               }
                             },
-                            result: gameModel.results[position]),
+                            result: gameModeL.results[position]),
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                               backgroundImage: currentGame.backgroundImage,
@@ -128,7 +120,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                           GestureDetector(
                             onTap: (){
                               setState(() {
-                                future = getGames();
+                                loadGamesFuture = getGames();
                               });
                             },
                             child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
@@ -150,21 +142,19 @@ class _YourGamesPageState extends State<YourGamesPage> {
             );
           },
         )
-      ),
     );
   }
 
-  Future<GamesModel> getGames() async {
+  Future<gameModel.GamesModel> getGames() async {
 
-    var genreString = await repo.getGenreString();
-    var response  = await api.getGames(genreString);
+    var response  = await api.getGamesFromDevelopers(widget.result.slug);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
-      return GamesModel.fromJson(responseBody);
+//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+      return gameModel.GamesModel.fromJson(responseBody);
     }else{
-      print("Game Model Error: ${response.statusCode}");
+      print("Developers Page: ${response.statusCode}");
       return null;
     }
   }

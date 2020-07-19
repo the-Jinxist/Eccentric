@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/pages/HomePage.dart';
-import 'package:game_app/repo/PrefsRepo.dart' as repo;
-import 'package:game_app/models/GenreModel.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/presentation/pages/HomePage.dart';
+import 'package:game_app/datasources/repo/PrefsRepo.dart' as repo;
+import 'package:game_app/domain/models/GenreModel.dart';
 
 class GenresPage extends StatefulWidget {
   @override

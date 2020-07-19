@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/models/DatabaseModel.dart';
-import 'package:game_app/models/GamesModel.dart';
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/repo/AuthRepo.dart';
-import 'package:game_app/repo/DatabaseRepo.dart';
-import 'package:game_app/view/GameView.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/domain/models/DatabaseModel.dart';
+import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/datasources/repo/AuthRepo.dart';
+import 'package:game_app/datasources/repo/DatabaseRepo.dart';
+import 'package:game_app/presentation/view/GameView.dart';
 
 class PopularPage extends StatefulWidget {
   @override

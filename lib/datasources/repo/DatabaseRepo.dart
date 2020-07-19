@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:game_app/models/DatabaseModel.dart';
-import 'package:game_app/models/GamesModel.dart';
+import 'package:game_app/domain/models/DatabaseModel.dart';
+import 'package:game_app/domain/models/GamesModel.dart';
 
 class DatabaseRepo{
 

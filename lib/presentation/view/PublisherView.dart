@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:game_app/models/GamesModel.dart';
+import 'package:game_app/domain/models/PublishersModel.dart';
 
-class AnticipatedView extends StatefulWidget {
+class PublisherView extends StatefulWidget {
 
   final Result result;
+  final String type;
 
-  AnticipatedView(this.result);
+  PublisherView(this.result, this.type);
 
   @override
-  _AnticipatedViewState createState() => _AnticipatedViewState();
+  _PublisherViewState createState() => _PublisherViewState();
 }
 
-class _AnticipatedViewState extends State<AnticipatedView> {
+class _PublisherViewState extends State<PublisherView> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,22 +24,19 @@ class _AnticipatedViewState extends State<AnticipatedView> {
       margin: EdgeInsets.only(right: 5, bottom: 5),
       child: Container(
         height: 200,
-        width: 250,
+        width: MediaQuery.of(context).size.width,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Hero(
-              tag: widget.result.name,
-              child: FadeInImage.assetNetwork(
-                placeholder: "assets/images/placeholder.png",
-                imageCacheHeight: 450,
-                imageCacheWidth: 800,
-                placeholderCacheHeight: 400,
-                placeholderCacheWidth: 400,
-                image: widget.result.backgroundImage,
-                fit: BoxFit.cover, height: 200,
-                width: MediaQuery.of(context).size.width,),
-            ),
+            FadeInImage.assetNetwork(
+              placeholder: "assets/images/placeholder.png",
+              image: widget.result.imageBackground,
+              imageCacheHeight: 450,
+              imageCacheWidth: 800,
+              placeholderCacheHeight: 400,
+              placeholderCacheWidth: 400,
+              fit: BoxFit.cover, height: 200,
+              width: double.maxFinite,),
             Container(
               height: 200,
               width: MediaQuery.of(context).size.width,
@@ -65,28 +62,13 @@ class _AnticipatedViewState extends State<AnticipatedView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-
                     Text("${widget.result.name}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
                       textAlign: TextAlign.start,
                     ),
-                    RatingBar(
-                      onRatingUpdate: (rating){
-
-                      },
-                      itemSize: 20.0,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.orange,
-                      ),
-                      allowHalfRating: true,
-                      ignoreGestures: true,
-                      itemCount: widget.result.ratingsTop,
-                      tapOnlyMode: false,
-                      direction: Axis.horizontal,
-                      initialRating: widget.result.rating,
+                    Text("Games: ${widget.result.gameCount}",
+                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                      textAlign: TextAlign.start,
                     ),
                   ],
                 )

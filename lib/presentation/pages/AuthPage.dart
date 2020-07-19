@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/pages/HomePage.dart';
-import 'package:game_app/repo/AuthRepo.dart';
-import 'package:game_app/utils/Utils.dart';
+import 'package:game_app/presentation/pages/HomePage.dart';
+import 'package:game_app/datasources/repo/AuthRepo.dart';
+import 'package:game_app/domain/utils/Utils.dart';
 
 class AuthPage extends StatefulWidget {
 

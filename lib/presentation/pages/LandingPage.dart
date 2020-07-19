@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/pages/GenresPage.dart';
-import 'package:game_app/pages/HomePage.dart';
+import 'package:game_app/presentation/pages/GenresPage.dart';
+import 'package:game_app/presentation/pages/HomePage.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/repo/PrefsRepo.dart' as repo;
+import 'package:game_app/datasources/repo/PrefsRepo.dart' as repo;
 
 class LandingPage extends StatefulWidget {
   @override

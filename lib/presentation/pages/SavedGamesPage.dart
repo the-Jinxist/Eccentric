@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/models/DatabaseModel.dart';
-import 'package:game_app/models/GamesModel.dart';
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/view/GameView.dart';
+import 'package:game_app/domain/models/DatabaseModel.dart';
+import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/view/GameView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/repo/AuthRepo.dart';
-import 'package:game_app/repo/DatabaseRepo.dart';
+import 'package:game_app/datasources/repo/AuthRepo.dart';
+import 'package:game_app/datasources/repo/DatabaseRepo.dart';
 
 class SavedGamesPage extends StatefulWidget {
   @override
@@ -19,6 +19,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
   List<Result> resultList;
   DatabaseHelper databaseHelper = DatabaseHelper();
   Future savedFuture;
+  Future userFuture;
   int count = 0;
 
   @override
@@ -27,6 +28,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
     super.initState();
 
     savedFuture = databaseHelper.getResult();
+    userFuture = AuthRepo.getCurrentUser();
   }
 
   @override
@@ -35,12 +37,52 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
     return Scaffold(
       appBar: PreferredSize(child: Container(
         padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text("Saved Games", style: Theme.of(context).textTheme.title, ),
-            Text("Games you've taken a fancy to!", style: Theme.of(context).textTheme.subtitle,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Saved Games", style: Theme.of(context).textTheme.title, ),
+                Text("Games you've taken a fancy to!", style: Theme.of(context).textTheme.subtitle,),
+
+
+              ],
+            ),
+            FutureBuilder(
+              future: userFuture,
+              builder: (context, snapshot){
+                print("Profile from saved games: ${snapshot.data}");
+                if(snapshot.hasData){
+                  var user = snapshot.data as FirebaseUser;
+                  if(user != null){
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Well, since you've signed in. You could get your saved games we last store \n If you has any", style:
+                        Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
+                        SizedBox(height: 5,),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+
+                            });
+                          },
+                          child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                        ),
+                      ],
+                    );
+                  }else{
+                    return SizedBox();
+                  }
+
+                }else{
+                  return SizedBox();
+                }
+              },
+            )
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
@@ -138,39 +180,6 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                         Text("You've not found a game you like? How strange. How strange indeed", style:
                         Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
                         SizedBox(height: 20,),
-                        FutureBuilder(
-                          future: AuthRepo.getCurrentUser(),
-                          builder: (context, snapshot){
-                            print("Profile from saved games: ${snapshot.data}");
-                            if(snapshot.hasData){
-                              var user = snapshot.data as FirebaseUser;
-                              if(user != null){
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("Well, since you've signed in. You could get your saved games we last store \n If you has any", style:
-                                    Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
-                                    SizedBox(height: 5,),
-                                    GestureDetector(
-                                      onTap: (){
-                                        setState(() {
-
-                                        });
-                                      },
-                                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
-                                    ),
-                                  ],
-                                );
-                              }else{
-                                return SizedBox();
-                              }
-
-                            }else{
-                              return SizedBox();
-                            }
-                          },
-                        )
                       ],
                     ),
                   ),

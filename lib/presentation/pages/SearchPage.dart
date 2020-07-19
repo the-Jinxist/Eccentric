@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/models/GamesModel.dart';
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/utils/Utils.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/view/GameView.dart';
+import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/domain/utils/Utils.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/presentation/view/GameView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class SearchPage extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/DatabaseModel.dart';
-import 'package:game_app/pages/DiscoverGamesPage.dart';
-import 'package:game_app/pages/ProfilePage.dart';
-import 'package:game_app/pages/SavedGamesPage.dart';
-import 'package:game_app/pages/YourGamesPage.dart';
-import 'package:game_app/repo/AuthRepo.dart';
-import 'package:game_app/repo/DatabaseRepo.dart';
+import 'package:game_app/domain/models/DatabaseModel.dart';
+import 'package:game_app/presentation/pages/DiscoverGamesPage.dart';
+import 'package:game_app/presentation/pages/ProfilePage.dart';
+import 'package:game_app/presentation/pages/SavedGamesPage.dart';
+import 'package:game_app/presentation/pages/YourGamesPage.dart';
+import 'package:game_app/datasources/repo/AuthRepo.dart';
+import 'package:game_app/datasources/repo/DatabaseRepo.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 

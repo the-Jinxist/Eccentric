@@ -1,23 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/models/GamesModel.dart';
-import 'package:game_app/models/PlatformModel.dart';
-import 'package:game_app/models/PublishersModel.dart';
-import 'package:game_app/pages/AllDevelopersPage.dart';
-import 'package:game_app/pages/AllPublishersPage.dart';
-import 'package:game_app/pages/AnticipatedPage.dart';
-import 'package:game_app/pages/DevelopersPage.dart';
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/pages/PlatformPage.dart';
-import 'package:game_app/pages/PopularPage.dart';
-import 'package:game_app/pages/PublishersPage.dart';
-import 'package:game_app/pages/SearchPage.dart';
-import 'package:game_app/view/AnticipatedView.dart';
-import 'package:game_app/view/PlatformView.dart';
-import 'package:game_app/view/PopularView.dart';
-import 'package:game_app/view/PublisherView.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/domain/models/PlatformModel.dart';
+import 'package:game_app/domain/models/PublishersModel.dart';
+import 'package:game_app/presentation/pages/AllDevelopersPage.dart';
+import 'package:game_app/presentation/pages/AllPublishersPage.dart';
+import 'package:game_app/presentation/pages/AnticipatedPage.dart';
+import 'package:game_app/presentation/pages/DevelopersPage.dart';
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/pages/PlatformPage.dart';
+import 'package:game_app/presentation/pages/PopularPage.dart';
+import 'package:game_app/presentation/pages/PublishersPage.dart';
+import 'package:game_app/presentation/pages/SearchPage.dart';
+import 'package:game_app/presentation/view/AnticipatedView.dart';
+import 'package:game_app/presentation/view/PlatformView.dart';
+import 'package:game_app/presentation/view/PopularView.dart';
+import 'package:game_app/presentation/view/PublisherView.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class DiscoverGamesPage extends StatefulWidget {

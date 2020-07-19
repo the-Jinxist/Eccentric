@@ -1,23 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/models/GamesModel.dart' as gameModel;
-import 'package:game_app/models/PublishersModel.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/pages/GameDetailsPage.dart';
-import 'package:game_app/view/GameView.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/view/GameView.dart';
 
-class DevelopersPage extends StatefulWidget {
-
-  final Result result;
-
-  DevelopersPage(this.result);
-
+class AnticipatedPage extends StatefulWidget {
   @override
-  _DevelopersPageState createState() => _DevelopersPageState();
+  _AnticipatedPageState createState() => _AnticipatedPageState();
 }
 
-class _DevelopersPageState extends State<DevelopersPage> {
+class _AnticipatedPageState extends State<AnticipatedPage> {
 
   Future loadGamesFuture;
 
@@ -29,26 +23,24 @@ class _DevelopersPageState extends State<DevelopersPage> {
     loadGamesFuture = getGames();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-            child: Container(
-              padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Games from", style: Theme.of(context).textTheme.subtitle,),
-                  Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
-
-                ],
-              ),
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          child: Container(
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Anticipated Games", style: Theme.of(context).textTheme.title, ),
+                Text("Everybody's waiting these ones. Yay", style: Theme.of(context).textTheme.subtitle,),
+              ],
             ),
-            preferredSize: Size.fromHeight(100)
-        ),
+          ),
+          preferredSize: Size.fromHeight(100)
+      ),
         body: Builder(
           builder: (context){
             return FutureBuilder(
@@ -63,7 +55,7 @@ class _DevelopersPageState extends State<DevelopersPage> {
                     ),
                   );
                 } else if(snapshot.hasData){
-                  var gameModeL = snapshot.data as gameModel.GamesModel;
+                  var gameModeL = snapshot.data as GamesModel;
 
                   return ListView.builder(
                       itemCount: gameModeL.results.length,
@@ -145,17 +137,18 @@ class _DevelopersPageState extends State<DevelopersPage> {
     );
   }
 
-  Future<gameModel.GamesModel> getGames() async {
+  Future<GamesModel> getGames() async {
 
-    var response  = await api.getGamesFromDevelopers(widget.result.slug);
+    var response  = await api.getAnticipated();
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
-      return gameModel.GamesModel.fromJson(responseBody);
+//      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
+      return GamesModel.fromJson(responseBody);
     }else{
-      print("Developers Page: ${response.statusCode}");
+      print("Anticipated Page: ${response.statusCode}");
       return null;
     }
   }
+
 }

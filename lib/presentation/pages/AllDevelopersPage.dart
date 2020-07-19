@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/api/RawgApi.dart' as api;
-import 'package:game_app/models/PublishersModel.dart';
-import 'package:game_app/pages/DevelopersPage.dart';
-import 'package:game_app/view/PublisherView.dart';
+import 'package:game_app/datasources/api/RawgApi.dart' as api;
+import 'package:game_app/domain/models/PublishersModel.dart';
+import 'package:game_app/presentation/pages/DevelopersPage.dart';
+import 'package:game_app/presentation/view/PublisherView.dart';
 
 class AllDevelopersPage extends StatefulWidget {
   @override

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/models/PublishersModel.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:game_app/domain/models/GamesModel.dart';
 
-class PublisherView extends StatefulWidget {
+class AnticipatedView extends StatefulWidget {
 
   final Result result;
-  final String type;
 
-  PublisherView(this.result, this.type);
+  AnticipatedView(this.result);
 
   @override
-  _PublisherViewState createState() => _PublisherViewState();
+  _AnticipatedViewState createState() => _AnticipatedViewState();
 }
 
-class _PublisherViewState extends State<PublisherView> {
+class _AnticipatedViewState extends State<AnticipatedView> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -24,19 +24,22 @@ class _PublisherViewState extends State<PublisherView> {
       margin: EdgeInsets.only(right: 5, bottom: 5),
       child: Container(
         height: 200,
-        width: MediaQuery.of(context).size.width,
+        width: 250,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            FadeInImage.assetNetwork(
-              placeholder: "assets/images/placeholder.png",
-              image: widget.result.imageBackground,
-              imageCacheHeight: 450,
-              imageCacheWidth: 800,
-              placeholderCacheHeight: 400,
-              placeholderCacheWidth: 400,
-              fit: BoxFit.cover, height: 200,
-              width: double.maxFinite,),
+            Hero(
+              tag: widget.result.name,
+              child: FadeInImage.assetNetwork(
+                placeholder: "assets/images/placeholder.png",
+                imageCacheHeight: 450,
+                imageCacheWidth: 800,
+                placeholderCacheHeight: 400,
+                placeholderCacheWidth: 400,
+                image: widget.result.backgroundImage,
+                fit: BoxFit.cover, height: 200,
+                width: MediaQuery.of(context).size.width,),
+            ),
             Container(
               height: 200,
               width: MediaQuery.of(context).size.width,
@@ -62,13 +65,28 @@ class _PublisherViewState extends State<PublisherView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+
                     Text("${widget.result.name}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
                       textAlign: TextAlign.start,
                     ),
-                    Text("Games: ${widget.result.gameCount}",
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
-                      textAlign: TextAlign.start,
+                    RatingBar(
+                      onRatingUpdate: (rating){
+
+                      },
+                      itemSize: 20.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.orange,
+                      ),
+                      allowHalfRating: true,
+                      ignoreGestures: true,
+                      itemCount: widget.result.ratingsTop,
+                      tapOnlyMode: false,
+                      direction: Axis.horizontal,
+                      initialRating: widget.result.rating,
                     ),
                   ],
                 )

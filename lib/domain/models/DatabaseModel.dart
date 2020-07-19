@@ -1,5 +1,5 @@
-import 'package:game_app/repo/AuthRepo.dart';
-import 'package:game_app/repo/DatabaseRepo.dart';
+import 'package:game_app/datasources/repo/AuthRepo.dart';
+import 'package:game_app/datasources/repo/DatabaseRepo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'dart:async';
