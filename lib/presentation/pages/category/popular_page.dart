@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class PopularPage extends StatefulWidget {
   @override
@@ -34,8 +36,8 @@ class _PopularPageState extends State<PopularPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Popular in 2020", style: Theme.of(context).textTheme.title, ),
-                Text("Everybody's playing these game. Ugh!", style: Theme.of(context).textTheme.subtitle,),
+                TitleText(text: "Popular in 2020", ),
+                NormalText(text: "Everybody's playing these game. Ugh!",),
               ],
             ),
           ),
@@ -68,14 +70,14 @@ class _PopularPageState extends State<PopularPage> {
                                   Scaffold.of(context).showSnackBar(
                                       SnackBar(
                                           backgroundColor: Colors.black,
-                                          content: Text("Game added to favourite!")
+                                          content: NormalText(text: "Game added to favourite!")
                                       )
                                   );
                                 } else {
                                   Scaffold.of(context).showSnackBar(
                                       SnackBar(
                                           backgroundColor: Colors.black,
-                                          content: Text("Game removed from favourite!")
+                                          content: NormalText(text: "Game removed from favourite!")
                                       )
                                   );
                                 }
@@ -102,22 +104,21 @@ class _PopularPageState extends State<PopularPage> {
                   }else if(snapshot.hasError){
                     return Container(
                       padding: EdgeInsets.all(20),
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
+                      height: SizeConfig.screenHeightDp,
+                      width: SizeConfig.screenWidthDp,
                       child: Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text("Sorry an error occured",style: Theme.of(context).
-                            textTheme.display1, textAlign: TextAlign.center,),
+                            NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                             GestureDetector(
                               onTap: (){
                                 setState(() {
                                   loadGamesFuture = getGames();
                                 });
                               },
-                              child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                              child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25, ),
                             ),
                           ],
                         ),
@@ -125,8 +126,8 @@ class _PopularPageState extends State<PopularPage> {
                     );
                   } else{
                     return Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
+                      height: SizeConfig.screenHeightDp,
+                      width: SizeConfig.screenWidthDp,
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),

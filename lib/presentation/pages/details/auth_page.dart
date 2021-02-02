@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/presentation/pages/home/home_page.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 
 class AuthPage extends StatefulWidget {
 
@@ -22,6 +25,8 @@ class _AuthPageState extends State<AuthPage> {
 
   bool enabledText = true;
 
+  final SizeConfig _config = SizeConfig();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +38,14 @@ class _AuthPageState extends State<AuthPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(widget.type == AuthType.SIGN_IN ? "Sign In": "Sign Up", style: Theme.of(context).textTheme.title,),
-            Text(widget.type == AuthType.SIGN_IN ? "Glad to have you back, gamer!": "We're happy to have you join us", style: Theme.of(context).textTheme.subtitle,),
+            TitleText(text: widget.type == AuthType.SIGN_IN ? "Sign In": "Sign Up", ),
+            NormalText(text: widget.type == AuthType.SIGN_IN ? "Glad to have you back, gamer!": "We're happy to have you join us", ),
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: SizeConfig.screenHeightDp,
           color: Colors.white,
           padding: EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 30),
           child: Column(
@@ -57,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
                       keyboardType: TextInputType.emailAddress,
                       maxLines: 1,
                       decoration: InputDecoration(
-                          errorStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.red),
+                          errorStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.red),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: Colors.orange,
@@ -77,7 +82,7 @@ class _AuthPageState extends State<AuthPage> {
                               )
                           ),
                           hintText: "youremail@email.com",
-                          hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey)
+                          hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.grey)
                       ),
                       validator: (value){
                         if(value.isEmpty){
@@ -90,15 +95,15 @@ class _AuthPageState extends State<AuthPage> {
                           return null;
                         }
                       },
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                     ),
-                    SizedBox(height: 20,),
+                    YMargin(20,),
                     TextFormField(
                       enabled: enabledText,
                       maxLines: 1,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        errorStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.red),
+                        errorStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.red),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Colors.orange,
@@ -118,10 +123,10 @@ class _AuthPageState extends State<AuthPage> {
                             )
                         ),
                         hintText: "Password",
-                        hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
+                        hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey),
 
                       ),
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black),
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black),
                       obscureText: true,
                       validator: (value){
                         if(value.isEmpty){
@@ -146,16 +151,16 @@ class _AuthPageState extends State<AuthPage> {
                 child: Center(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(height:20),
+                    YMargin(20),
                     CircularProgressIndicator(),
-                    SizedBox(height:20),
+                    YMargin(20),
                   ],
                 ),
               ),): states == LoadingStates.ERROR ? SizedBox(
                   height:40,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
-                    child: Text("Sorry an error occurred. Check your internet and try again!", style: Theme.of(context).textTheme.display1.copyWith(color: Colors.red, fontWeight: FontWeight.bold),),
+                    child: NormalText(text: "Sorry an error occurred. Check your internet and try again!", textColor: Colors.red, fontWeight: FontWeight.bold,),
                   )): Container(),
               GestureDetector(
                 onTap: (){
@@ -204,13 +209,13 @@ class _AuthPageState extends State<AuthPage> {
                   elevation: 5,
                   color: Colors.orange,
                   child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(child: Text(widget.type == AuthType.SIGN_IN ? "Sign In": "Sign Up", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
+                    height: _config.sh(50),
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(child: NormalText(text: widget.type == AuthType.SIGN_IN ? "Sign In": "Sign Up", textColor: Colors.white,)),
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              YMargin(20,),
               GestureDetector(
                 onTap: (){
                   if(widget.type == AuthType.SIGN_IN){
@@ -220,7 +225,7 @@ class _AuthPageState extends State<AuthPage> {
                   }
 
                 },
-                child: Text(widget.type == AuthType.SIGN_IN ? "Don't have an account, Sign Up!": "Already have an account, Sign In", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 15),),
+                child: TitleText(text: widget.type == AuthType.SIGN_IN ? "Don't have an account, Sign Up!": "Already have an account, Sign In", textColor: Colors.orange, fontSize: 15,),
               )
             ],
           ),

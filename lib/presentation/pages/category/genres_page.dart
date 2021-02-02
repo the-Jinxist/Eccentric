@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 import 'package:game_app/domain/models/genre_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/home/home_page.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 
 class GenresPage extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class _GenresPageState extends State<GenresPage> {
   List<String> alreadySelectedGenres;
 
   Future future;
+  final SizeConfig _config = SizeConfig();
 
   @override
   void initState() {
@@ -33,11 +37,11 @@ class _GenresPageState extends State<GenresPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Genres", style: Theme.of(context).textTheme.title,),
-              Text("Select genres that excite you!", style: Theme.of(context).textTheme.subtitle,),
-              SizedBox(height: 10),
+              TitleText(text: "Genres", ),
+              NormalText(text: "Select genres that excite you!",),
+              YMargin(10),
               loadGenres(),
-              SizedBox(height: 30),
+              YMargin(30),
               GestureDetector(
                 onTap: (){
                   print("From Genre Page: The final genre list ${genreList.toString().substring(1, genreList.toString().length - 1)}");
@@ -50,13 +54,13 @@ class _GenresPageState extends State<GenresPage> {
                   elevation: 5,
                   color: Colors.orange,
                   child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(child: Text("Proceed", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
+                    height: _config.sh(50),
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(child: NormalText(text: "Proceed", textColor: Colors.white, )),
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              YMargin(30),
             ],
           ),
         ),
@@ -70,7 +74,7 @@ class _GenresPageState extends State<GenresPage> {
       builder: (context, snapshot){
         if(snapshot.connectionState != ConnectionState.done){
           return Container(
-            height: 300,
+            height: _config.sh(300),
             width: MediaQuery.of(context).size.width,
             child: Center(
               child: CircularProgressIndicator(),
@@ -89,22 +93,22 @@ class _GenresPageState extends State<GenresPage> {
         }else if(snapshot.hasError){
           print("Genres Loading Error: ${snapshot.error.toString()}");
           return Container(
-            height: 300,
-            width: MediaQuery.of(context).size.width,
+            height: _config.sh(200),
+            width: SizeConfig.screenWidthDp,
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("An error occurred. Please check your internet connection"),
-                  SizedBox(height: 10),
+                  NormalText(text: "An error occurred. Please check your internet connection"),
+                  YMargin(10),
                   GestureDetector(
                     onTap: (){
                       setState(() {
                         future = getGenres();
                       });
                     },
-                    child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                    child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                   ),
                 ],
               ),
@@ -112,8 +116,8 @@ class _GenresPageState extends State<GenresPage> {
           );
         } else{
           return Container(
-            height: 300,
-            width: MediaQuery.of(context).size.width,
+            height: _config.sh(200),
+            width: SizeConfig.screenWidthDp,
             child: Center(
               child: CircularProgressIndicator(),
             ),
@@ -179,7 +183,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      label: Text(widget.label),
+      label: NormalText(text: widget.label),
       onSelected: (bool){
         setState(() {
           _isSelected = bool;

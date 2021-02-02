@@ -7,7 +7,10 @@ import 'package:game_app/domain/models/achievement_model.dart';
 import 'package:game_app/domain/models/game_detail_model.dart';
 import 'package:game_app/domain/models/screenshots_model.dart';
 import 'package:game_app/domain/models/trailers_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/view/bland_picture_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class GameDetailsPage extends StatefulWidget {
@@ -39,6 +42,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
   Future gameAchievementsFuture;
   Future gameTrailerFuture;
 
+  final SizeConfig _sizeConfig = SizeConfig();
+
   @override
   void initState() {
     super.initState();
@@ -60,8 +65,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("${widget.name}", style: Theme.of(context).textTheme.title.copyWith(fontSize: 30), maxLines: 1, overflow: TextOverflow.ellipsis,),
-              Text("Released: ${widget.releaseDate}!", style: Theme.of(context).textTheme.subtitle,),
+              TitleText(text: "${widget.name}", maxLines: 1,),
+              NormalText(text: "Released: ${widget.releaseDate}!",),
               RatingBar(
                 onRatingUpdate: (rating){},
                 allowHalfRating: true,
@@ -78,18 +83,18 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
               )
             ],
           ),
-          SizedBox(height: 10,),
+          YMargin(10,),
           Hero(tag: widget.name,child: BlandPictureView(widget.backgroundImage)),
-          SizedBox(height: 20,),
-          Text("Description", style: Theme.of(context).textTheme.headline,),
+          YMargin(20,),
+          TitleText(text: "Description", fontSize: 20,),
           _buildGameDetails(),
-          SizedBox(height: 20,),
-          Text("Achievements", style: Theme.of(context).textTheme.headline,),
+          YMargin(20,),
+          TitleText(text: "Achievements", fontSize: 20,),
           _buildGameAchievements(),
-          SizedBox(height: 20,),
-          Text("Screenshots", style: Theme.of(context).textTheme.headline,),
+          YMargin(20,),
+          TitleText(text: "Screenshots", fontSize: 20,),
           _buildGameScreenshots(),
-          SizedBox(height: 50,),
+          YMargin(50,),
           //TODO: Might add trailer some.
 //          Text("Trailers", style: Theme.of(context).textTheme.headline,),
 //          _buildGameTrailer(),
@@ -106,8 +111,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(200),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -115,17 +120,17 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }else if(snapshot.hasData){
             var model = (snapshot.data as GameDetailModel);
             return Container(
-              width: double.maxFinite,
+              width: SizeConfig.screenWidthDp,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(height: 5,),
-                  Text("${model.description
+                  YMargin( 5,),
+                  NormalText(text: "${model.description
                       .replaceAll("<p>", "")
                       .replaceAll("</p>", "")
-                      .replaceAll("<br />",  "\n")}", style: Theme.of(context).textTheme.display1,),
-                  SizedBox(height: 2,),
+                      .replaceAll("<br />",  "\n")}"),
+                  YMargin(2,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
@@ -139,7 +144,7 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
                           LineAwesomeIcons.internet_explorer, size: 30,
                         ),
                       ),
-                      SizedBox(width: 10),
+                      YMargin(10),
                       GestureDetector(
                         onTap: (){
                           if(model.redditUrl != null){
@@ -152,28 +157,27 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
                       )
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  YMargin(10,),
                   BlandPictureView(model.backgroundImageAdditional,),
                 ],
               )
             );
           }else if(snapshot.hasError){
             return Container(
-              width: double.maxFinite,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           gameDetailFuture = _getGameDetails();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -182,8 +186,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(200),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -199,8 +203,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(200),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -208,33 +212,32 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }else if(snapshot.hasData){
             var model = (snapshot.data as AchievementModel);
             return Container(
-                width: double.maxFinite,
+                width: SizeConfig.screenWidthDp,
                 child: model.name == "null" && model.description == "null" ? Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("${model.name}", style: Theme.of(context).textTheme.display1,),
-                    Text("${model.description}", style: Theme.of(context).textTheme.display1,),
+                    NormalText(text: "${model.name}", ),
+                    NormalText(text: "${model.description}", ),
                   ],
-                ):Text("No achievements to speak of.. For now", style: Theme.of(context).textTheme.display1,),
+                ):NormalText(text: "No achievements to speak of.. For now", ),
             );
           }else if(snapshot.hasError){
             return Container(
-              width: double.maxFinite,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           gameAchievementsFuture = _getGameAchievements();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -243,8 +246,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(200),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -260,8 +263,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -269,8 +272,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }else if(snapshot.hasData){
             var model = (snapshot.data as ScreenshotsModel);
             return Container(
-              height: 250,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(270),
+              width: SizeConfig.screenWidthDp,
               child: PageView.builder(
                   itemCount: model.results.length,
                   itemBuilder: (context, position){
@@ -279,21 +282,20 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
             );
           }else if(snapshot.hasError){
             return Container(
-              width: double.maxFinite,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           gameScreenshotFututre = _getGameScreenshots();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -302,8 +304,8 @@ class _GameDetailsPageState extends State<GameDetailsPage> with SingleTickerProv
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _sizeConfig.sh(200),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),

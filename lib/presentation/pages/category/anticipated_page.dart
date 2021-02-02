@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class AnticipatedPage extends StatefulWidget {
   @override
@@ -34,8 +36,8 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Anticipated Games", style: Theme.of(context).textTheme.title, ),
-                Text("Everybody's waiting these ones. Yay", style: Theme.of(context).textTheme.subtitle,),
+                TitleText(text: "Anticipated Games",),
+                NormalText(text: "Everybody's waiting these ones. Yay",),
               ],
             ),
           ),
@@ -48,8 +50,8 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
               builder: (context, snapshot){
                 if(snapshot.connectionState != ConnectionState.done){
                   return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -67,14 +69,14 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                         backgroundColor: Colors.black,
-                                        content: Text("Game added to favourite!")
+                                        content: NormalText(text: "Game added to favourite!", textColor: Colors.white,)
                                     )
                                 );
                               } else {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                         backgroundColor: Colors.black,
-                                        content: Text("Game removed from favourite!")
+                                        content: NormalText(text: "Game removed from favourite!", textColor: Colors.white,)
                                     )
                                 );
                               }
@@ -100,22 +102,21 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                 }else if(snapshot.hasError){
                   return Container(
                     padding: EdgeInsets.all(20),
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Sorry an error occured",style: Theme.of(context).
-                          textTheme.display1, textAlign: TextAlign.center,),
+                          NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                           GestureDetector(
                             onTap: (){
                               setState(() {
                                 loadGamesFuture = getGames();
                               });
                             },
-                            child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                            child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                           ),
                         ],
                       ),
@@ -123,8 +124,8 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                   );
                 } else{
                   return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),

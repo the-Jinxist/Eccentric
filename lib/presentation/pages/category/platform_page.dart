@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/games_model.dart' as gameModel;
 import 'package:game_app/domain/models/platform_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class PlatformPage extends StatefulWidget {
 
@@ -41,8 +43,8 @@ class _PlatformPageState extends State<PlatformPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Games on the", style: Theme.of(context).textTheme.subtitle,),
-                Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
+                NormalText(text: "Games on the"),
+                TitleText(text: "${widget.result.name}",),
 
               ],
             ),
@@ -75,14 +77,14 @@ class _PlatformPageState extends State<PlatformPage> {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                         backgroundColor: Colors.black,
-                                        content: Text("Game added to favourite!")
+                                        content: NormalText(text: "Game added to favourite!")
                                     )
                                 );
                               } else {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
                                         backgroundColor: Colors.black,
-                                        content: Text("Game removed from favourite!")
+                                        content: NormalText(text: "Game removed from favourite!")
                                     )
                                 );
                               }
@@ -110,22 +112,21 @@ class _PlatformPageState extends State<PlatformPage> {
                   print("Platform Page: ${snapshot.error}");
                   return Container(
                     padding: EdgeInsets.all(20),
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Sorry an error occured",style: Theme.of(context).
-                          textTheme.display1, textAlign: TextAlign.center,),
+                          NormalText(text: "Sorry an error occured",textAlign: TextAlign.center,),
                           GestureDetector(
                             onTap: (){
                               setState(() {
                                 loadGamesFuture = getGames();
                               });
                             },
-                            child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                            child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25),
                           ),
                         ],
                       ),
@@ -133,8 +134,8 @@ class _PlatformPageState extends State<PlatformPage> {
                   );
                 } else{
                   return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),

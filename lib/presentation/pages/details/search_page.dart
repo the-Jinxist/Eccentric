@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/domain/models/games_model.dart';
-import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class SearchPage extends StatefulWidget {
@@ -19,6 +22,8 @@ class _SearchPageState extends State<SearchPage> {
   String query = "";
   LoadingStates state;
   Future searchFuture;
+
+  final SizeConfig _config = SizeConfig();
 
   @override
   void initState() {
@@ -43,19 +48,19 @@ class _SearchPageState extends State<SearchPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Search Games", style: Theme.of(context).textTheme.title,),
-                SizedBox(height: 10),
+                TitleText(text: "Search Games",),
+                YMargin(10),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                        height: 50,
+                        height: _config.sh(70),
                         padding: EdgeInsets.only(left: 20, right: 20),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
                             color: Colors.grey.withOpacity(0.3)
                         ),
-                        width: 300,
+                        width: _config.sw(300),
                         child: Center(
                           child: TextField(
                             controller: controller,
@@ -70,11 +75,11 @@ class _SearchPageState extends State<SearchPage> {
                             },
                             maxLines: 1,
                             textInputAction: TextInputAction.search,
-                            style: Theme.of(context).textTheme.subtitle,
+                            style: Theme.of(context).textTheme.bodyText1,
                             autofocus: true,
                             decoration: InputDecoration(
                               hintText: "Search",
-                              hintStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),
+                              hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey),
                               errorBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
@@ -116,17 +121,17 @@ class _SearchPageState extends State<SearchPage> {
   Widget loadWidgets(LoadingStates state) {
     if(state == LoadingStates.IDLE){
       return Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: SizeConfig.screenHeightDp,
+        width: SizeConfig.screenWidthDp,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Icon(LineAwesomeIcons.search, size: 50, color: Colors.grey,),
-              SizedBox(height: 5,),
+              YMargin(5,),
               Text("Search a repository of 350, 000+ games!", style:
-              Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey),),
+              Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey),),
             ],
           ),
         ),
@@ -137,8 +142,8 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -158,14 +163,14 @@ class _SearchPageState extends State<SearchPage> {
                             Scaffold.of(context).showSnackBar(
                                 SnackBar(
                                     backgroundColor: Colors.black,
-                                    content: Text("Game added to favourite!")
+                                    content: NormalText(text: "Game added to favourite!")
                                 )
                             );
                           } else {
                             Scaffold.of(context).showSnackBar(
                                 SnackBar(
                                     backgroundColor: Colors.black,
-                                    content: Text("Game removed from favourite!")
+                                    content: NormalText(text: "Game removed from favourite!")
                                 )
                             );
                           }
@@ -193,23 +198,21 @@ class _SearchPageState extends State<SearchPage> {
           }else if(snapshot.hasError){
             return Container(
               padding: EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occured",style: Theme.of(context).
-                    textTheme.display1, textAlign: TextAlign.center,),
+                    NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                     GestureDetector(
                       onTap: (){
                         setState(() {
                           searchFuture = getGames(query);
                         });
                       },
-                      child: Text("Reload", style:
-                      Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     ),
                   ],
                 ),
@@ -217,8 +220,8 @@ class _SearchPageState extends State<SearchPage> {
             );
           } else{
             return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
