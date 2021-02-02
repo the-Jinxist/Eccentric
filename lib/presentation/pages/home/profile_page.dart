@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/details/auth_page.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
 import 'package:game_app/domain/utils/utils.dart';
+import 'package:game_app/presentation/pages/details/auth_page.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class ProfilePage extends StatefulWidget {

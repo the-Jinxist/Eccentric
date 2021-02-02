@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/details/game_details_page.dart';
+import 'package:game_app/presentation/pages/category/genres_page.dart';
+import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/genres_page.dart';
 
 class YourGamesPage extends StatefulWidget {
   @override

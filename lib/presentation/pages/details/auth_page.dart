@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/home_page.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
 import 'package:game_app/domain/utils/utils.dart';
+import 'package:game_app/presentation/pages/home/home_page.dart';
 
 class AuthPage extends StatefulWidget {
 

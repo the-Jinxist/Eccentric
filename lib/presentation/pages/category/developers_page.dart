@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/games_model.dart' as gameModel;
 import 'package:game_app/domain/models/publishers_model.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/details/game_details_page.dart';
+import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 
 class DevelopersPage extends StatefulWidget {
