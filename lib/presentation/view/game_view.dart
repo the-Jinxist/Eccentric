@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:game_app/domain/models/DatabaseModel.dart';
-import 'package:game_app/domain/models/GamesModel.dart';
+import 'package:game_app/domain/models/database_model.dart';
+import 'package:game_app/domain/models/games_model.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class GameView extends StatefulWidget {

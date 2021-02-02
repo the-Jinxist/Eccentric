@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/api/RawgApi.dart' as api;
-import 'package:game_app/domain/models/GamesModel.dart';
-import 'package:game_app/domain/models/PlatformModel.dart';
-import 'package:game_app/domain/models/PublishersModel.dart';
+import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/models/platform_model.dart';
+import 'package:game_app/domain/models/publishers_model.dart';
 import 'package:game_app/presentation/pages/AllDevelopersPage.dart';
 import 'package:game_app/presentation/pages/AllPublishersPage.dart';
 import 'package:game_app/presentation/pages/AnticipatedPage.dart';
@@ -14,10 +14,10 @@ import 'package:game_app/presentation/pages/PlatformPage.dart';
 import 'package:game_app/presentation/pages/PopularPage.dart';
 import 'package:game_app/presentation/pages/PublishersPage.dart';
 import 'package:game_app/presentation/pages/SearchPage.dart';
-import 'package:game_app/presentation/view/AnticipatedView.dart';
-import 'package:game_app/presentation/view/PlatformView.dart';
-import 'package:game_app/presentation/view/PopularView.dart';
-import 'package:game_app/presentation/view/PublisherView.dart';
+import 'package:game_app/presentation/view/anticipated_view.dart';
+import 'package:game_app/presentation/view/platform_view.dart';
+import 'package:game_app/presentation/view/popular_view.dart';
+import 'package:game_app/presentation/view/publisher_view.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class DiscoverGamesPage extends StatefulWidget {

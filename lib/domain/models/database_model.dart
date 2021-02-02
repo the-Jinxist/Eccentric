@@ -1,10 +1,10 @@
-import 'package:game_app/datasources/repo/AuthRepo.dart';
-import 'package:game_app/datasources/repo/DatabaseRepo.dart';
+import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/datasources/repo/database_repo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
-import 'GamesModel.dart';
+import 'games_model.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/presentation/pages/AuthPage.dart';
-import 'package:game_app/datasources/repo/AuthRepo.dart';
-import 'package:game_app/domain/utils/Utils.dart';
+import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/domain/utils/utils.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class ProfilePage extends StatefulWidget {
