@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/database_model.dart';
 import 'package:game_app/domain/models/games_model.dart';
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/pages/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';

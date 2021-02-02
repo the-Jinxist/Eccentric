@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/games_model.dart' as gameModel;
 import 'package:game_app/domain/models/publishers_model.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/presentation/pages/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 
-class DevelopersPage extends StatefulWidget {
+class PublishersPage extends StatefulWidget {
 
   final Result result;
 
-  DevelopersPage(this.result);
+  PublishersPage(this.result);
 
   @override
-  _DevelopersPageState createState() => _DevelopersPageState();
+  _PublishersPageState createState() => _PublishersPageState();
 }
 
-class _DevelopersPageState extends State<DevelopersPage> {
+class _PublishersPageState extends State<PublishersPage> {
 
   Future loadGamesFuture;
 
@@ -29,26 +29,25 @@ class _DevelopersPageState extends State<DevelopersPage> {
     loadGamesFuture = getGames();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-            child: Container(
-              padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Games from", style: Theme.of(context).textTheme.subtitle,),
-                  Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        child: Container(
+          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Games from", style: Theme.of(context).textTheme.subtitle,),
+              Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
 
-                ],
-              ),
-            ),
-            preferredSize: Size.fromHeight(100)
+            ],
+          ),
         ),
+        preferredSize: Size.fromHeight(100)
+      ),
         body: Builder(
           builder: (context){
             return FutureBuilder(
@@ -147,14 +146,14 @@ class _DevelopersPageState extends State<DevelopersPage> {
 
   Future<gameModel.GamesModel> getGames() async {
 
-    var response  = await api.getGamesFromDevelopers(widget.result.slug);
+    var response  = await api.getGamesFromPublishers(widget.result.slug);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
 //      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
-      print("Developers Page: ${response.statusCode}");
+      print("Publishers Error: ${response.statusCode}");
       return null;
     }
   }

@@ -2,16 +2,25 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/domain/models/games_model.dart';
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
+import 'package:game_app/domain/models/database_model.dart';
+import 'package:game_app/domain/models/games_model.dart' as gameModel;
+import 'package:game_app/domain/models/platform_model.dart';
+import 'package:game_app/presentation/pages/game_details_page.dart';
+import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/datasources/repo/database_repo.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 
-class AnticipatedPage extends StatefulWidget {
+class PlatformPage extends StatefulWidget {
+
+  final Result result;
+
+  PlatformPage(this.result);
+
   @override
-  _AnticipatedPageState createState() => _AnticipatedPageState();
+  _PlatformPageState createState() => _PlatformPageState();
 }
 
-class _AnticipatedPageState extends State<AnticipatedPage> {
+class _PlatformPageState extends State<PlatformPage> {
 
   Future loadGamesFuture;
 
@@ -22,6 +31,7 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
 
     loadGamesFuture = getGames();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +44,9 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Anticipated Games", style: Theme.of(context).textTheme.title, ),
-                Text("Everybody's waiting these ones. Yay", style: Theme.of(context).textTheme.subtitle,),
+                Text("Games on the", style: Theme.of(context).textTheme.subtitle,),
+                Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
+
               ],
             ),
           ),
@@ -55,7 +66,7 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                     ),
                   );
                 } else if(snapshot.hasData){
-                  var gameModeL = snapshot.data as GamesModel;
+                  var gameModeL = snapshot.data as gameModel.GamesModel;
 
                   return ListView.builder(
                       itemCount: gameModeL.results.length,
@@ -79,7 +90,8 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                                 );
                               }
                             },
-                            result: gameModeL.results[position]),
+                            result: gameModeL.results[position]
+                        ),
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                               backgroundImage: currentGame.backgroundImage,
@@ -98,6 +110,7 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                       }
                   );
                 }else if(snapshot.hasError){
+                  print("Platform Page: ${snapshot.error}");
                   return Container(
                     padding: EdgeInsets.all(20),
                     height: MediaQuery.of(context).size.height,
@@ -137,18 +150,21 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
     );
   }
 
-  Future<GamesModel> getGames() async {
+  Future<gameModel.GamesModel> getGames() async {
 
-    var response  = await api.getAnticipated();
+    print("Platform slug: ${widget.result.slug}");
+    //nintendo-64
+    //android
+    //playstation4
+    var response  = await api.getGamesFromPlatform(widget.result.slug);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
-      return GamesModel.fromJson(responseBody);
+      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results}");
+      return gameModel.GamesModel.fromJson(responseBody);
     }else{
-      print("Anticipated Page: ${response.statusCode}");
+      print("Platform Page: ${response.statusCode}");
       return null;
     }
   }
-
 }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/publishers_model.dart';
-import 'package:game_app/presentation/pages/PublishersPage.dart';
+import 'package:game_app/presentation/pages/publishers_page.dart';
 import 'package:game_app/presentation/view/publisher_view.dart';
 
 class AllPublishersPage extends StatefulWidget {

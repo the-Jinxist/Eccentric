@@ -1,60 +1,50 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
-import 'package:game_app/presentation/view/game_view.dart';
-import 'package:game_app/domain/models/games_model.dart';
-import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/presentation/pages/GenresPage.dart';
+import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/presentation/pages/game_details_page.dart';
+import 'package:game_app/presentation/view/game_view.dart';
 
-class YourGamesPage extends StatefulWidget {
+class AnticipatedPage extends StatefulWidget {
   @override
-  _YourGamesPageState createState() => _YourGamesPageState();
+  _AnticipatedPageState createState() => _AnticipatedPageState();
 }
 
-class _YourGamesPageState extends State<YourGamesPage> {
+class _AnticipatedPageState extends State<AnticipatedPage> {
 
-  Future future;
+  Future loadGamesFuture;
 
   @override
   void initState() {
-    future = getGames();
+    // TODO: implement initState
     super.initState();
+
+    loadGamesFuture = getGames();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(child: Container(
-          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Your Games", style: Theme.of(context).textTheme.title,),
-                  Text("Games that match your interests!", style: Theme.of(context).textTheme.subtitle,),
-                ],
-              ),
-              IconButton(
-                onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => GenresPage()));
-                },
-                icon: Icon(LineAwesomeIcons.gear,),
-              )
-            ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          child: Container(
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Anticipated Games", style: Theme.of(context).textTheme.title, ),
+                Text("Everybody's waiting these ones. Yay", style: Theme.of(context).textTheme.subtitle,),
+              ],
+            ),
           ),
-        ), preferredSize: Size.fromHeight(100)),
+          preferredSize: Size.fromHeight(100)
+      ),
         body: Builder(
           builder: (context){
             return FutureBuilder(
-              future: future,
+              future: loadGamesFuture,
               builder: (context, snapshot){
                 if(snapshot.connectionState != ConnectionState.done){
                   return Container(
@@ -65,37 +55,31 @@ class _YourGamesPageState extends State<YourGamesPage> {
                     ),
                   );
                 } else if(snapshot.hasData){
-                  var gameModel = snapshot.data as GamesModel;
+                  var gameModeL = snapshot.data as GamesModel;
 
                   return ListView.builder(
-                      itemCount: gameModel.results.length,
+                      itemCount: gameModeL.results.length,
                       itemBuilder: (context, position){
-                        var currentGame = gameModel.results[position];
+                        var currentGame = gameModeL.results[position];
                         return InkWell(child: GameView(
                             onSavedTap: (string) {
                               if (string == "Added") {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        elevation: 5,
-                                        backgroundColor: Colors.orange,
-                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game added to favourite!")
                                     )
                                 );
                               } else {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        elevation: 5,
-                                        backgroundColor: Colors.orange,
-                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        backgroundColor: Colors.black,
+                                        content: Text("Game removed from favourite!")
                                     )
                                 );
                               }
                             },
-                            result: gameModel.results[position]),
+                            result: gameModeL.results[position]),
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                               backgroundImage: currentGame.backgroundImage,
@@ -128,7 +112,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                           GestureDetector(
                             onTap: (){
                               setState(() {
-                                future = getGames();
+                                loadGamesFuture = getGames();
                               });
                             },
                             child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
@@ -150,22 +134,21 @@ class _YourGamesPageState extends State<YourGamesPage> {
             );
           },
         )
-      ),
     );
   }
 
   Future<GamesModel> getGames() async {
 
-    var genreString = await repo.getGenreString();
-    var response  = await api.getGames(genreString);
+    var response  = await api.getAnticipated();
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
+//      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
       return GamesModel.fromJson(responseBody);
     }else{
-      print("Game Model Error: ${response.statusCode}");
+      print("Anticipated Page: ${response.statusCode}");
       return null;
     }
   }
+
 }

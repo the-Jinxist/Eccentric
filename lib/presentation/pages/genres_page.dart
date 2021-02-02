@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/presentation/pages/HomePage.dart';
+import 'package:game_app/presentation/pages/home_page.dart';
 import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 import 'package:game_app/domain/models/genre_model.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:game_app/presentation/pages/LandingPage.dart';
+import 'package:game_app/presentation/pages/landing_page.dart';
 
 void main() => runApp(MyApp());
 
