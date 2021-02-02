@@ -5,6 +5,7 @@ import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/domain/models/platform_model.dart';
 import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/category/anticipated_page.dart';
 import 'package:game_app/presentation/pages/category/developers_page.dart';
 import 'package:game_app/presentation/pages/category/platform_page.dart';
@@ -18,6 +19,9 @@ import 'package:game_app/presentation/view/anticipated_view.dart';
 import 'package:game_app/presentation/view/platform_view.dart';
 import 'package:game_app/presentation/view/popular_view.dart';
 import 'package:game_app/presentation/view/publisher_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/x_margin.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class DiscoverGamesPage extends StatefulWidget {
@@ -32,6 +36,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   Future developerFuture;
   Future platformFuture;
   Future anticipatedFuture;
+
+  final SizeConfig _config = SizeConfig();
 
   @override
   void initState() {
@@ -55,8 +61,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Discover Games", style: Theme.of(context).textTheme.title, ),
-              Text("Find games from all categories", style: Theme.of(context).textTheme.subtitle,),
+              TitleText(text: "Discover Games",),
+              NormalText(text: "Find games from all categories", ),
             ],
           ),
         ), preferredSize: Size.fromHeight(100)),
@@ -68,24 +74,24 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage()));
             },
             child: Container(
-                height: 60,
+                height: _config.sh(70),
                 padding: EdgeInsets.only(left: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
                     color: Colors.grey.withOpacity(0.3)
                 ),
-                width: double.maxFinite,
+                width: SizeConfig.screenWidthDp,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(LineAwesomeIcons.search),
-                    SizedBox(width: 10,),
-                    Text("Search", style: Theme.of(context).textTheme.subtitle,)
+                    XMargin(10,),
+                    NormalText(text: "Search",)
                   ],
                 )
             ),
           ),
-          SizedBox(height: 30),
+          YMargin(30),
           //
           //
           // - Popular
@@ -94,9 +100,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           _buildSectionLabel("Popular In ${api.getCurrentYear()}", "The biggest games this year!", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => PopularPage()));
           }),
-          SizedBox(height: 10),
+          YMargin(10),
           _buildPopularGames(),
-          SizedBox(height: 20),
+          YMargin(20),
 
           //
           //
@@ -107,9 +113,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           _buildSectionLabel("Anticipated Games in ${api.getCurrentYear()}", "We're all waiting for these games", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnticipatedPage()));
           }),
-          SizedBox(height: 10),
+          YMargin(10),
           _buildAnticipatedGames(),
-          SizedBox(height: 20),
+          YMargin(20),
 
           //
           //
@@ -119,9 +125,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           _buildSectionLabel("Publishers", "Your favourite game publishers", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPublishersPage()));
           }),
-          SizedBox(height: 10),
+          YMargin(10),
           _buildPublishers(),
-          SizedBox(height: 20),
+          YMargin(20),
 
           //
           //
@@ -131,9 +137,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           _buildSectionLabel("Developers", "The best, biggest game developers!", (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDevelopersPage()));
           }),
-          SizedBox(height: 10),
+          YMargin(10),
           _buildDevelopers(),
-          SizedBox(height: 20),
+          YMargin(20),
 
           //
           //
@@ -144,17 +150,17 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Platforms", style: Theme.of(context).textTheme.headline,),
-              Text("All the devices you play a game on", style: Theme.of(context).textTheme.display2,),
+              TitleText(text: "Platforms", fontSize: 20,),
+              NormalText(text: "All the devices you play a game on", ),
             ],
           ),
-          SizedBox(height: 10),
+          YMargin(10),
           _buildPlatform(),
           SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("ECCENTRIC V1.0", style: Theme.of(context).textTheme.display1.copyWith(color: Colors.orange),)
+              NormalText(text: "ECCENTRIC V1.0",)
             ],
           ),
           SizedBox(height: 30),
@@ -172,15 +178,15 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("$title", style: Theme.of(context).textTheme.headline,),
-            Text("$desc", style: Theme.of(context).textTheme.display2,),
+            TitleText(text: "$title", ),
+            NormalText(text: "$desc",),
           ],
         ),
         InkWell(
           onTap: (){
             onTapViewMore();
           },
-          child: Text("View More", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 12),))
+          child: TitleText(text: "View More", textColor: Colors.orange, fontSize: 12,))
       ],
     );
   }
@@ -191,8 +197,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -200,8 +206,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }else if(snapshot.hasData){
             var models = (snapshot.data as GamesModel).results;
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: PageView.builder(
                   itemCount: 5,
                   itemBuilder: (context, position){
@@ -228,22 +234,21 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           }else if(snapshot.hasError){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           popularFuture = _getPopularGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -252,8 +257,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -269,8 +274,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -278,8 +283,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }else if(snapshot.hasData){
             var models = (snapshot.data as GamesModel).results;
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 5,
@@ -307,22 +312,21 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           }else if(snapshot.hasError){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred"),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           anticipatedFuture = _getAnticipatedGames();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
                     )
                   ],
                 ),
@@ -331,8 +335,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -348,16 +352,16 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             );
           }else if(snapshot.hasData){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: PageView.builder(
                   itemCount: 10,
                   itemBuilder: (context, position){
@@ -379,15 +383,14 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           publisherFuture = _getPublishers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -396,8 +399,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -413,16 +416,16 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             );
           }else if(snapshot.hasData){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: PageView.builder(
                   itemCount: 10,
                   itemBuilder: (context, position){
@@ -444,15 +447,14 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           developerFuture = _getDevelopers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -461,8 +463,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -478,16 +480,16 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
             );
           }else if(snapshot.hasData){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -504,22 +506,21 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           }else if(snapshot.hasError){
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occurred", style: Theme.of(context).
-                    textTheme.display1,),
+                    NormalText(text: "Sorry an error occurred",),
                     GestureDetector(
                       onTap: () {
                         setState(() {
                           platformFuture = _getPlatforms();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     )
                   ],
                 ),
@@ -528,8 +529,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           }
           else{
             return Container(
-              height: 200,
-              width: double.maxFinite,
+              height: _config.sh(250),
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),

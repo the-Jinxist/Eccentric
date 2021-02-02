@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/presentation/pages/details/auth_page.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -18,6 +20,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   bool enabledText = true;
   Future getCurrentUser;
+
+  final SizeConfig _config = SizeConfig();
 
   @override
   void initState() {
@@ -36,8 +40,8 @@ class _ProfilePageState extends State<ProfilePage> {
               print("Profile data: ${snapshot.data}");
               if(snapshot.connectionState != ConnectionState.done){
                 return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+                  height: SizeConfig.screenHeightDp,
+                  width: SizeConfig.screenWidthDp,
                   color: Colors.white,
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -50,23 +54,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 return user != null ? userPage(user) : noUserPage();
               }else if(snapshot.hasError){
                 return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+                  height: SizeConfig.screenHeightDp,
+                  width: SizeConfig.screenWidthDp,
                   color: Colors.white,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text("Sorry an error occured",style: Theme.of(context).
-                        textTheme.display1, textAlign: TextAlign.center,),
+                        NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                         GestureDetector(
                           onTap: (){
                             setState(() {
                               getCurrentUser = AuthRepo.getCurrentUser();
                             });
                           },
-                          child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                          child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                         ),
                       ],
                     ),
@@ -77,8 +80,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   return noUserPage();
                 }
                 return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
+                  height: SizeConfig.screenHeightDp,
+                  width: SizeConfig.screenWidthDp,
                   color: Colors.white,
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -94,22 +97,22 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget noUserPage(){
     return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      height: SizeConfig.screenHeightDp,
+      width: SizeConfig.screenWidthDp,
       color: Colors.white,
       padding: EdgeInsets.only(top: 40, left: 15, right: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text("Profile", style: Theme.of(context).textTheme.title,),
-          Text("Join us and keep your interests and data safe across multipe deveices", style: Theme.of(context).textTheme.subtitle,),
+          TitleText(text: "Profile", ),
+          NormalText(text: "Join us and keep your interests and data safe across multipe deveices",),
           SizedBox(height: 150,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("You don't have an account?", style: Theme.of(context).textTheme.subtitle,),
+              NormalText(text: "You don't have an account?",),
               GestureDetector(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthPage(AuthType.SIGN_UP)));
@@ -121,20 +124,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   elevation: 5,
                   color: Colors.orange,
                   child: Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: Center(child: Text("Sign Up!", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),)),
+                    height: _config.sh(50),
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(child: TitleText(text: "Sign Up!", textColor: Colors.white,)),
                   ),
                 ),
               ),
               SizedBox(height: 50,),
-              Text("You already have an account?", style: Theme.of(context).textTheme.subtitle,),
+              NormalText(text: "You already have an account?",),
               SizedBox(height: 10,),
               GestureDetector(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthPage(AuthType.SIGN_IN)));
                 },
-                child: Text("SIGN IN", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 20),),
+                child: NormalText(text: "SIGN IN", textColor: Colors.orange, fontSize: 20,),
               )
             ],
           ),
@@ -146,8 +149,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget userPage(FirebaseUser user){
     return Container(
-      height: MediaQuery.of(context).size.height - 50,
-      width: MediaQuery.of(context).size.width,
+      height: SizeConfig.screenHeightDp - 50,
+      width: SizeConfig.screenWidthDp,
       color: Colors.white,
       padding: EdgeInsets.only(top: 40, left: 15, right: 15),
       child: Column(
@@ -155,20 +158,19 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(LineAwesomeIcons.user, size: 50,),
-          Text("${user.email}", style: Theme.of(context).textTheme.display1,),
+          NormalText(text: "${user.email}",),
           SizedBox(height: 20,),
-          Text("Hey there!", style: Theme.of(context).textTheme.title.copyWith(fontSize: 20),),
-          Text("We ddn't save a username so, what's up there! :)", style: Theme.of(context).textTheme.display1.copyWith(fontSize: 10),),
+          NormalText(text: "Hey there!", fontSize: 20,),
+          NormalText(text: "We ddn't save a username so, what's up there! :)", fontSize: 12,),
           SizedBox(height: 30,),
-          Text("${user.email} hmm? Anyways, we're constantly updating your saved games to our servers. To make sure you can"
-              "access these games on various devices.",
-            style: Theme.of(context).textTheme.display1,),
+          NormalText(text: "${user.email} hmm? Anyways, we're constantly updating your saved games to our servers. To make sure you can"
+              "access these games on various devices.",),
           SizedBox(height: 50,),
           GestureDetector(
             onTap: (){
               AuthRepo.signOut();
             },
-            child: Text("SIGN OUT", style: Theme.of(context).textTheme.headline.copyWith(color: Colors.orange, fontSize: 20),),
+            child: TitleText(text: "SIGN OUT", textColor: Colors.orange, fontSize: 20,),
           )
 
         ],
