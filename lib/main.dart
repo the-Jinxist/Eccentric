@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/landing_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Games!',
+      title: 'Eccentric!',
       themeMode: ThemeMode.light,
       theme: ThemeData(
 //        primarySwatch: Colors.white,
@@ -35,32 +34,27 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.white,
         accentColor: Colors.orange,
         textTheme: TextTheme(
-          title: TextStyle(
+          headline1: TextStyle(
             fontFamily: "Lato_Bold",
             fontSize: 35,
             color: Colors.black,
           ),
-          subtitle: TextStyle(
+          headline2: TextStyle(
             fontFamily: "Poppins",
             fontSize: 17,
             color: Colors.black,
           ),
 
-          display1: TextStyle(
+          bodyText1: TextStyle(
             fontFamily: "Poppins",
             fontSize: 15,
             color: Colors.black,
           ),
-          display2: TextStyle(
+          bodyText2: TextStyle(
             fontFamily: "Poppins",
             fontSize: 12,
             color: Colors.black,
           ),
-          headline: TextStyle(
-            fontFamily: "Poppins_Extrabold",
-            fontSize: 20,
-            color: Colors.black,
-          )
         ),
       tooltipTheme: TooltipThemeData(
         height: 50,
@@ -74,7 +68,14 @@ class MyApp extends StatelessWidget {
           ),
         )
       ),
-      home: LandingPage(),
+      home: Builder(
+        builder: (BuildContext context){
+
+          Size size = MediaQuery.of(context).size;
+          SizeConfig.init(context, width: size.width, height: size.height, allowFontScaling: true);
+
+          return LandingPage();
+      }),
     );
   }
 }
