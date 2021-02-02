@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/database_model.dart';
-import 'package:game_app/presentation/pages/DiscoverGamesPage.dart';
-import 'package:game_app/presentation/pages/prrofile_page.dart';
-import 'package:game_app/presentation/pages/saved_games_page.dart';
-import 'package:game_app/presentation/pages/your_games_page.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/discover_games_page.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/profile_page.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/saved_games_page.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/your_games_page.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
 import 'package:game_app/datasources/repo/database_repo.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

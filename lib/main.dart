@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:game_app/domain/utils/size_config.dart';
-import 'package:game_app/presentation/pages/landing_page.dart';
+import 'package:game_app/presentation/pages/start/landing_page.dart';
 
 void main() => runApp(MyApp());
 

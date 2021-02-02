@@ -1,61 +1,60 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/domain/models/database_model.dart';
-import 'package:game_app/domain/models/games_model.dart' as gameModel;
-import 'package:game_app/domain/models/platform_model.dart';
-import 'package:game_app/presentation/pages/game_details_page.dart';
-import 'package:game_app/datasources/repo/auth_repo.dart';
-import 'package:game_app/datasources/repo/database_repo.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/domain/models/games_model.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
+import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
+import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/home/genres_page.dart';
 
-class PlatformPage extends StatefulWidget {
-
-  final Result result;
-
-  PlatformPage(this.result);
-
+class YourGamesPage extends StatefulWidget {
   @override
-  _PlatformPageState createState() => _PlatformPageState();
+  _YourGamesPageState createState() => _YourGamesPageState();
 }
 
-class _PlatformPageState extends State<PlatformPage> {
+class _YourGamesPageState extends State<YourGamesPage> {
 
-  Future loadGamesFuture;
+  Future future;
 
   @override
   void initState() {
-    // TODO: implement initState
+    future = getGames();
     super.initState();
-
-    loadGamesFuture = getGames();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-          child: Container(
-            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Games on the", style: Theme.of(context).textTheme.subtitle,),
-                Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
-
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(child: Container(
+          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Your Games", style: Theme.of(context).textTheme.title,),
+                  Text("Games that match your interests!", style: Theme.of(context).textTheme.subtitle,),
+                ],
+              ),
+              IconButton(
+                onPressed: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => GenresPage()));
+                },
+                icon: Icon(LineAwesomeIcons.gear,),
+              )
+            ],
           ),
-          preferredSize: Size.fromHeight(100)
-      ),
+        ), preferredSize: Size.fromHeight(100)),
         body: Builder(
           builder: (context){
             return FutureBuilder(
-              future: loadGamesFuture,
+              future: future,
               builder: (context, snapshot){
                 if(snapshot.connectionState != ConnectionState.done){
                   return Container(
@@ -66,32 +65,37 @@ class _PlatformPageState extends State<PlatformPage> {
                     ),
                   );
                 } else if(snapshot.hasData){
-                  var gameModeL = snapshot.data as gameModel.GamesModel;
+                  var gameModel = snapshot.data as GamesModel;
 
                   return ListView.builder(
-                      itemCount: gameModeL.results.length,
+                      itemCount: gameModel.results.length,
                       itemBuilder: (context, position){
-                        var currentGame = gameModeL.results[position];
+                        var currentGame = gameModel.results[position];
                         return InkWell(child: GameView(
                             onSavedTap: (string) {
                               if (string == "Added") {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        backgroundColor: Colors.black,
-                                        content: Text("Game added to favourite!")
+                                        elevation: 5,
+                                        backgroundColor: Colors.orange,
+                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
+                                          color: Colors.white
+                                        ))
                                     )
                                 );
                               } else {
                                 Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                        backgroundColor: Colors.black,
-                                        content: Text("Game removed from favourite!")
+                                        elevation: 5,
+                                        backgroundColor: Colors.orange,
+                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
+                                          color: Colors.white
+                                        ))
                                     )
                                 );
                               }
                             },
-                            result: gameModeL.results[position]
-                        ),
+                            result: gameModel.results[position]),
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                               backgroundImage: currentGame.backgroundImage,
@@ -110,7 +114,6 @@ class _PlatformPageState extends State<PlatformPage> {
                       }
                   );
                 }else if(snapshot.hasError){
-                  print("Platform Page: ${snapshot.error}");
                   return Container(
                     padding: EdgeInsets.all(20),
                     height: MediaQuery.of(context).size.height,
@@ -125,7 +128,7 @@ class _PlatformPageState extends State<PlatformPage> {
                           GestureDetector(
                             onTap: (){
                               setState(() {
-                                loadGamesFuture = getGames();
+                                future = getGames();
                               });
                             },
                             child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
@@ -147,23 +150,21 @@ class _PlatformPageState extends State<PlatformPage> {
             );
           },
         )
+      ),
     );
   }
 
-  Future<gameModel.GamesModel> getGames() async {
+  Future<GamesModel> getGames() async {
 
-    print("Platform slug: ${widget.result.slug}");
-    //nintendo-64
-    //android
-    //playstation4
-    var response  = await api.getGamesFromPlatform(widget.result.slug);
+    var genreString = await repo.getGenreString();
+    var response  = await api.getGames(genreString);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results}");
-      return gameModel.GamesModel.fromJson(responseBody);
+//      print("Game Model: ${GamesModel.fromJson(responseBody).results[3].slug}");
+      return GamesModel.fromJson(responseBody);
     }else{
-      print("Platform Page: ${response.statusCode}");
+      print("Game Model Error: ${response.statusCode}");
       return null;
     }
   }

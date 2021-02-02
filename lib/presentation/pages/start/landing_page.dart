@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/presentation/pages/genres_page.dart';
-import 'package:game_app/presentation/pages/home_page.dart';
+import 'file:///C:/Users/USER/Desktop/Work/Flutter/Eccentric/lib/presentation/pages/category/genres_page.dart';
+import 'package:game_app/presentation/pages/home/home_page.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 
