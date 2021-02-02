@@ -1,23 +1,26 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/domain/models/GamesModel.dart' as gameModel;
-import 'package:game_app/domain/models/PublishersModel.dart';
-import 'package:game_app/datasources/api/RawgApi.dart' as api;
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
-import 'package:game_app/presentation/view/GameView.dart';
+import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/domain/models/database_model.dart';
+import 'package:game_app/domain/models/games_model.dart' as gameModel;
+import 'package:game_app/domain/models/platform_model.dart';
+import 'package:game_app/presentation/pages/game_details_page.dart';
+import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/datasources/repo/database_repo.dart';
+import 'package:game_app/presentation/view/game_view.dart';
 
-class DevelopersPage extends StatefulWidget {
+class PlatformPage extends StatefulWidget {
 
   final Result result;
 
-  DevelopersPage(this.result);
+  PlatformPage(this.result);
 
   @override
-  _DevelopersPageState createState() => _DevelopersPageState();
+  _PlatformPageState createState() => _PlatformPageState();
 }
 
-class _DevelopersPageState extends State<DevelopersPage> {
+class _PlatformPageState extends State<PlatformPage> {
 
   Future loadGamesFuture;
 
@@ -33,22 +36,22 @@ class _DevelopersPageState extends State<DevelopersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: PreferredSize(
-            child: Container(
-              padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Games from", style: Theme.of(context).textTheme.subtitle,),
-                  Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+          child: Container(
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Games on the", style: Theme.of(context).textTheme.subtitle,),
+                Text("${widget.result.name}", style: Theme.of(context).textTheme.title, ),
 
-                ],
-              ),
+              ],
             ),
-            preferredSize: Size.fromHeight(100)
-        ),
+          ),
+          preferredSize: Size.fromHeight(100)
+      ),
         body: Builder(
           builder: (context){
             return FutureBuilder(
@@ -87,7 +90,8 @@ class _DevelopersPageState extends State<DevelopersPage> {
                                 );
                               }
                             },
-                            result: gameModeL.results[position]),
+                            result: gameModeL.results[position]
+                        ),
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                               backgroundImage: currentGame.backgroundImage,
@@ -106,6 +110,7 @@ class _DevelopersPageState extends State<DevelopersPage> {
                       }
                   );
                 }else if(snapshot.hasError){
+                  print("Platform Page: ${snapshot.error}");
                   return Container(
                     padding: EdgeInsets.all(20),
                     height: MediaQuery.of(context).size.height,
@@ -147,14 +152,18 @@ class _DevelopersPageState extends State<DevelopersPage> {
 
   Future<gameModel.GamesModel> getGames() async {
 
-    var response  = await api.getGamesFromDevelopers(widget.result.slug);
+    print("Platform slug: ${widget.result.slug}");
+    //nintendo-64
+    //android
+    //playstation4
+    var response  = await api.getGamesFromPlatform(widget.result.slug);
 
     if (response.statusCode == 200){
       var responseBody = json.decode(response.body);
-//      print("Game Model: ${gameModel.GamesModel.fromJson(responseBody).results[3].slug}");
+      print("Platform Page: ${gameModel.GamesModel.fromJson(responseBody).results}");
       return gameModel.GamesModel.fromJson(responseBody);
     }else{
-      print("Developers Page: ${response.statusCode}");
+      print("Platform Page: ${response.statusCode}");
       return null;
     }
   }

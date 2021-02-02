@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/domain/models/GamesModel.dart' as gameModel;
-import 'package:game_app/domain/models/PublishersModel.dart';
-import 'package:game_app/datasources/api/RawgApi.dart' as api;
-import 'package:game_app/presentation/pages/GameDetailsPage.dart';
-import 'package:game_app/presentation/view/GameView.dart';
+import 'package:game_app/domain/models/games_model.dart' as gameModel;
+import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/presentation/pages/game_details_page.dart';
+import 'package:game_app/presentation/view/game_view.dart';
 
 class PublishersPage extends StatefulWidget {
 

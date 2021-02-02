@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/api/RawgApi.dart' as api;
-import 'package:game_app/domain/models/PublishersModel.dart';
-import 'package:game_app/presentation/pages/DevelopersPage.dart';
-import 'package:game_app/presentation/view/PublisherView.dart';
+import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:game_app/presentation/pages/publishers_page.dart';
+import 'package:game_app/presentation/view/publisher_view.dart';
 
-class AllDevelopersPage extends StatefulWidget {
+class AllPublishersPage extends StatefulWidget {
   @override
-  _AllDevelopersPageState createState() => _AllDevelopersPageState();
+  _AllPublishersPageState createState() => _AllPublishersPageState();
 }
 
-class _AllDevelopersPageState extends State<AllDevelopersPage> {
+class _AllPublishersPageState extends State<AllPublishersPage> {
 
   Future publishersFuture;
 
@@ -33,8 +33,8 @@ class _AllDevelopersPageState extends State<AllDevelopersPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Developers", style: Theme.of(context).textTheme.title, ),
-            Text("The hard workers! Whew!", style: Theme.of(context).textTheme.subtitle,),
+            Text("Publishers", style: Theme.of(context).textTheme.title, ),
+            Text("The best of tha best!", style: Theme.of(context).textTheme.subtitle,),
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
@@ -59,9 +59,9 @@ class _AllDevelopersPageState extends State<AllDevelopersPage> {
                   var model = publisherModel.results[position];
                   return InkWell(
                       onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PublishersPage(model)));
                       },
-                      child: Container(margin: EdgeInsets.only(bottom: 5, top: 5),child: PublisherView(model, "developers"))
+                      child: Container(margin: EdgeInsets.only(bottom: 5, top: 5),child: PublisherView(model, "publishers"))
                   );
                 }
             );
@@ -104,14 +104,15 @@ class _AllDevelopersPageState extends State<AllDevelopersPage> {
   }
 
   Future<PublishersModel>_getPublishers() async{
-    var response = await api.getDevelopers();
+    var response = await api.getPublishers();
     if(response.statusCode == 200){
       var model = PublishersModel.fromJson(json.decode(response.body));
       return model;
     }else{
-      print("All Developers Page Error: ${response.statusCode}");
+      print("All Publishers Page Error: ${response.statusCode}");
       return null;
     }
 
   }
+
 }

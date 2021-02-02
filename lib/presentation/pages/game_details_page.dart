@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:game_app/datasources//api/RawgApi.dart' as api;
-import 'package:game_app/domain/models/AchievementModel.dart';
-import 'package:game_app/domain/models/GameDetailModel.dart';
-import 'package:game_app/domain/models/ScreenshotsModel.dart';
-import 'package:game_app/domain/models/TrailersModel.dart';
-import 'package:game_app/presentation/view/BlandPictureView.dart';
+import 'package:game_app/datasources//api/rawg_api.dart' as api;
+import 'package:game_app/domain/models/achievement_model.dart';
+import 'package:game_app/domain/models/game_detail_model.dart';
+import 'package:game_app/domain/models/screenshots_model.dart';
+import 'package:game_app/domain/models/trailers_model.dart';
+import 'package:game_app/presentation/view/bland_picture_view.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class GameDetailsPage extends StatefulWidget {

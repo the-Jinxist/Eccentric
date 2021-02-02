@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/domain/models/PlatformModel.dart';
+import 'package:game_app/domain/models/platform_model.dart';
 
 class PlatformView extends StatefulWidget {
 
