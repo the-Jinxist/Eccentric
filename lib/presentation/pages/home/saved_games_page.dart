@@ -6,6 +6,8 @@ import 'package:game_app/domain/models/database_model.dart';
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/datasources/repo/auth_repo.dart';
 import 'package:game_app/datasources/repo/database_repo.dart';
@@ -44,8 +46,8 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("Saved Games", style: Theme.of(context).textTheme.title, ),
-                Text("Games you've taken a fancy to!", style: Theme.of(context).textTheme.subtitle,),
+                TitleText(text: "Saved Games",),
+                NormalText(text: "Games you've taken a fancy to!", ),
 
 
               ],
@@ -61,16 +63,15 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text("Well, since you've signed in. You could get your saved games we last store \n If you has any", style:
-                        Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
-                        SizedBox(height: 5,),
+                        NormalText(text: "Well, since you've signed in. You could get your saved games we last store \n If you has any", textAlign: TextAlign.center),
+                        YMargin(5,),
                         GestureDetector(
                           onTap: (){
                             setState(() {
 
                             });
                           },
-                          child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                          child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                         ),
                       ],
                     );
@@ -122,9 +123,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                                     SnackBar(
                                         elevation: 5,
                                         backgroundColor: Colors.orange,
-                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                            color: Colors.white
-                                        ))
+                                        content: NormalText(text: "Game saved!", textColor: Colors.white)
                                     )
                                 );
                               }else{
@@ -132,9 +131,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                                     SnackBar(
                                         elevation: 5,
                                         backgroundColor: Colors.orange,
-                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                            color: Colors.white
-                                        ))
+                                        content: NormalText(text: "Game in-saved!", textColor: Colors.white)
                                     )
                                 );
                               }
@@ -157,9 +154,8 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(LineAwesomeIcons.heart, size: 50, color: Colors.grey,),
-                          SizedBox(height: 5,),
-                          Text("You've not found a game you like? How strange. How strange indeed", style:
-                          Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
+                          YMargin(5,),
+                          NormalText(text: "You've not found a game you like? How strange. How strange indeed", textColor: Colors.grey, textAlign: TextAlign.center,),
                         ],
                       ),
                     ),
@@ -176,10 +172,9 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(LineAwesomeIcons.heart_o, size: 50, color: Colors.grey,),
-                        SizedBox(height: 5,),
-                        Text("You've not found a game you like? How strange. How strange indeed", style:
-                        Theme.of(context).textTheme.subtitle.copyWith(color: Colors.grey), textAlign: TextAlign.center,),
-                        SizedBox(height: 20,),
+                        YMargin(5,),
+                        NormalText(text: "You've not found a game you like? How strange. How strange indeed", textColor: Colors.grey, textAlign: TextAlign.center,),
+                        YMargin(20,),
                       ],
                     ),
                   ),
@@ -199,9 +194,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
           }),
             elevation: 5,
             backgroundColor: Colors.orange,
-            content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                color: Colors.white
-            ))
+            content: NormalText(text: "Game un-saved!", textColor: Colors.white)
         )
     );
 
@@ -212,9 +205,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
           SnackBar(
               elevation: 5,
               backgroundColor: Colors.orange,
-              content: Text("Syncing", style: Theme.of(context).textTheme.subtitle.copyWith(
-                  color: Colors.white
-              ))
+              content: NormalText(text: "Syncing", textColor: Colors.white)
           )
       );
 
@@ -227,9 +218,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
           SnackBar(
               elevation: 5,
               backgroundColor: Colors.orange,
-              content: Text("Sorry, you have no games saved :(", style: Theme.of(context).textTheme.subtitle.copyWith(
-                  color: Colors.white
-              ))
+              content: NormalText(text: "Sorry, you have no gaes saved", textColor: Colors.white)
           )
       );
     }

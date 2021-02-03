@@ -5,6 +5,7 @@ import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/presentation/pages/details/auth_page.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -130,9 +131,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 50,),
+              YMargin(50,),
               NormalText(text: "You already have an account?",),
-              SizedBox(height: 10,),
+              YMargin(10,),
               GestureDetector(
                 onTap: (){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthPage(AuthType.SIGN_IN)));
@@ -159,13 +160,13 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           Icon(LineAwesomeIcons.user, size: 50,),
           NormalText(text: "${user.email}",),
-          SizedBox(height: 20,),
+          YMargin(20,),
           NormalText(text: "Hey there!", fontSize: 20,),
           NormalText(text: "We ddn't save a username so, what's up there! :)", fontSize: 12,),
-          SizedBox(height: 30,),
+          YMargin(30,),
           NormalText(text: "${user.email} hmm? Anyways, we're constantly updating your saved games to our servers. To make sure you can"
               "access these games on various devices.",),
-          SizedBox(height: 50,),
+          YMargin(50,),
           GestureDetector(
             onTap: (){
               AuthRepo.signOut();

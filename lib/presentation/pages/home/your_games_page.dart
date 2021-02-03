@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/category/genres_page.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
@@ -38,8 +40,8 @@ class _YourGamesPageState extends State<YourGamesPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text("Your Games", style: Theme.of(context).textTheme.title,),
-                  Text("Games that match your interests!", style: Theme.of(context).textTheme.subtitle,),
+                  TitleText(text: "Your Games", ),
+                  NormalText(text: "Games that match your interests!",),
                 ],
               ),
               IconButton(
@@ -58,8 +60,8 @@ class _YourGamesPageState extends State<YourGamesPage> {
               builder: (context, snapshot){
                 if(snapshot.connectionState != ConnectionState.done){
                   return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -78,9 +80,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                                     SnackBar(
                                         elevation: 5,
                                         backgroundColor: Colors.orange,
-                                        content: Text("Game saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        content: NormalText(text: "Game saved!", textColor: Colors.white)
                                     )
                                 );
                               } else {
@@ -88,9 +88,7 @@ class _YourGamesPageState extends State<YourGamesPage> {
                                     SnackBar(
                                         elevation: 5,
                                         backgroundColor: Colors.orange,
-                                        content: Text("Game un-saved!", style: Theme.of(context).textTheme.subtitle.copyWith(
-                                          color: Colors.white
-                                        ))
+                                        content: NormalText(text: "Game un-saved!", textColor: Colors.white)
                                     )
                                 );
                               }
@@ -116,22 +114,21 @@ class _YourGamesPageState extends State<YourGamesPage> {
                 }else if(snapshot.hasError){
                   return Container(
                     padding: EdgeInsets.all(20),
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("Sorry an error occured",style: Theme.of(context).
-                          textTheme.display1, textAlign: TextAlign.center,),
+                          NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                           GestureDetector(
                             onTap: (){
                               setState(() {
                                 future = getGames();
                               });
                             },
-                            child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                            child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25),
                           ),
                         ],
                       ),
@@ -139,8 +136,8 @@ class _YourGamesPageState extends State<YourGamesPage> {
                   );
                 } else{
                   return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),

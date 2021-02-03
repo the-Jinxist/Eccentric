@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/category/publishers_page.dart';
 import 'package:game_app/presentation/view/publisher_view.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class AllPublishersPage extends StatefulWidget {
   @override
@@ -33,8 +35,8 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Publishers", style: Theme.of(context).textTheme.title, ),
-            Text("The best of tha best!", style: Theme.of(context).textTheme.subtitle,),
+            TitleText(text: "Publishers", ),
+            NormalText(text: "The best of tha best!", ),
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
@@ -43,8 +45,8 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
         builder: (context, snapshot){
           if(snapshot.connectionState != ConnectionState.done){
             return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),
@@ -68,22 +70,21 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
           }else if(snapshot.hasError){
             return Container(
               padding: EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Sorry an error occured",style: Theme.of(context).
-                    textTheme.display1, textAlign: TextAlign.center,),
+                    NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
                     GestureDetector(
                       onTap: (){
                         setState(() {
                           publishersFuture = _getPublishers();
                         });
                       },
-                      child: Text("Reload", style: Theme.of(context).textTheme.title.copyWith(color: Colors.orange, fontSize: 25),),
+                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
                     ),
                   ],
                 ),
@@ -91,8 +92,8 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
             );
           } else{
             return Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+              height: SizeConfig.screenHeightDp,
+              width: SizeConfig.screenWidthDp,
               child: Center(
                 child: CircularProgressIndicator(),
               ),

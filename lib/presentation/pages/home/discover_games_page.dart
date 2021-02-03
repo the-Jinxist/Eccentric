@@ -376,7 +376,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           }else if(snapshot.hasError){
             return Container(
-              height: 200,
+              height: _config.sh(250),
               width: double.maxFinite,
               child: Center(
                 child: Column(
@@ -440,7 +440,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           }else if(snapshot.hasError){
             return Container(
-              height: 200,
+              height: _config.sh(250),
               width: double.maxFinite,
               child: Center(
                 child: Column(
