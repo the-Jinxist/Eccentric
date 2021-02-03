@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_app/domain/utils/size_config.dart';
 
 
 class BlandPictureView extends StatelessWidget {
@@ -7,8 +8,11 @@ class BlandPictureView extends StatelessWidget {
 
   BlandPictureView(this.imageString);
 
+  final SizeConfig _config = SizeConfig();
+
   @override
   Widget build(BuildContext context) {
+
     return Card(
       clipBehavior: Clip.antiAlias,
       margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -16,15 +20,15 @@ class BlandPictureView extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
       ),
       child: Container(
-        height: 200,
+        height: _config.sh(200),
         child: FadeInImage.assetNetwork(
           placeholder: "assets/images/placeholder.png",
           image: imageString,
-          placeholderCacheHeight: 400,
-          placeholderCacheWidth: 400,
+          placeholderCacheHeight: _config.sh(400),
+          placeholderCacheWidth: _config.sw(400),
           fit: BoxFit.cover,
-          height: 400,
-          width: double.maxFinite,),
+          height: _config.sh(400),
+          width: SizeConfig.screenWidthDp,),
       ),
     );
   }

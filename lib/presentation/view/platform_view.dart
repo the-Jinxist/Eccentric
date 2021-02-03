@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/platform_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class PlatformView extends StatefulWidget {
 
@@ -12,6 +14,9 @@ class PlatformView extends StatefulWidget {
 }
 
 class _PlatformViewState extends State<PlatformView> {
+
+  final SizeConfig _config =SizeConfig();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -22,23 +27,23 @@ class _PlatformViewState extends State<PlatformView> {
       ),
       margin: EdgeInsets.only(right: 5, bottom: 5),
       child: Container(
-        height: 100,
-        width: 200,
+        height: _config.sh(100),
+        width: _config.sw(200),
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
             FadeInImage.assetNetwork(
               placeholder: "assets/images/placeholder.png",
-              imageCacheHeight: 450,
-              imageCacheWidth: 800,
-              placeholderCacheHeight: 400,
-              placeholderCacheWidth: 400,
+              imageCacheHeight: _config.sh(450),
+              imageCacheWidth: _config.sw(800),
+              placeholderCacheHeight: _config.sh(400),
+              placeholderCacheWidth: _config.sw(400),
               image: widget.result.imageBackground,
-              fit: BoxFit.cover, height: 200,
-              width: double.maxFinite,),
+              fit: BoxFit.cover, height: _config.sh(200),
+              width: SizeConfig.screenWidthDp,),
             Container(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
+              height: _config.sh(200),
+              width: SizeConfig.screenWidthDp,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
@@ -61,12 +66,13 @@ class _PlatformViewState extends State<PlatformView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("${widget.result.name}",
-                      style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
+                    TitleText(text: "${widget.result.name}",
+                      textColor: Colors.white,
                       textAlign: TextAlign.start,
                     ),
-                    Text("Games: ${widget.result.gamesCount}",
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                    NormalText(
+                      text: "Games: ${widget.result.gamesCount}",
+                      textColor: Colors.white,
                       textAlign: TextAlign.start,
                     ),
                   ],

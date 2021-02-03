@@ -82,7 +82,7 @@ class _AuthPageState extends State<AuthPage> {
                               )
                           ),
                           hintText: "youremail@email.com",
-                          hintStyle: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.grey)
+                          hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.grey)
                       ),
                       validator: (value){
                         if(value.isEmpty){
