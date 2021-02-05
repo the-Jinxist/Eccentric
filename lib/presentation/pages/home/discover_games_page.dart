@@ -281,71 +281,67 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   }
 
   Widget _buildAnticipatedGames(){
-    return Column(
-      children: [
-        BlocBuilder(
-          builder: (context, state) {
-            if(state is AnticipatedLoadInProgress){
-              return Container(
-                height: _config.sh(250),
-                width: SizeConfig.screenWidthDp,
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }else if(state is AnticipatedLoadSuccess){
-              return Container(
-                height: _config.sh(250),
-                width: SizeConfig.screenWidthDp,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (context, position){
-                      var model = state.games.results[position];
-                      return InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                              backgroundImage: model.backgroundImage,
-                              id: model.id,
-                              metacriticRating: model.metacritic,
-                              name: model.name,
-                              playTime: model.playtime,
-                              rating: model.rating,
-                              ratingsCount: model.ratingsCount,
-                              ratingsTop: model.ratingsTop,
-                              releaseDate: model.released,
-                              slug: model.slug,
-                              suggestionsCount: model.suggestionsCount,
-                            )));
-                          },
-                          child: AnticipatedView(model)
-                      );
-                    }),
-              );
-            }else{
-              return Container(
-                height: _config.sh(250),
-                width: SizeConfig.screenWidthDp,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      NormalText(text: "Sorry an error occurred"),
-                      GestureDetector(
-                        onTap: () {
-                          anticipatedBloc.add(LoadAnticipated());
-                        },
-                        child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }
-          }
-        ),
-      ],
+    return BlocBuilder<AnticipatedBloc, AnticipatedState>(
+      builder: (context, state) {
+        if(state is AnticipatedLoadInProgress){
+          return Container(
+            height: _config.sh(250),
+            width: SizeConfig.screenWidthDp,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }else if(state is AnticipatedLoadSuccess){
+          return Container(
+            height: _config.sh(250),
+            width: SizeConfig.screenWidthDp,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, position){
+                  var model = state.games.results[position];
+                  return InkWell(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                          backgroundImage: model.backgroundImage,
+                          id: model.id,
+                          metacriticRating: model.metacritic,
+                          name: model.name,
+                          playTime: model.playtime,
+                          rating: model.rating,
+                          ratingsCount: model.ratingsCount,
+                          ratingsTop: model.ratingsTop,
+                          releaseDate: model.released,
+                          slug: model.slug,
+                          suggestionsCount: model.suggestionsCount,
+                        )));
+                      },
+                      child: AnticipatedView(model)
+                  );
+                }),
+          );
+        }else{
+          return Container(
+            height: _config.sh(250),
+            width: SizeConfig.screenWidthDp,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  NormalText(text: "Sorry an error occurred"),
+                  GestureDetector(
+                    onTap: () {
+                      anticipatedBloc.add(LoadAnticipated());
+                    },
+                    child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+      }
     );
   }
 

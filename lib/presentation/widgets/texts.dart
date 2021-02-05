@@ -24,7 +24,7 @@ class TitleText extends StatelessWidget {
             decoration: decoration,
             fontSize: fontSize != null ? SizeConfig().sp(fontSize): 17,
             fontWeight: fontWeight != null ? fontWeight : FontWeight.bold,
-            color: textColor != null ? textColor: Theme.of(context).accentColor,
+            color: textColor != null ? textColor: Colors.black,
           ),
     );
   }
@@ -77,7 +77,7 @@ class NormalText extends StatelessWidget {
           .copyWith(
           decoration: decoration,
           fontSize: fontSize != null ? SizeConfig().sp(fontSize): 14,
-          color: textColor != null ? textColor: Theme.of(context).accentColor,
+          color: textColor != null ? textColor: Colors.black,
           fontWeight: fontWeight != null ? fontWeight: FontWeight.normal
       ),
     );

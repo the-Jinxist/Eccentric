@@ -12,6 +12,9 @@ void main(){
       BlocProvider<AnticipatedBloc>(
         create: (context) => AnticipatedBloc(),
       ),
+      BlocProvider<YourGamesBloc>(
+        create: (context) => YourGamesBloc(),
+      ),
     ],
     child: MyApp()
   );
