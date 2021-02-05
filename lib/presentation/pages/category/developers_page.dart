@@ -11,7 +11,7 @@ import 'package:game_app/presentation/widgets/texts.dart';
 
 class DevelopersPage extends StatefulWidget {
 
-  final Result result;
+  final PublishersResult result;
 
   DevelopersPage(this.result);
 

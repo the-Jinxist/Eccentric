@@ -5,7 +5,7 @@ import 'package:game_app/presentation/widgets/texts.dart';
 
 class PublisherView extends StatefulWidget {
 
-  final Result result;
+  final PublishersResult result;
   final String type;
 
   PublisherView(this.result, this.type);

@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:game_app/datasources/api/api_utils.dart';
+import 'package:game_app/domain/models/zmodels.dart';
+import 'package:http/http.dart';
 
 int getCurrentYear(){
   print("Rawg Api: ${DateTime.now().year}");
@@ -18,79 +21,106 @@ int getNextYear(){
   return DateTime.now().year + 1;
 }
 
-Future<http.Response> getGenres() async{
-  return http.get("https://api.rawg.io/api/genres",
+Map<String, String> _userAgentHeader = {HttpHeaders.userAgentHeader : "Eccentric Catalog"};
+
+Future<Response> getGenres() async {
+  return get("https://api.rawg.io/api/genres",
     headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"},
   );
 }
 
-Future<http.Response> getGames(String genreString) async{
-  return http.get("https://api.rawg.io/api/games?genres=$genreString&page=1",
+Future<GamesModel> getAnticipatedService() async {
+
+  try{
+
+    Response response =
+      await get(
+        GAMES_ENDPOINT + "?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
+        headers: _userAgentHeader,
+      );
+
+    if(response.statusCode == 200 || response.statusCode == 201){
+
+      GamesModel gameModel = GamesModel.fromJson(json.decode(response.body));
+      return gameModel;
+
+    }else{
+      throw Exception("${response.statusCode}, ${response.body}");
+    }
+
+  }catch(e){
+    throw Exception("$e");
+  }
+
+}
+
+Future<Response> getGames(String genreString) async{
+  return get("https://api.rawg.io/api/games?genres=$genreString&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGamesFromDevelopers(String developers) async{
-  return http.get("https://api.rawg.io/api/games?developers=$developers&page=1",
+Future<Response> getGamesFromDevelopers(String developers) async{
+  return get("https://api.rawg.io/api/games?developers=$developers&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGamesFromPublishers(String publishers) async{
-  return http.get("https://api.rawg.io/api/games?publishers=$publishers&page=1",
+Future<Response> getGamesFromPublishers(String publishers) async{
+  return get("https://api.rawg.io/api/games?publishers=$publishers&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGamesFromPlatform(String platforms) async{
-  return http.get("https://api.rawg.io/api/games?platforms=$platforms&page=1",
+Future<Response> getGamesFromPlatform(String platforms) async{
+  return get("https://api.rawg.io/api/games?platforms=$platforms&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGamesFromSearch(String query) async{
-  return http.get("https://api.rawg.io/api/games?search=$query&page=1",
+Future<Response> getGamesFromSearch(String query) async{
+  return get("https://api.rawg.io/api/games?search=$query&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGameDetail(int id) async{
-  return http.get("https://api.rawg.io/api/games/$id",
+Future<Response> getGameDetail(int id) async{
+  return get("https://api.rawg.io/api/games/$id",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGameScreenshots(String slug) async{
-  return http.get("https://api.rawg.io/api/games/$slug/screenshots",
+Future<Response> getGameScreenshots(String slug) async{
+  return get("https://api.rawg.io/api/games/$slug/screenshots",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGameTrailer(String slug) async{
-  return http.get("https://api.rawg.io/api/games/$slug/movies",
+Future<Response> getGameTrailer(String slug) async{
+  return get("https://api.rawg.io/api/games/$slug/movies",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getGameAchievement(int id) async{
-  return http.get("https://api.rawg.io/api/games/$id/achievements",
+Future<Response> getGameAchievement(int id) async{
+  return get("https://api.rawg.io/api/games/$id/achievements",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getPlatforms() async{
-  return http.get("https://api.rawg.io/api/platforms?ordering=year_start&page=1",
+Future<Response> getPlatforms() async{
+  return get("https://api.rawg.io/api/platforms?ordering=year_start&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getPublishers() async{
-  return http.get("https://api.rawg.io/api/publishers",
+Future<Response> getPublishers() async{
+  return get("https://api.rawg.io/api/publishers",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getPopular() async{
-  return http.get("https://api.rawg.io/api/games?dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
+Future<Response> getPopular() async{
+  return get("https://api.rawg.io/api/games?dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getAnticipated() async{
-  return http.get("https://api.rawg.io/api/games?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
+Future<Response> getAnticipated() async{
+  return get("https://api.rawg.io/api/games?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 
-Future<http.Response> getDevelopers() async{
-  return http.get("https://api.rawg.io/api/developers",
+Future<Response> getDevelopers() async{
+  return get("https://api.rawg.io/api/developers",
       headers: {HttpHeaders.userAgentHeader : "Eccentric Catalog"});
 }
 

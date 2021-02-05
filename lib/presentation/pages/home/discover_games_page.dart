@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/domain/models/platform_model.dart';
 import 'package:game_app/domain/models/publishers_model.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/anticipated_page.dart';
 import 'package:game_app/presentation/pages/category/developers_page.dart';
 import 'package:game_app/presentation/pages/category/platform_page.dart';
@@ -35,9 +37,17 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   Future publisherFuture;
   Future developerFuture;
   Future platformFuture;
-  Future anticipatedFuture;
 
   final SizeConfig _config = SizeConfig();
+
+  AnticipatedBloc anticipatedBloc;
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    anticipatedBloc.close();
+  }
 
   @override
   void initState() {
@@ -45,7 +55,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     publisherFuture = _getPublishers();
     developerFuture = _getDevelopers();
     platformFuture = _getPlatforms();
-    anticipatedFuture = _getAnticipatedGames();
+
+    anticipatedBloc = BlocProvider.of<AnticipatedBloc>(context);
+    anticipatedBloc.add(LoadAnticipated());
 
     super.initState();
   }
@@ -269,80 +281,71 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
   }
 
   Widget _buildAnticipatedGames(){
-    return FutureBuilder(
-        future: anticipatedFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else if(snapshot.hasData){
-            var models = (snapshot.data as GamesModel).results;
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, position){
-                    var model = models[position];
-                    return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                          backgroundImage: model.backgroundImage,
-                          id: model.id,
-                          metacriticRating: model.metacritic,
-                          name: model.name,
-                          playTime: model.playtime,
-                          rating: model.rating,
-                          ratingsCount: model.ratingsCount,
-                          ratingsTop: model.ratingsTop,
-                          releaseDate: model.released,
-                          slug: model.slug,
-                          suggestionsCount: model.suggestionsCount,
-                        )));
-                      },
-                      child: AnticipatedView(model)
-                    );
-                  }),
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(text: "Sorry an error occurred"),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          anticipatedFuture = _getAnticipatedGames();
-                        });
-                      },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
-                    )
-                  ],
+    return Column(
+      children: [
+        BlocBuilder(
+          builder: (context, state) {
+            if(state is AnticipatedLoadInProgress){
+              return Container(
+                height: _config.sh(250),
+                width: SizeConfig.screenWidthDp,
+                child: Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-            );
+              );
+            }else if(state is AnticipatedLoadSuccess){
+              return Container(
+                height: _config.sh(250),
+                width: SizeConfig.screenWidthDp,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, position){
+                      var model = state.games.results[position];
+                      return InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                              backgroundImage: model.backgroundImage,
+                              id: model.id,
+                              metacriticRating: model.metacritic,
+                              name: model.name,
+                              playTime: model.playtime,
+                              rating: model.rating,
+                              ratingsCount: model.ratingsCount,
+                              ratingsTop: model.ratingsTop,
+                              releaseDate: model.released,
+                              slug: model.slug,
+                              suggestionsCount: model.suggestionsCount,
+                            )));
+                          },
+                          child: AnticipatedView(model)
+                      );
+                    }),
+              );
+            }else{
+              return Container(
+                height: _config.sh(250),
+                width: SizeConfig.screenWidthDp,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      NormalText(text: "Sorry an error occurred"),
+                      GestureDetector(
+                        onTap: () {
+                          anticipatedBloc.add(LoadAnticipated());
+                        },
+                        child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
           }
-          else{
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }
+        ),
+      ],
     );
   }
 
@@ -554,18 +557,6 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 
   Future<GamesModel> _getPopularGames() async{
     var response = await api.getPopular();
-    if(response.statusCode == 200){
-      var model = GamesModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("Discover - Popular Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
-
-  Future<GamesModel> _getAnticipatedGames() async{
-    var response = await api.getAnticipated();
     if(response.statusCode == 200){
       var model = GamesModel.fromJson(json.decode(response.body));
       return model;

@@ -183,7 +183,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      label: NormalText(text: widget.label),
+      label: NormalText(text: widget.label, textColor: _isSelected ? Colors.white : Colors.black),
       onSelected: (bool){
         setState(() {
           _isSelected = bool;

@@ -26,7 +26,7 @@ class GamesModel{
       String released = json['released'] as String;
       bool tba = json['tba'] as bool;
       String backgroundImage = json['background_image'] as String;
-      double rating = json['rating'] as double;
+      double rating = json['rating'] is int ? (json['rating'] as int ).toDouble() : json['rating'] as double;
       int ratingTop = json['rating_top'] as int;
       Object ratings = json['ratings'] as Object;
       int ratingsCount = json['ratings_count'] as int;

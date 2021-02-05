@@ -11,7 +11,7 @@ import 'package:game_app/presentation/widgets/texts.dart';
 
 class PlatformPage extends StatefulWidget {
 
-  final Result result;
+  final PlatformResult result;
 
   PlatformPage(this.result);
 

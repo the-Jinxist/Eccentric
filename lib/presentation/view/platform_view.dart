@@ -5,7 +5,7 @@ import 'package:game_app/presentation/widgets/texts.dart';
 
 class PlatformView extends StatefulWidget {
 
-  final Result result;
+  final PlatformResult result;
 
   PlatformView(this.result);
 
