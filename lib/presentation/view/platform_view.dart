@@ -34,10 +34,10 @@ class _PlatformViewState extends State<PlatformView> {
           children: <Widget>[
             FadeInImage.assetNetwork(
               placeholder: "assets/images/placeholder.png",
-              imageCacheHeight: _config.sh(450),
-              imageCacheWidth: _config.sw(800),
-              placeholderCacheHeight: _config.sh(400),
-              placeholderCacheWidth: _config.sw(400),
+              imageCacheHeight: _config.sh(450).toInt(),
+              imageCacheWidth: _config.sw(800).toInt(),
+              placeholderCacheHeight: _config.sh(400).toInt(),
+              placeholderCacheWidth: _config.sw(400).toInt(),
               image: widget.result.imageBackground,
               fit: BoxFit.cover, height: _config.sh(200),
               width: SizeConfig.screenWidthDp,),
