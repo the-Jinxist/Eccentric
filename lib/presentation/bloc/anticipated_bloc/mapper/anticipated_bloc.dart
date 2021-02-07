@@ -1,7 +1,7 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:game_app/datasources/api/rawg_api.dart';
-import 'package:meta/meta.dart';
 import 'package:game_app/domain/models/zmodels.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
 

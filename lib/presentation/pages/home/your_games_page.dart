@@ -1,17 +1,13 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/genres_page.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
-import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/presentation/bloc/z_bloc.dart';
 
 class YourGamesPage extends StatefulWidget {
   @override
