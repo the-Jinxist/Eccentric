@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 
 class PublisherView extends StatefulWidget {
 
-  final Result result;
+  final PublishersResult result;
   final String type;
 
   PublisherView(this.result, this.type);
@@ -13,6 +15,9 @@ class PublisherView extends StatefulWidget {
 }
 
 class _PublisherViewState extends State<PublisherView> {
+
+  final SizeConfig _config = SizeConfig();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,23 +28,23 @@ class _PublisherViewState extends State<PublisherView> {
       ),
       margin: EdgeInsets.only(right: 5, bottom: 5),
       child: Container(
-        height: 200,
-        width: MediaQuery.of(context).size.width,
+        height: _config.sh(200),
+        width: SizeConfig.screenWidthDp,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
             FadeInImage.assetNetwork(
               placeholder: "assets/images/placeholder.png",
               image: widget.result.imageBackground,
-              imageCacheHeight: 450,
-              imageCacheWidth: 800,
-              placeholderCacheHeight: 400,
-              placeholderCacheWidth: 400,
-              fit: BoxFit.cover, height: 200,
-              width: double.maxFinite,),
+              imageCacheHeight: _config.sh(450).toInt(),
+              imageCacheWidth: _config.sw(800).toInt(),
+              placeholderCacheHeight: _config.sh(400).toInt(),
+              placeholderCacheWidth: _config.sw(400).toInt(),
+              fit: BoxFit.cover, height: _config.sh(200),
+              width: SizeConfig.screenWidthDp,),
             Container(
-              height: 200,
-              width: MediaQuery.of(context).size.width,
+              height: _config.sh(200),
+              width: SizeConfig.screenWidthDp,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: FractionalOffset.topCenter,
@@ -62,12 +67,12 @@ class _PublisherViewState extends State<PublisherView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("${widget.result.name}",
-                      style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
+                    TitleText(text: "${widget.result.name}",
+                      textColor: Colors.white,
                       textAlign: TextAlign.start,
                     ),
-                    Text("Games: ${widget.result.gameCount}",
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+                    NormalText(text: "Games: ${widget.result.gameCount}",
+                      textColor: Colors.white,
                       textAlign: TextAlign.start,
                     ),
                   ],

@@ -4,13 +4,13 @@ class GenreModel{
   final int count;
   final String next;
   final String previous;
-  final List<Result> results;
+  final List<GenreResult> results;
 
   GenreModel(this.count, this.next, this.previous, this.results);
 
   factory GenreModel.fromJson(Map<String, dynamic> json){
 
-    List<Result> results = [];
+    List<GenreResult> results = [];
 
     int count = json['count'] as int;
     String next = json['next'] as String;
@@ -24,7 +24,7 @@ class GenreModel{
       int gamesCount = json['games_count'] as int;
       String imageBackground = json['image_background'] as String;
 
-      var result = Result(id, name, slug, gamesCount, imageBackground);
+      var result = GenreResult(id, name, slug, gamesCount, imageBackground);
       results.add(result);
     }
 
@@ -33,7 +33,7 @@ class GenreModel{
 
 }
 
-class Result{
+class GenreResult{
 
   final int id;
   final String name;
@@ -41,6 +41,6 @@ class Result{
   final int gameCount;
   final String imageBackground;
 
-  Result(this.id, this.name, this.slug, this.gameCount, this.imageBackground);
+  GenreResult(this.id, this.name, this.slug, this.gameCount, this.imageBackground);
 
 }

@@ -4,13 +4,13 @@ class PlatformModel{
   final int count;
   final String next;
   final String previous;
-  final List<Result> results;
+  final List<PlatformResult> results;
 
   PlatformModel(this.count, this.next, this.previous, this.results);
 
   factory PlatformModel.fromJson(Map<String, dynamic> json){
 
-    List<Result> results = [];
+    List<PlatformResult> results = [];
 
     int count = json['count'] as int;
     String next = json['next'] as String;
@@ -27,7 +27,7 @@ class PlatformModel{
       int yearStart = json['year_start'] as int;
       int yearEnd = json['year_end'] as int;
 
-      var result = Result(id, name, slug, gamesCount, imageBackground, image, yearStart, yearEnd);
+      var result = PlatformResult(id, name, slug, gamesCount, imageBackground, image, yearStart, yearEnd);
       results.add(result);
     }
 
@@ -37,7 +37,7 @@ class PlatformModel{
 
 }
 
-class Result{
+class PlatformResult{
 
   final int id;
   final String name;
@@ -48,7 +48,7 @@ class Result{
   final int yearStart;
   final int yearEnd;
 
-  Result(this.id, this.name, this.slug, this.gamesCount,
+  PlatformResult(this.id, this.name, this.slug, this.gamesCount,
       this.imageBackground, this.image, this.yearStart, this.yearEnd);
 
 }

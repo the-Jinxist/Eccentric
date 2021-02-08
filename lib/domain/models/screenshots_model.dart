@@ -4,13 +4,13 @@ class ScreenshotsModel{
   final int count;
   final String next;
   final String previous;
-  final List<Result> results;
+  final List<ScreenshotResult> results;
 
   ScreenshotsModel(this.count, this.next, this.previous, this.results );
 
   factory ScreenshotsModel.fromJson(Map<String, dynamic> json){
 
-    List<Result> results = [];
+    List<ScreenshotResult> results = [];
 
     int count = json['count'] as int;
     String next = json['next'] as String;
@@ -21,7 +21,7 @@ class ScreenshotsModel{
       String image = json['image'] as String;
       bool name = json['hidden'] as bool;
 
-      var result = Result(image, name);
+      var result = ScreenshotResult(image, name);
       results.add(result);
     }
 
@@ -30,9 +30,9 @@ class ScreenshotsModel{
 
 }
 
-class Result {
+class ScreenshotResult {
   final String image;
   final bool hidden;
 
-  Result(this.image, this.hidden);
+  ScreenshotResult(this.image, this.hidden);
 }

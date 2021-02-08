@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:game_app/domain/models/database_model.dart';
 import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class GameView extends StatefulWidget {
 
   final Result result;
-  Function onSavedTap;
+  final Function onSavedTap;
 
   GameView({@required this.result, this.onSavedTap});
 
@@ -29,6 +31,8 @@ class _GameViewState extends State<GameView> {
     savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
   }
 
+  final SizeConfig _config = SizeConfig();
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,8 +43,8 @@ class _GameViewState extends State<GameView> {
         borderRadius: BorderRadius.circular(30)
       ),
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 400,
+        width: SizeConfig.screenWidthDp,
+        height: _config.sh(400),
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -49,17 +53,17 @@ class _GameViewState extends State<GameView> {
                   placeholder: "assets/images/placeholder.png",
                   image: widget.result.backgroundImage,
                   fit: BoxFit.cover,
-                  imageCacheHeight: 450,
-                  imageCacheWidth: 800,
-                  placeholderCacheHeight: 400,
-                  placeholderCacheWidth: 400,
-                  height: 400,
-                  width: double.maxFinite,
+                  imageCacheHeight: _config.sh(450).toInt(),
+                  imageCacheWidth: _config.sw(800).toInt(),
+                  placeholderCacheHeight: _config.sh(400).toInt(),
+                  placeholderCacheWidth: _config.sw(400).toInt(),
+                  height: _config.sh(400),
+                  width: SizeConfig.screenWidthDp,
                 )
             ),
             Container(
-              height: 400,
-              width: MediaQuery.of(context).size.width,
+              height: _config.sh(400),
+              width: SizeConfig.screenWidthDp,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: FractionalOffset.topCenter,
@@ -163,33 +167,33 @@ class _GameViewState extends State<GameView> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 50,
-                      child: Text("${widget.result.name}",
-                        style: Theme.of(context).textTheme.headline.copyWith(color: Colors.white),
+                      width: SizeConfig.screenWidthDp - 50,
+                      child: NormalText(text: "${widget.result.name}",
+                        textColor: Colors.white,
                         textAlign: TextAlign.start,
                         maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
                   SizedBox(height: 3,),
-                  Text("Released: ${widget.result.released}",
-                    style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),
+                  NormalText(
+                    text: "Released: ${widget.result.released}",
+                    textColor: Colors.white,
                     textAlign: TextAlign.start,
                   ),
                   SizedBox(
-                    width: 300,
-                    child: Text("MetaCritic Rating: ${widget.result.metacritic != null ? widget.result.metacritic : "None"}. Play time: ${widget.result.playtime}. "
+                    width: _config.sw(300),
+                    child: NormalText(text: "MetaCritic Rating: ${widget.result.metacritic != null ? widget.result.metacritic : "None"}. Play time: ${widget.result.playtime}. "
                         "Suggestions: ${widget.result.suggestionsCount}",
                       maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.display1.copyWith(color: Colors.white),
+                      textColor: Colors.white,
                       textAlign: TextAlign.start,
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("Rating",
-                    style: Theme.of(context).textTheme.display2.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                  NormalText(text: "Rating",
+                    textColor: Colors.white,
+                    fontWeight: FontWeight.bold,
                     textAlign: TextAlign.start,
                   ),
                   Row(
@@ -211,8 +215,8 @@ class _GameViewState extends State<GameView> {
                         initialRating: widget.result.rating.roundToDouble(),
                       ),
                       SizedBox(width: 5),
-                      Text("Rates: ${widget.result.ratingsCount}",
-                        style: Theme.of(context).textTheme.display2.copyWith(color: Colors.white),
+                      NormalText(text: "Rates: ${widget.result.ratingsCount}",
+                        textColor: Colors.white,
                         textAlign: TextAlign.start,
                       ),
                     ],
