@@ -7,3 +7,5 @@ export 'package:game_app/presentation/bloc/search_bloc/z_search_bloc.dart';
 export 'package:game_app/presentation/bloc/your_games_bloc/z_your_games_bloc.dart';
 export 'package:game_app/presentation/bloc/details_bloc/z_details_bloc.dart';
 export 'package:game_app/presentation/bloc/platforms_bloc/z_platform_bloc.dart';
+export 'package:game_app/presentation/bloc/screenshot_bloc/z_screenshot_bloc.dart';
+export 'package:game_app/presentation/bloc/trailers_bloc/z_trailers_bloc.dart';
