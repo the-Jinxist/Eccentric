@@ -8,4 +8,15 @@ abstract class SearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadSearch extends SearchEvent {}
+class LoadSearch extends SearchEvent {
+
+  final String searchQuery;
+
+  LoadSearch([this.searchQuery]);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => ['Search Query: $searchQuery'];
+
+
+}

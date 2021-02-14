@@ -11,10 +11,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>{
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if(event is LoadAnticipated){
+    if(event is LoadSearch){
       try{
         yield SearchLoadInProgress();
-        GamesModel model  = await getAnticipatedService();
+        GamesModel model  = await getYourGamesFromSearchService(query: event.searchQuery);
         yield SearchLoadSuccess(model);
 
       }catch(e){
