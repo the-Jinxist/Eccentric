@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/domain/models/games_model.dart';
-import 'package:game_app/domain/models/platform_model.dart';
-import 'package:game_app/domain/models/publishers_model.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/anticipated_page.dart';
@@ -32,14 +27,7 @@ class DiscoverGamesPage extends StatefulWidget {
 }
 
 class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
-
-  Future popularFuture;
-  Future publisherFuture;
-  Future developerFuture;
-  Future platformFuture;
-
   final SizeConfig _config = SizeConfig();
-
   AnticipatedBloc anticipatedBloc;
 
   @override
@@ -51,13 +39,13 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
 
   @override
   void initState() {
-    popularFuture = _getPopularGames();
-    publisherFuture = _getPublishers();
-    developerFuture = _getDevelopers();
-    platformFuture = _getPlatforms();
-
     anticipatedBloc = BlocProvider.of<AnticipatedBloc>(context);
+
     anticipatedBloc.add(LoadAnticipated());
+    BlocProvider.of<PublishersBloc>(context).add(LoadPublishers());
+    BlocProvider.of<PopularBloc>(context).add(LoadPopular());
+    BlocProvider.of<DevelopersBloc>(context).add(LoadDevelopers());
+    BlocProvider.of<PlatformBloc>(context).add(LoadPlatform());
 
     super.initState();
   }
@@ -67,41 +55,50 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-      appBar: PreferredSize(child: Container(
-          padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TitleText(text: "Discover Games",),
-              NormalText(text: "Find games from all categories", ),
-            ],
+      appBar: PreferredSize(
+          child: Container(
+            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TitleText(
+                  text: "Discover Games",
+                ),
+                NormalText(
+                  text: "Find games from all categories",
+                ),
+              ],
+            ),
           ),
-        ), preferredSize: Size.fromHeight(100)),
+          preferredSize: Size.fromHeight(100)),
       body: ListView(
-        padding: EdgeInsets.only( left: 15, right: 15),
+        padding: EdgeInsets.only(left: 15, right: 15),
         children: <Widget>[
           GestureDetector(
-            onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage()));
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => SearchPage()));
             },
             child: Container(
                 height: _config.sh(70),
                 padding: EdgeInsets.only(left: 20),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    color: Colors.grey.withOpacity(0.3)
-                ),
+                    color: Colors.grey.withOpacity(0.3)),
                 width: SizeConfig.screenWidthDp,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(LineAwesomeIcons.search),
-                    XMargin(10,),
-                    NormalText(text: "Search",)
+                    XMargin(
+                      10,
+                    ),
+                    NormalText(
+                      text: "Search",
+                    )
                   ],
-                )
-            ),
+                )),
           ),
           YMargin(30),
           //
@@ -109,8 +106,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Popular
           //
           //
-          _buildSectionLabel("Popular In ${api.getCurrentYear()}", "The biggest games this year!", (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PopularPage()));
+          _buildSectionLabel("Popular In ${api.getCurrentYear()}",
+              "The biggest games this year!", () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => PopularPage()));
           }),
           YMargin(10),
           _buildPopularGames(),
@@ -122,8 +121,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           //
           //
 
-          _buildSectionLabel("Anticipated Games in ${api.getCurrentYear()}", "We're all waiting for these games", (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AnticipatedPage()));
+          _buildSectionLabel("Anticipated Games in ${api.getCurrentYear()}",
+              "We're all waiting for these games", () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AnticipatedPage()));
           }),
           YMargin(10),
           _buildAnticipatedGames(),
@@ -134,8 +135,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Publishers
           //
           //
-          _buildSectionLabel("Publishers", "Your favourite game publishers", (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllPublishersPage()));
+          _buildSectionLabel("Publishers", "Your favourite game publishers",
+              () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AllPublishersPage()));
           }),
           YMargin(10),
           _buildPublishers(),
@@ -146,8 +149,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           // - Developers
           //
           //
-          _buildSectionLabel("Developers", "The best, biggest game developers!", (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllDevelopersPage()));
+          _buildSectionLabel("Developers", "The best, biggest game developers!",
+              () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AllDevelopersPage()));
           }),
           YMargin(10),
           _buildDevelopers(),
@@ -162,8 +167,13 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              TitleText(text: "Platforms", fontSize: 20,),
-              NormalText(text: "All the devices you play a game on", ),
+              TitleText(
+                text: "Platforms",
+                fontSize: 20,
+              ),
+              NormalText(
+                text: "All the devices you play a game on",
+              ),
             ],
           ),
           YMargin(10),
@@ -172,7 +182,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              NormalText(text: "ECCENTRIC V1.0",)
+              NormalText(
+                text: "ECCENTRIC V1.0",
+              )
             ],
           ),
           SizedBox(height: 30),
@@ -181,8 +193,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     );
   }
 
-
-  Widget _buildSectionLabel(String title,String desc, Function onTapViewMore){
+  Widget _buildSectionLabel(String title, String desc, Function onTapViewMore) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -190,294 +201,311 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TitleText(text: "$title", ),
-            NormalText(text: "$desc",),
+            TitleText(
+              text: "$title",
+            ),
+            NormalText(
+              text: "$desc",
+            ),
           ],
         ),
         InkWell(
-          onTap: (){
-            onTapViewMore();
-          },
-          child: TitleText(text: "View More", textColor: Colors.orange, fontSize: 12,))
+            onTap: () {
+              onTapViewMore();
+            },
+            child: TitleText(
+              text: "View More",
+              textColor: Colors.orange,
+              fontSize: 12,
+            ))
       ],
     );
   }
 
-  Widget _buildPopularGames(){
-    return FutureBuilder(
-        future: popularFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else if(snapshot.hasData){
-            var models = (snapshot.data as GamesModel).results;
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: PageView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, position){
-                    var model = models[position];
-                    return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                          backgroundImage: model.backgroundImage,
-                          id: model.id,
-                          metacriticRating: model.metacritic,
-                          name: model.name,
-                          playTime: model.playtime,
-                          rating: model.rating,
-                          ratingsCount: model.ratingsCount,
-                          ratingsTop: model.ratingsTop,
-                          releaseDate: model.released,
-                          slug: model.slug,
-                          suggestionsCount: model.suggestionsCount,
-                        )));
-                      },
-                      child: PopularView(model)
-                    );
-                  }),
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(text: "Sorry an error occurred",),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          popularFuture = _getPopularGames();
-                        });
-                      },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }
-          else{
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }
-    );
-  }
-
-  Widget _buildAnticipatedGames(){
-    return BlocBuilder<AnticipatedBloc, AnticipatedState>(
-      builder: (context, state) {
-        if(state is AnticipatedLoadInProgress){
-          return Container(
-            height: _config.sh(250),
-            width: SizeConfig.screenWidthDp,
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }else if(state is AnticipatedLoadSuccess){
-          return Container(
-            height: _config.sh(250),
-            width: SizeConfig.screenWidthDp,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, position){
-                  var model = state.games.results[position];
-                  return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                          backgroundImage: model.backgroundImage,
-                          id: model.id,
-                          metacriticRating: model.metacritic,
-                          name: model.name,
-                          playTime: model.playtime,
-                          rating: model.rating,
-                          ratingsCount: model.ratingsCount,
-                          ratingsTop: model.ratingsTop,
-                          releaseDate: model.released,
-                          slug: model.slug,
-                          suggestionsCount: model.suggestionsCount,
-                        )));
-                      },
-                      child: AnticipatedView(model)
-                  );
-                }),
-          );
-        }else{
-          return Container(
-            height: _config.sh(250),
-            width: SizeConfig.screenWidthDp,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  NormalText(text: "Sorry an error occurred"),
-                  GestureDetector(
+  Widget _buildPopularGames() {
+    return BlocBuilder<PopularBloc, PopularState>(
+        builder: (BuildContext context, PopularState state) {
+      if (state is PopularLoadInProgress) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is PopularLoadSuccess) {
+        var models = state.games.results;
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: PageView.builder(
+              itemCount: 5,
+              itemBuilder: (context, position) {
+                var model = models[position];
+                return InkWell(
                     onTap: () {
-                      anticipatedBloc.add(LoadAnticipated());
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => GameDetailsPage(
+                                backgroundImage: model.backgroundImage,
+                                id: model.id,
+                                metacriticRating: model.metacritic,
+                                name: model.name,
+                                playTime: model.playtime,
+                                rating: model.rating,
+                                ratingsCount: model.ratingsCount,
+                                ratingsTop: model.ratingsTop,
+                                releaseDate: model.released,
+                                slug: model.slug,
+                                suggestionsCount: model.suggestionsCount,
+                              )));
                     },
-                    child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 12,),
-                  )
-                ],
-              ),
+                    child: PopularView(model));
+              }),
+        );
+      } else if (state is PopularLoadFailure) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                NormalText(
+                  text: "Sorry an error occurred",
+                ),
+                GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<PopularBloc>(context).add(LoadPopular());
+                  },
+                  child: TitleText(
+                    text: "Reload",
+                    textColor: Colors.orange,
+                    fontSize: 25,
+                  ),
+                )
+              ],
             ),
-          );
-        }
+          ),
+        );
+      } else {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       }
-    );
+    });
   }
 
-  Widget _buildPublishers(){
-    return FutureBuilder(
-        future: publisherFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else if(snapshot.hasData){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: PageView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, position){
-                    var model = (snapshot.data as PublishersModel).results[position];
-                    return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PublishersPage(model)));
-                      },
-                      child: PublisherView(model, "publishers")
-                    );
-                  }),
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              height: _config.sh(250),
-              width: double.maxFinite,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(text: "Sorry an error occurred",),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          publisherFuture = _getPublishers();
-                        });
-                      },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
-                    )
-                  ],
+  Widget _buildAnticipatedGames() {
+    return BlocBuilder<AnticipatedBloc, AnticipatedState>(
+        builder: (context, state) {
+      if (state is AnticipatedLoadInProgress) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is AnticipatedLoadSuccess) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, position) {
+                var model = state.games.results[position];
+                return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => GameDetailsPage(
+                                backgroundImage: model.backgroundImage,
+                                id: model.id,
+                                metacriticRating: model.metacritic,
+                                name: model.name,
+                                playTime: model.playtime,
+                                rating: model.rating,
+                                ratingsCount: model.ratingsCount,
+                                ratingsTop: model.ratingsTop,
+                                releaseDate: model.released,
+                                slug: model.slug,
+                                suggestionsCount: model.suggestionsCount,
+                              )));
+                    },
+                    child: AnticipatedView(model));
+              }),
+        );
+      } else {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                NormalText(text: "Sorry an error occurred"),
+                GestureDetector(
+                  onTap: () {
+                    anticipatedBloc.add(LoadAnticipated());
+                  },
+                  child: TitleText(
+                    text: "Reload",
+                    textColor: Colors.orange,
+                    fontSize: 12,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
+    });
+  }
+
+  Widget _buildPublishers() {
+    return BlocBuilder<PublishersBloc, PublishersState>(
+        builder: (BuildContext context, PublishersState state) {
+      if (state is PublishersLoadInProgress) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is PublishersLoadSuccess) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: PageView.builder(
+              itemCount: 10,
+              itemBuilder: (context, position) {
+                var model = state.publishers.results[position];
+                return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PublishersPage(model)));
+                    },
+                    child: PublisherView(model, "publishers"));
+              }),
+        );
+      } else if (state is PublishersLoadFailure) {
+        return Container(
+          height: _config.sh(250),
+          width: double.maxFinite,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                NormalText(
+                  text: "Sorry an error occurred",
                 ),
-              ),
-            );
-          }
-          else{
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }
-    );
+                GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<PublishersBloc>(context)
+                        .add(LoadPublishers());
+                  },
+                  child: TitleText(
+                    text: "Reload",
+                    textColor: Colors.orange,
+                    fontSize: 25,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    });
   }
 
-  Widget _buildDevelopers(){
-    return FutureBuilder(
-        future: developerFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }else if(snapshot.hasData){
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: PageView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, position){
-                    var model = (snapshot.data as PublishersModel).results[position];
-                    return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
-                      },
-                      child: PublisherView(model, "developers")
-                    );
-                  }),
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              height: _config.sh(250),
-              width: double.maxFinite,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(text: "Sorry an error occurred",),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          developerFuture = _getDevelopers();
-                        });
-                      },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
-                    )
-                  ],
+  Widget _buildDevelopers() {
+    return BlocBuilder<DevelopersBloc, DevelopersState>(
+        builder: (BuildContext context, DevelopersState state) {
+      if (state is DevelopersLoadInProgress) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else if (state is DevelopersLoadSuccess) {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: PageView.builder(
+              itemCount: 10,
+              itemBuilder: (context, position) {
+                var model = state.developers.results[position];
+                return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => DevelopersPage(model)));
+                    },
+                    child: PublisherView(model, "developers"));
+              }),
+        );
+      } else if (state is DevelopersLoadFailure) {
+        return Container(
+          height: _config.sh(250),
+          width: double.maxFinite,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                NormalText(
+                  text: "Sorry an error occurred",
                 ),
-              ),
-            );
-          }
-          else{
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }
-    );
+                GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<DevelopersBloc>(context)
+                        .add(LoadDevelopers());
+                  },
+                  child: TitleText(
+                    text: "Reload",
+                    textColor: Colors.orange,
+                    fontSize: 25,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          height: _config.sh(250),
+          width: SizeConfig.screenWidthDp,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    });
   }
 
-  Widget _buildPlatform(){
-    return FutureBuilder(
-        future: platformFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
+  Widget _buildPlatform() {
+    return Column(
+      children: [
+        BlocBuilder<PlatformBloc, PlatformState>(
+            builder: (BuildContext context, PlatformState state) {
+          if (state is PlatformLoadInProgress) {
             return Container(
               height: _config.sh(250),
               width: SizeConfig.screenWidthDp,
@@ -485,25 +513,25 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 child: CircularProgressIndicator(),
               ),
             );
-          }else if(snapshot.hasData){
+          } else if (state is PlatformLoadSuccess) {
             return Container(
               height: _config.sh(250),
               width: SizeConfig.screenWidthDp,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: (snapshot.data as PlatformModel).results.length,
-                  itemBuilder: (context, position){
-                    var model = (snapshot.data as PlatformModel).results[position];
+                  itemCount: state.platforms.results.length,
+                  itemBuilder: (context, position) {
+                    var model = state.platforms.results[position];
                     return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlatformPage(model)));
-                      },
-                      child: PlatformView(model)
-                    );
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PlatformPage(model)));
+                        },
+                        child: PlatformView(model));
                   }),
             );
-          }else if(snapshot.hasError){
+          } else if (state is PlatformLoadFailure) {
             return Container(
               height: _config.sh(250),
               width: SizeConfig.screenWidthDp,
@@ -512,21 +540,25 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    NormalText(text: "Sorry an error occurred",),
+                    NormalText(
+                      text: "Sorry an error occurred",
+                    ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          platformFuture = _getPlatforms();
-                        });
+                        BlocProvider.of<PlatformBloc>(context)
+                            .add(LoadPlatform());
                       },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
+                      child: TitleText(
+                        text: "Reload",
+                        textColor: Colors.orange,
+                        fontSize: 25,
+                      ),
                     )
                   ],
                 ),
               ),
             );
-          }
-          else{
+          } else {
             return Container(
               height: _config.sh(250),
               width: SizeConfig.screenWidthDp,
@@ -535,68 +567,8 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               ),
             );
           }
-        }
+        }),
+      ],
     );
   }
-
-//  Future<GameModel>_buildAnticipatedGames() async{
-//    var response = await api.getPopular();
-//    if(response.statusCode == 200){
-//      var model = GameModel.fromJson(json.decode(response.body));
-//      return model;
-//    }else{
-//      print("Discover - Popular Error: ${response.statusCode}")
-//      return null;
-//    }
-//
-//  }
-
-  Future<GamesModel> _getPopularGames() async{
-    var response = await api.getPopular();
-    if(response.statusCode == 200){
-      var model = GamesModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("Discover - Popular Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
-
-  Future<PublishersModel>_getDevelopers() async{
-    var response = await api.getDevelopers();
-    if(response.statusCode == 200){
-      var model = PublishersModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("Discover - Popular Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
-
-  Future<PublishersModel>_getPublishers() async{
-    var response = await api.getPublishers();
-    if(response.statusCode == 200){
-      var model = PublishersModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("Discover - Popular Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
-
-  Future<PlatformModel>_getPlatforms() async{
-    var response = await api.getPlatforms();
-    if(response.statusCode == 200){
-      var model = PlatformModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("Discover - Popular Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
-
 }

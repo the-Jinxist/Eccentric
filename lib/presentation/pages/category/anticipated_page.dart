@@ -1,9 +1,10 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/domain/models/games_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/bloc/anticipated_bloc/mapper/anticipated_bloc.dart';
+import 'package:game_app/presentation/bloc/anticipated_bloc/state/anticipated_state.dart';
+import 'package:game_app/presentation/bloc/anticipated_bloc/z_anticipated_bloc.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
@@ -15,14 +16,14 @@ class AnticipatedPage extends StatefulWidget {
 
 class _AnticipatedPageState extends State<AnticipatedPage> {
 
-  Future loadGamesFuture;
+
 
   @override
   void initState() {
-    // TODO: implement initState
+
+    BlocProvider.of<AnticipatedBloc>(context).add(LoadAnticipated());
     super.initState();
 
-    loadGamesFuture = getGames();
   }
 
   @override
@@ -45,111 +46,100 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
       ),
         body: Builder(
           builder: (context){
-            return FutureBuilder(
-              future: loadGamesFuture,
-              builder: (context, snapshot){
-                if(snapshot.connectionState != ConnectionState.done){
-                  return Container(
-                    height: SizeConfig.screenHeightDp,
-                    width: SizeConfig.screenWidthDp,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if(snapshot.hasData){
-                  var gameModeL = snapshot.data as GamesModel;
+            return Column(
+              children: [
+                BlocBuilder<AnticipatedBloc, AnticipatedState>(
+                  builder: (BuildContext context, AnticipatedState state){
+                    if(state is AnticipatedLoadInProgress){
+                      return Container(
+                        height: SizeConfig.screenHeightDp,
+                        width: SizeConfig.screenWidthDp,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }else if(state is AnticipatedLoadSuccess){
 
-                  return ListView.builder(
-                      itemCount: gameModeL.results.length,
-                      itemBuilder: (context, position){
-                        var currentGame = gameModeL.results[position];
-                        return InkWell(child: GameView(
-                            onSavedTap: (string) {
-                              if (string == "Added") {
-                                Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                        backgroundColor: Colors.black,
-                                        content: NormalText(text: "Game added to favourite!", textColor: Colors.white,)
-                                    )
-                                );
-                              } else {
-                                Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                        backgroundColor: Colors.black,
-                                        content: NormalText(text: "Game removed from favourite!", textColor: Colors.white,)
-                                    )
-                                );
-                              }
-                            },
-                            result: gameModeL.results[position]),
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
-                              backgroundImage: currentGame.backgroundImage,
-                              id: currentGame.id,
-                              metacriticRating: currentGame.metacritic,
-                              name: currentGame.name,
-                              playTime: currentGame.playtime,
-                              rating: currentGame.rating,
-                              ratingsCount: currentGame.ratingsCount,
-                              ratingsTop: currentGame.ratingsTop,
-                              releaseDate: currentGame.released,
-                              slug: currentGame.slug,
-                              suggestionsCount: currentGame.suggestionsCount,
-                            )));
-                          },);
-                      }
-                  );
-                }else if(snapshot.hasError){
-                  return Container(
-                    padding: EdgeInsets.all(20),
-                    height: SizeConfig.screenHeightDp,
-                    width: SizeConfig.screenWidthDp,
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                loadGamesFuture = getGames();
-                              });
-                            },
-                            child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
+                      return ListView.builder(
+                          itemCount: state.games.results.length,
+                          itemBuilder: (context, position){
+                            var currentGame =  state.games.results[position];
+                            return InkWell(child: GameView(
+                                onSavedTap: (string) {
+                                  if (string == "Added") {
+                                    Scaffold.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.black,
+                                            content: NormalText(text: "Game added to favourite!", textColor: Colors.white,)
+                                        )
+                                    );
+                                  } else {
+                                    Scaffold.of(context).showSnackBar(
+                                        SnackBar(
+                                            backgroundColor: Colors.black,
+                                            content: NormalText(text: "Game removed from favourite!", textColor: Colors.white,)
+                                        )
+                                    );
+                                  }
+                                },
+                                result:  state.games.results[position]),
+                              onTap: (){
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
+                                  backgroundImage: currentGame.backgroundImage,
+                                  id: currentGame.id,
+                                  metacriticRating: currentGame.metacritic,
+                                  name: currentGame.name,
+                                  playTime: currentGame.playtime,
+                                  rating: currentGame.rating,
+                                  ratingsCount: currentGame.ratingsCount,
+                                  ratingsTop: currentGame.ratingsTop,
+                                  releaseDate: currentGame.released,
+                                  slug: currentGame.slug,
+                                  suggestionsCount: currentGame.suggestionsCount,
+                                )));
+                              },);
+                          }
+                      );
+
+                    }else if(state is AnticipatedLoadFailure){
+
+                      return Container(
+                        padding: EdgeInsets.all(20),
+                        height: SizeConfig.screenHeightDp,
+                        width: SizeConfig.screenWidthDp,
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              NormalText(text: "Sorry an error occured", textAlign: TextAlign.center,),
+                              GestureDetector(
+                                onTap: (){
+                                  BlocProvider.of<AnticipatedBloc>(context).add(LoadAnticipated());
+                                },
+                                child: NormalText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                } else{
-                  return Container(
-                    height: SizeConfig.screenHeightDp,
-                    width: SizeConfig.screenWidthDp,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-              },
+                        ),
+                      );
+
+                    }else{
+                      return Container(
+                        height: SizeConfig.screenHeightDp,
+                        width: SizeConfig.screenWidthDp,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
             );
           },
         )
     );
-  }
-
-  Future<GamesModel> getGames() async {
-
-    var response  = await api.getAnticipated();
-
-    if (response.statusCode == 200){
-      var responseBody = json.decode(response.body);
-//      print("Anticipated Page: ${GamesModel.fromJson(responseBody).results[3].slug}");
-      return GamesModel.fromJson(responseBody);
-    }else{
-      print("Anticipated Page: ${response.statusCode}");
-      return null;
-    }
   }
 
 }
