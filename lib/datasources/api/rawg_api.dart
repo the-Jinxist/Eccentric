@@ -63,10 +63,6 @@ Future<GamesModel> getYourGamesService() async {
   }
 }
 
-Future<Response> getGamesFromDevelopers(String developers) async {
-  return get("https://api.rawg.io/api/games?developers=$developers&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<GamesModel> getYourGamesFromDevelopersService(
     {String developers}) async {
@@ -85,10 +81,6 @@ Future<GamesModel> getYourGamesFromDevelopersService(
   }
 }
 
-Future<Response> getGamesFromPublishers(String publishers) async {
-  return get("https://api.rawg.io/api/games?publishers=$publishers&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<GamesModel> getYourGamesFromPublishersService(
     {String publishers}) async {
@@ -107,10 +99,6 @@ Future<GamesModel> getYourGamesFromPublishersService(
   }
 }
 
-Future<Response> getGamesFromPlatform(String platforms) async {
-  return get("https://api.rawg.io/api/games?platforms=$platforms&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<GamesModel> getYourGamesFromPlatformService({String platform}) async {
   try {
@@ -128,10 +116,6 @@ Future<GamesModel> getYourGamesFromPlatformService({String platform}) async {
   }
 }
 
-Future<Response> getGamesFromSearch(String query) async {
-  return get("https://api.rawg.io/api/games?search=$query&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<GamesModel> getYourGamesFromSearchService({String query}) async {
   try {
@@ -148,10 +132,6 @@ Future<GamesModel> getYourGamesFromSearchService({String query}) async {
   }
 }
 
-Future<Response> getGameDetail(int id) async {
-  return get("https://api.rawg.io/api/games/$id",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<GameDetailModel> getGameDetailsService({int id}) async {
   try {
@@ -170,11 +150,6 @@ Future<GameDetailModel> getGameDetailsService({int id}) async {
   } catch (e) {
     throw Exception("$e");
   }
-}
-
-Future<Response> getGameScreenshots(String slug) async {
-  return get("https://api.rawg.io/api/games/$slug/screenshots",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
 }
 
 Future<ScreenshotsModel> getGameScreenshotsService({String slug}) async {
@@ -196,10 +171,6 @@ Future<ScreenshotsModel> getGameScreenshotsService({String slug}) async {
   }
 }
 
-Future<Response> getGameTrailer(String slug) async {
-  return get("https://api.rawg.io/api/games/$slug/movies",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<TrailersModel> getGameTrailersService({String slug}) async {
   try {
@@ -218,11 +189,6 @@ Future<TrailersModel> getGameTrailersService({String slug}) async {
   } catch (e) {
     throw Exception("$e");
   }
-}
-
-Future<Response> getGameAchievement(int id) async {
-  return get("https://api.rawg.io/api/games/$id/achievements",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
 }
 
 Future<AchievementModel> getGameAchievementsService({int id}) async {
@@ -244,11 +210,6 @@ Future<AchievementModel> getGameAchievementsService({int id}) async {
   }
 }
 
-Future<Response> getPlatforms() async {
-  return get("https://api.rawg.io/api/platforms?ordering=year_start&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
-
 Future<PlatformModel> getPlatformsService() async {
   try {
     Response response = await get(
@@ -266,11 +227,6 @@ Future<PlatformModel> getPlatformsService() async {
   } catch (e) {
     throw Exception("$e");
   }
-}
-
-Future<Response> getPublishers() async {
-  return get("https://api.rawg.io/api/publishers",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
 }
 
 Future<PublishersModel> getPublishersService() async {
@@ -292,12 +248,6 @@ Future<PublishersModel> getPublishersService() async {
   }
 }
 
-Future<Response> getPopular() async {
-  return get(
-      "https://api.rawg.io/api/games?dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
-
 Future<GamesModel> getPopularService() async {
   try {
     Response response = await get(
@@ -315,12 +265,6 @@ Future<GamesModel> getPopularService() async {
   } catch (e) {
     throw Exception("$e");
   }
-}
-
-Future<Response> getAnticipated() async {
-  return get(
-      "https://api.rawg.io/api/games?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
 }
 
 Future<GamesModel> getAnticipatedService() async {
@@ -342,10 +286,6 @@ Future<GamesModel> getAnticipatedService() async {
   }
 }
 
-Future<Response> getDevelopers() async {
-  return get("https://api.rawg.io/api/developers",
-      headers: {HttpHeaders.userAgentHeader: "Eccentric Catalog"});
-}
 
 Future<PublishersModel> getDevelopersService() async {
   try {
