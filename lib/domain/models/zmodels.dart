@@ -1,5 +1,4 @@
 export 'package:game_app/domain/models/achievement_model.dart';
-export 'package:game_app/domain/models/database_model.dart';
 export 'package:game_app/domain/models/game_detail_model.dart';
 export 'package:game_app/domain/models/games_model.dart';
 export 'package:game_app/domain/models/genre_model.dart';

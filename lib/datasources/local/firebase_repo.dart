@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:game_app/domain/models/database_model.dart';
+import 'package:game_app/datasources/z_datasources.dart';
 import 'package:game_app/domain/models/games_model.dart';
 
 class DatabaseRepo{
