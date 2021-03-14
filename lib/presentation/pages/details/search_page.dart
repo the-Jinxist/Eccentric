@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
-import 'package:game_app/presentation/bloc/search_bloc/z_search_bloc.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';

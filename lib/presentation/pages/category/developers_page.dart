@@ -1,14 +1,9 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_app/domain/models/games_model.dart' as gameModel;
 import 'package:game_app/domain/models/publishers_model.dart';
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
 import 'package:game_app/domain/utils/size_config.dart';
-import 'package:game_app/presentation/bloc/games_via_developers_bloc/event/games_via_developers_event.dart';
-import 'package:game_app/presentation/bloc/games_via_developers_bloc/mapper/games_via_developers_bloc.dart';
-import 'package:game_app/presentation/bloc/games_via_developers_bloc/state/games_via_developers_state.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';

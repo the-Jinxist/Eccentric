@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/repo/auth_repo.dart';
+import 'package:game_app/datasources/z_datasources.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/domain/utils/utils.dart';
 import 'package:game_app/presentation/pages/details/auth_page.dart';
