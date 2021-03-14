@@ -59,11 +59,9 @@ class _SearchPageState extends State<SearchPage> {
                                 controller: controller,
                                 onSubmitted: (string) {
                                   if (string.isNotEmpty) {
-                                    setState(() {
-                                      query = string.toLowerCase().trim();
-                                      BlocProvider.of<SearchBloc>(context)
-                                          .add(LoadSearch(query));
-                                    });
+                                    query = string.toLowerCase().trim();
+                                    BlocProvider.of<SearchBloc>(context)
+                                        .add(LoadSearch(query));
                                   }
                                 },
                                 maxLines: 1,
@@ -90,11 +88,9 @@ class _SearchPageState extends State<SearchPage> {
                             var string = controller.text;
                             print("Search Page: Controller Text: $string");
                             if (string.isNotEmpty) {
-                              setState(() {
-                                query = string.toLowerCase().trim();
-                                BlocProvider.of<SearchBloc>(context)
-                                    .add(LoadSearch(query));
-                              });
+                              query = string.toLowerCase().trim();
+                              BlocProvider.of<SearchBloc>(context)
+                                  .add(LoadSearch(query));
                             }
                           },
                           icon: Icon(
