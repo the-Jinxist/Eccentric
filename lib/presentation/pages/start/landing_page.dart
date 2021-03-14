@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/repo/prefs_repo.dart' as repo;
+import 'package:game_app/datasources/z_datasources.dart' as repo;
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/pages/category/genres_page.dart';
 import 'package:game_app/presentation/pages/home/home_page.dart';

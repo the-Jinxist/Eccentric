@@ -1,9 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
-import 'package:game_app/domain/models/publishers_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/developers_page.dart';
 import 'package:game_app/presentation/view/publisher_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
@@ -15,14 +14,12 @@ class AllDevelopersPage extends StatefulWidget {
 
 class _AllDevelopersPageState extends State<AllDevelopersPage> {
 
-  Future publishersFuture;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    publishersFuture = _getPublishers();
+    BlocProvider.of<DevelopersBloc>(context).add(LoadDevelopers());
   }
 
   @override
@@ -40,79 +37,66 @@ class _AllDevelopersPageState extends State<AllDevelopersPage> {
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
-      body: FutureBuilder(
-        future: publishersFuture,
-        builder: (context, snapshot){
-          if(snapshot.connectionState != ConnectionState.done){
-            return Container(
-              height: SizeConfig.screenHeightDp,
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if(snapshot.hasData){
-            var publisherModel = snapshot.data as PublishersModel;
-
-            return ListView.builder(
-                padding: EdgeInsets.only(left: 10, right: 5),
-                itemCount: publisherModel.results.length,
-                itemBuilder: (context, position){
-                  var model = publisherModel.results[position];
-                  return InkWell(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
-                      },
-                      child: Container(margin: EdgeInsets.only(bottom: 5, top: 5),child: PublisherView(model, "developers"))
+      body: Column(
+        children: [
+          BlocBuilder<DevelopersBloc, DevelopersState>(
+              builder: (BuildContext context, DevelopersState state) {
+                if (state is DevelopersLoadInProgress) {
+                  return Container(
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (state is DevelopersLoadSuccess) {
+                  return ListView.builder(
+                      padding: EdgeInsets.only(left: 10, right: 5),
+                      itemCount: state.developers.results.length,
+                      itemBuilder: (context, position){
+                        var model = state.developers.results[position];
+                        return InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => DevelopersPage(model)));
+                            },
+                            child: Container(margin: EdgeInsets.only(bottom: 5, top: 5),child: PublisherView(model, "developers"))
+                        );
+                      }
+                  );
+                } else if (state is DevelopersLoadFailure) {
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          NormalText(text: "Sorry an error occured",textAlign: TextAlign.center,),
+                          GestureDetector(
+                            onTap: (){
+                              BlocProvider.of<DevelopersBloc>(context).add(LoadDevelopers());
+                            },
+                            child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 }
-            );
-          }else if(snapshot.hasError){
-            return Container(
-              padding: EdgeInsets.all(20),
-              height: SizeConfig.screenHeightDp,
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(text: "Sorry an error occured",textAlign: TextAlign.center,),
-                    GestureDetector(
-                      onTap: (){
-                        setState(() {
-                          publishersFuture = _getPublishers();
-                        });
-                      },
-                      child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          } else{
-            return Container(
-              height: SizeConfig.screenHeightDp,
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        },
+              }),
+        ],
       ),
     );
   }
 
-  Future<PublishersModel>_getPublishers() async{
-    var response = await api.getDevelopers();
-    if(response.statusCode == 200){
-      var model = PublishersModel.fromJson(json.decode(response.body));
-      return model;
-    }else{
-      print("All Developers Page Error: ${response.statusCode}");
-      return null;
-    }
-
-  }
 }

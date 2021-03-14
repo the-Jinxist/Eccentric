@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/bloc/bloc_util.dart';
 import 'package:game_app/presentation/pages/start/landing_page.dart';
 
 void main(){
 
   final MultiBlocProvider appProviders = MultiBlocProvider(
-    providers: [
-      BlocProvider<AnticipatedBloc>(
-        create: (context) => AnticipatedBloc(),
-      ),
-      BlocProvider<YourGamesBloc>(
-        create: (context) => YourGamesBloc(),
-      ),
-    ],
+    providers: blocs,
     child: MyApp()
   );
 

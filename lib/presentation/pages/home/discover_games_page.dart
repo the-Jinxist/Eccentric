@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:game_app/datasources/api/rawg_api.dart' as api;
+import 'package:game_app/datasources/network/rawg_impl.dart' as api;
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/anticipated_page.dart';

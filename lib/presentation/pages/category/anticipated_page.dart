@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:game_app/domain/utils/size_config.dart';
-import 'package:game_app/presentation/bloc/anticipated_bloc/mapper/anticipated_bloc.dart';
-import 'package:game_app/presentation/bloc/anticipated_bloc/state/anticipated_state.dart';
-import 'package:game_app/presentation/bloc/anticipated_bloc/z_anticipated_bloc.dart';
+import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';

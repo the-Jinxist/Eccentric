@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:game_app/domain/models/database_model.dart';
+import 'package:game_app/datasources/z_datasources.dart';
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
@@ -24,7 +24,6 @@ class _GameViewState extends State<GameView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     databaseHelper = DatabaseHelper();
