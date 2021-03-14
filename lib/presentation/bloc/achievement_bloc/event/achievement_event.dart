@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:game_app/domain/models/zmodels.dart';
 
 abstract class AchievementEvent extends Equatable {
   const AchievementEvent();
