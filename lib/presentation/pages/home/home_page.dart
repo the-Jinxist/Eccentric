@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> {
     var user = await AuthRepo.getCurrentUser();
     if(user != null){
       print("User dey");
-      var map = await DatabaseHelper().getGameList();
-      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
+//      var map = await DatabaseHelper().getGameList();
+//      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
     }else{
       print("User no dey");
     }

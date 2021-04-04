@@ -27,7 +27,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
     // TODO: implement initState
     super.initState();
 
-    savedFuture = databaseHelper.getResult();
+    savedFuture = databaseHelper.getAllGamesService();
     userFuture = AuthRepo.getCurrentUser();
   }
 
@@ -135,7 +135,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                               }
 
                               setState(() {
-                                savedFuture = databaseHelper.getResult();
+                                savedFuture = databaseHelper.getAllGamesService();
                               });
                             },
                           ),
@@ -208,7 +208,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
       );
 
       setState(() {
-        savedFuture = databaseHelper.getResult();
+        savedFuture = databaseHelper.getAllGamesService();
       });
 
     }else{

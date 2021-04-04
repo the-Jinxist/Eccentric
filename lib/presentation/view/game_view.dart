@@ -27,7 +27,7 @@ class _GameViewState extends State<GameView> {
     super.initState();
 
     databaseHelper = DatabaseHelper();
-    savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+    savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
   }
 
   final SizeConfig _config = SizeConfig();
@@ -92,9 +92,9 @@ class _GameViewState extends State<GameView> {
                       if(listOfGames.isEmpty){
                         return IconButton(
                           onPressed: (){
-                            databaseHelper.insert(widget.result).then((int){
+                            databaseHelper.insertSingleGameService(widget.result).then((int){
                               setState(() {
-                                savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+                                savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
                               });
                             });
 
@@ -107,9 +107,9 @@ class _GameViewState extends State<GameView> {
                       }else{
                         return IconButton(
                           onPressed: (){
-                            databaseHelper.delete(widget.result.id).then((int){
+                            databaseHelper.deleteGameService(widget.result.id).then((int){
                               setState(() {
-                                savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+                                savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
                               });
 
                             });

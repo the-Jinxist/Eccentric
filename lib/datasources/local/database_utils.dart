@@ -1,0 +1,17 @@
+const String gameTable = 'GameTable';
+const String colId = 'id';
+const String colSlug = 'slug';
+const String colName = 'name';
+const String colReleased = 'released';
+const String colTba = 'tba';
+const String colBackgroundImage = 'backgroundImage';
+const String colRating = 'rating';
+const String colRatingsTop = 'ratingTop';
+const String colRatings = 'ratings';
+const String colRatingsCount = 'ratingsCount';
+const String colReviewsTextCount = 'reviewsTextCount';
+const String colAdded = 'added';
+const String colAddedByStatus = 'addedByStatus';
+const String colMetacritic = 'metacritic';
+const String colPlaytime = 'playtime';
+const String colSuggestionsCount = 'suggestionsCount';

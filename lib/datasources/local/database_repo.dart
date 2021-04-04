@@ -4,28 +4,13 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
+import 'package:game_app/datasources/local/database_utils.dart';
 
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
   static Database _database;
 
-  String gameTable = 'GameTable';
-  String colId = 'id';
-  String colSlug = 'slug';
-  String colName = 'name';
-  String colReleased = 'released';
-  String colTba = 'tba';
-  String colBackgroundImage = 'backgroundImage';
-  String colRating = 'rating';
-  String colRatingsTop = 'ratingTop';
-  String colRatings = 'ratings';
-  String colRatingsCount = 'ratingsCount';
-  String colReviewsTextCount = 'reviewsTextCount';
-  String colAdded = 'added';
-  String colAddedByStatus = 'addedByStatus';
-  String colMetacritic = 'metacritic';
-  String colPlaytime = 'playtime';
-  String colSuggestionsCount = 'suggestionsCount';
+
 
   DatabaseHelper._createInstance();
 
@@ -55,7 +40,7 @@ class DatabaseHelper {
         'CREATE TABLE $gameTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colAdded INTEGER, $colAddedByStatus TEXT,$colBackgroundImage TEXT, $colMetacritic INTEGER, $colName TEXT, $colPlaytime INTEGER, $colRating DOUBLE, $colRatings TEXT, $colRatingsCount INTEGER, $colRatingsTop INTEGER, $colReleased TEXT, $colReviewsTextCount INTEGER, $colSlug TEXT, $colSuggestionsCount INTEGER, $colTba TEXT)');
   }
 
-  Future<List<Map<String, dynamic>>> getGameList() async{
+  Future<List<Map<String, dynamic>>> _getGameList() async{
     Database db = await this.database;
 
     var result = await db.query(gameTable);
@@ -63,14 +48,14 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<List<Map<String, dynamic>>> getGame(String slug) async{
+  Future<List<Map<String, dynamic>>> _getGame(String slug) async{
     Database db = await this.database;
     var result = await db.query(gameTable, where: "$colSlug = ?", whereArgs: [slug]);
 
     return result;
   }
 
-  Future<int> insert(Result results) async{
+  Future<int> insertSingleGameService(Result results) async{
     Database db = await this.database;
 
     var result = await db.insert(gameTable, results.toMap());
@@ -78,14 +63,14 @@ class DatabaseHelper {
 
     var user = await AuthRepo.getCurrentUser();
     if(user != null){
-      var map = await DatabaseHelper().getGameList();
+      var map = await DatabaseHelper()._getGameList();
       DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
     }
 
     return result;
   }
 
-  Future<List<dynamic>> insertGames(List<Result> results) async{
+  Future<List<dynamic>> insertGamesService(List<Result> results) async{
     Database db = await this.database;
 
     var batch = db.batch();
@@ -98,22 +83,22 @@ class DatabaseHelper {
     return insertResult;
   }
 
-  Future<int> delete(int id) async{
+  Future<int> deleteGameService(int id) async{
     Database db = await this.database;
 
     var result =  await db.delete(gameTable, where: "$colId = ?", whereArgs: [id]);
 
     var user = await AuthRepo.getCurrentUser();
     if(user != null){
-      var map = await DatabaseHelper().getGameList();
+      var map = await DatabaseHelper()._getGameList();
       DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
     }
 
     return result;
   }
 
-  Future<List<Result>> getResult() async{
-    var gameMapList = await getGameList();
+  Future<List<Result>> getAllGamesService() async{
+    var gameMapList = await _getGameList();
 
     int count = gameMapList.length;
 
@@ -125,8 +110,8 @@ class DatabaseHelper {
     return list;
   }
 
-  Future<List<Result>> getSingleQueryResult(String slug) async{
-    var gameMapList = await getGame(slug);
+  Future<List<Result>> getSingleGameService(String slug) async{
+    var gameMapList = await _getGame(slug);
 
     int count = gameMapList.length;
 
