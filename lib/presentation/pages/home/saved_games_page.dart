@@ -16,19 +16,19 @@ class SavedGamesPage extends StatefulWidget {
 }
 
 class _SavedGamesPageState extends State<SavedGamesPage> {
+
   List<Result> resultList;
   DatabaseHelper databaseHelper = DatabaseHelper();
   Future savedFuture;
-  Future userFuture;
+
   int count = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     savedFuture = databaseHelper.getAllGamesService();
-    userFuture = AuthRepo.getCurrentUser();
+
   }
 
   @override
@@ -46,42 +46,9 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
               children: <Widget>[
                 TitleText(text: "Saved Games",),
                 NormalText(text: "Games you've taken a fancy to!", ),
-
-
               ],
             ),
-            FutureBuilder(
-              future: userFuture,
-              builder: (context, snapshot){
-                print("Profile from saved games: ${snapshot.data}");
-                if(snapshot.hasData){
-                  var user = snapshot.data as FirebaseUser;
-                  if(user != null){
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        NormalText(text: "Well, since you've signed in. You could get your saved games we last store \n If you has any", textAlign: TextAlign.center),
-                        YMargin(5,),
-                        GestureDetector(
-                          onTap: (){
-                            setState(() {
 
-                            });
-                          },
-                          child: TitleText(text: "Reload", textColor: Colors.orange, fontSize: 25,),
-                        ),
-                      ],
-                    );
-                  }else{
-                    return SizedBox();
-                  }
-
-                }else{
-                  return SizedBox();
-                }
-              },
-            )
           ],
         ),
       ), preferredSize: Size.fromHeight(100)),
