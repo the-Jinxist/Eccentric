@@ -45,13 +45,13 @@ class _PublishersPageState extends State<PublishersPage> {
                     TitleText(
                       text: "${widget.result.name}",
                     ),
-                    YMargin(15),
+                    YMargin(10),
                     BlocBuilder<GamesViaPublishersBloc,
                         GamesViaPublishersState>(
                       builder: (BuildContext context, state) {
                         if (state is GamesViaPublishersLoadInProgress) {
                           return Container(
-                            height: SizeConfig.screenHeightDp - 300,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: CircularProgressIndicator(),
@@ -60,6 +60,9 @@ class _PublishersPageState extends State<PublishersPage> {
                         } else if (state is GamesViaPublishersLoadSuccess) {
                           return ListView.builder(
                               itemCount: state.games.results.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(left: 10, right: 10),
                               itemBuilder: (context, position) {
                                 var currentGame = state.games.results[position];
                                 return InkWell(

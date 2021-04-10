@@ -59,6 +59,7 @@ class _PlatformPageState extends State<PlatformPage> {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: state.gamesDetails.results.length,
+                            padding: EdgeInsets.only(left: 10, right: 10),
                             itemBuilder: (context, position) {
                               var currentGame =
                                   state.gamesDetails.results[position];

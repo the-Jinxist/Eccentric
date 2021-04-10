@@ -52,6 +52,7 @@ class _AnticipatedPageState extends State<AnticipatedPage> {
                         } else if (state is AnticipatedLoadSuccess) {
                           return ListView.builder(
                               shrinkWrap: true,
+                              padding: EdgeInsets.symmetric(horizontal: 15),
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: state.games.results.length,
                               itemBuilder: (context, position) {

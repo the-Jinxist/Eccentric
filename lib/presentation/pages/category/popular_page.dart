@@ -53,6 +53,9 @@ class _PopularPageState extends State<PopularPage> {
                           }else if(state is PopularLoadSuccess){
 
                             return ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.symmetric(horizontal: 15),
                                 itemCount: state.games.results.length,
                                 itemBuilder: (context, position){
                                   var currentGame = state.games.results[position];

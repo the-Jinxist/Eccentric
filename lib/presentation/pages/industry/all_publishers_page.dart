@@ -48,7 +48,9 @@ class _AllPublishersPageState extends State<AllPublishersPage> {
                       );
                     } else if (state is PublishersLoadSuccess) {
                       return ListView.builder(
-                          padding: EdgeInsets.only(left: 10, right: 5),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.only(left: 10, right: 10),
                           itemCount: state.publishers.results.length,
                           itemBuilder: (context, position){
                             var model = state.publishers.results[position];

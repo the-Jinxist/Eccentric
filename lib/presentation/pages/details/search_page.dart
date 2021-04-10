@@ -48,11 +48,11 @@ class _SearchPageState extends State<SearchPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                            height: _config.sh(70),
-                            padding: EdgeInsets.only(left: 20, right: 20),
+                            height: _config.sh(50),
+                            padding: EdgeInsets.only(left: 15, right: 15),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(40),
-                                color: Colors.grey.withOpacity(0.3)),
+                                color: Colors.grey.withOpacity(0.1)),
                             width: _config.sw(300),
                             child: Center(
                               child: TextField(
@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> {
                           builder: (context, state) {
                         if (state is SearchIdleState) {
                           return Container(
-                            height: SizeConfig.screenHeightDp - 100,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: Column(
@@ -142,7 +142,7 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         } else if (state is SearchLoadInProgress) {
                           return Container(
-                            height: SizeConfig.screenHeightDp - 100,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: CircularProgressIndicator(),
@@ -154,6 +154,7 @@ class _SearchPageState extends State<SearchPage> {
                           return ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.symmetric(horizontal: 15),
                               itemCount: model.results.length,
                               itemBuilder: (context, position) {
                                 var currentGame = model.results[position];
@@ -200,7 +201,7 @@ class _SearchPageState extends State<SearchPage> {
                         } else if (state is SearchLoadFailure) {
                           return Container(
                             padding: EdgeInsets.all(20),
-                            height: SizeConfig.screenHeightDp - 100,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: Column(
@@ -228,7 +229,7 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         } else {
                           return Container(
-                            height: SizeConfig.screenHeightDp - 100,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: Column(
