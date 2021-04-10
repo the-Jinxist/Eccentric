@@ -42,11 +42,11 @@ class XButton extends StatelessWidget {
 
       },
       child: Container(
-        height: height != null ? config.sh(height) : config.sh(40),
+        height: height != null ? config.sh(height) : config.sh(50),
         width: width != null ? config.sw(width) : config.sw(100),
         decoration: BoxDecoration(
             color: buttonColor ?? Theme.of(context).accentColor,
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(25.0),
             border: isOutlined ? Border.all(color: borderColor ?? Theme.of(context).accentColor, width: config.sh(1)): null
         ),
         child: Center(

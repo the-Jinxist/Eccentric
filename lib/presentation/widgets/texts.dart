@@ -18,11 +18,12 @@ class TitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
       maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
       textAlign: textAlign != null ? textAlign: TextAlign.start,
       style: Theme.of(context).textTheme.headline1
           .copyWith(
             decoration: decoration,
-            fontSize: fontSize != null ? SizeConfig().sp(fontSize): 17,
+            fontSize: fontSize != null ? SizeConfig().sp(fontSize): 25,
             fontWeight: fontWeight != null ? fontWeight : FontWeight.bold,
             color: textColor != null ? textColor: Colors.black,
           ),
@@ -76,7 +77,7 @@ class NormalText extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyText1
           .copyWith(
           decoration: decoration,
-          fontSize: fontSize != null ? SizeConfig().sp(fontSize): 14,
+          fontSize: fontSize != null ? SizeConfig().sp(fontSize): 15,
           color: textColor != null ? textColor: Colors.black,
           fontWeight: fontWeight != null ? fontWeight: FontWeight.normal
       ),

@@ -20,7 +20,7 @@ class _PlatformViewState extends State<PlatformView> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 1,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
@@ -38,7 +38,7 @@ class _PlatformViewState extends State<PlatformView> {
               imageCacheWidth: _config.sw(800).toInt(),
               placeholderCacheHeight: _config.sh(400).toInt(),
               placeholderCacheWidth: _config.sw(400).toInt(),
-              image: widget.result.imageBackground,
+              image: widget.result.imageBackground ?? "",
               fit: BoxFit.cover, height: _config.sh(200),
               width: SizeConfig.screenWidthDp,),
             Container(

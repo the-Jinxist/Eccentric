@@ -6,6 +6,7 @@ import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/view/bland_picture_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/x_margin.dart';
 import 'package:game_app/presentation/widgets/y_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 
@@ -50,13 +51,13 @@ class _GameDetailsPageState extends State<GameDetailsPage>
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
-        padding: EdgeInsets.only(top: 50, left: 15, right: 15),
+        padding: EdgeInsets.only(top: 60, left: 15, right: 15),
         children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TitleText(text: "${widget.name}", maxLines: 1,),
+              TitleText(text: "${widget.name}", maxLines: 5,),
               NormalText(text: "Released: ${widget.releaseDate}!",),
               RatingBar(
                 onRatingUpdate: (rating) {},
@@ -80,12 +81,15 @@ class _GameDetailsPageState extends State<GameDetailsPage>
               child: BlandPictureView(widget.backgroundImage)),
           YMargin(20,),
           TitleText(text: "Description", fontSize: 20,),
+          YMargin(5,),
           _buildGameDetails(),
           YMargin(20,),
           TitleText(text: "Achievements", fontSize: 20,),
+          YMargin(5,),
           _buildGameAchievements(),
           YMargin(20,),
           TitleText(text: "Screenshots", fontSize: 20,),
+          YMargin(5,),
           _buildGameScreenshots(),
           YMargin(50,),
           //TODO: Might add trailer some.
@@ -121,11 +125,11 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                         .replaceAll("<p>", "")
                         .replaceAll("</p>", "")
                         .replaceAll("<br />", "\n")}"),
-                    YMargin(2,),
+                    YMargin(15,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        GestureDetector(
+                        state.gamesDetails.website != null ? GestureDetector(
                           onTap: () {
                             if (state.gamesDetails.website != null) {
                               //Navigate to website
@@ -134,9 +138,9 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           child: Icon(
                             LineAwesomeIcons.internet_explorer, size: 30,
                           ),
-                        ),
-                        YMargin(10),
-                        GestureDetector(
+                        ): Container(),
+                        XMargin(10),
+                        state.gamesDetails.redditUrl != null ? GestureDetector(
                           onTap: () {
                             if (state.gamesDetails.redditUrl != null) {
                               //Navigate to website
@@ -145,10 +149,10 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           child: Icon(
                               LineAwesomeIcons.reddit, size: 30
                           ),
-                        )
+                        ): Container()
                       ],
                     ),
-                    YMargin(10,),
+                    YMargin(15,),
                     BlandPictureView(
                       state.gamesDetails.backgroundImageAdditional,),
                   ],
@@ -273,7 +277,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                 var model = state.screenshots;
 
                 return Container(
-                  height: _sizeConfig.sh(270),
+                  height: _sizeConfig.sh(220),
                   width: SizeConfig.screenWidthDp,
                   child: PageView.builder(
                       itemCount: model.results.length,

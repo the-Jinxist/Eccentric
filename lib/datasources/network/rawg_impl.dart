@@ -36,9 +36,11 @@ Future<GenreModel> getGenresService() async {
       GenreModel gameModel = GenreModel.fromJson(json.decode(response.body));
       return gameModel;
     } else {
+      print("Gnnre Exception: ${response.statusCode}, ${response.body}");
       throw Exception("${response.statusCode}, ${response.body}");
     }
   } catch (e) {
+    print("Gnnre Exception: $e");
     throw Exception("$e");
   }
 }

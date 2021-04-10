@@ -55,37 +55,28 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBody: true,
-      appBar: PreferredSize(
-          child: Container(
-            padding: EdgeInsets.only(top: 10, left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TitleText(
-                  text: "Discover Games",
-                ),
-                NormalText(
-                  text: "Find games from all categories",
-                ),
-              ],
-            ),
-          ),
-          preferredSize: Size.fromHeight(100)),
       body: ListView(
         padding: EdgeInsets.only(left: 15, right: 15),
         children: <Widget>[
+          YMargin(50),
+          TitleText(
+            text: "Discover Games",
+          ),
+          NormalText(
+            text: "Find games from all categories",
+          ),
+          YMargin(30),
           GestureDetector(
             onTap: () {
               Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => SearchPage()));
             },
             child: Container(
-                height: _config.sh(70),
+                height: _config.sh(60),
                 padding: EdgeInsets.only(left: 20),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Colors.grey.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.grey.withOpacity(0.1)),
                 width: SizeConfig.screenWidthDp,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,9 +102,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => PopularPage()));
           }),
-          YMargin(10),
+          YMargin(15),
           _buildPopularGames(),
-          YMargin(20),
+          YMargin(40),
 
           //
           //
@@ -126,9 +117,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AnticipatedPage()));
           }),
-          YMargin(10),
+          YMargin(15),
           _buildAnticipatedGames(),
-          YMargin(20),
+          YMargin(40),
 
           //
           //
@@ -140,9 +131,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AllPublishersPage()));
           }),
-          YMargin(10),
+          YMargin(15),
           _buildPublishers(),
-          YMargin(20),
+          YMargin(40),
 
           //
           //
@@ -154,9 +145,9 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AllDevelopersPage()));
           }),
-          YMargin(10),
+          YMargin(15),
           _buildDevelopers(),
-          YMargin(20),
+          YMargin(40),
 
           //
           //
@@ -178,7 +169,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           ),
           YMargin(10),
           _buildPlatform(),
-          SizedBox(height: 30),
+          SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -203,6 +194,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
           children: <Widget>[
             TitleText(
               text: "$title",
+              fontSize: 20,
             ),
             NormalText(
               text: "$desc",
@@ -236,7 +228,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
       } else if (state is PopularLoadSuccess) {
         var models = state.games.results;
         return Container(
-          height: _config.sh(250),
+          height: _config.sh(220),
           width: SizeConfig.screenWidthDp,
           child: PageView.builder(
               itemCount: 5,
@@ -313,7 +305,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         );
       } else if (state is AnticipatedLoadSuccess) {
         return Container(
-          height: _config.sh(250),
+          height: _config.sh(220),
           width: SizeConfig.screenWidthDp,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -381,7 +373,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         );
       } else if (state is PublishersLoadSuccess) {
         return Container(
-          height: _config.sh(250),
+          height: _config.sh(220),
           width: SizeConfig.screenWidthDp,
           child: PageView.builder(
               itemCount: 10,
@@ -447,7 +439,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         );
       } else if (state is DevelopersLoadSuccess) {
         return Container(
-          height: _config.sh(250),
+          height: _config.sh(220),
           width: SizeConfig.screenWidthDp,
           child: PageView.builder(
               itemCount: 10,
@@ -515,7 +507,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             );
           } else if (state is PlatformLoadSuccess) {
             return Container(
-              height: _config.sh(250),
+              height: _config.sh(220),
               width: SizeConfig.screenWidthDp,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,

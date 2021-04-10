@@ -21,12 +21,12 @@ class _AnticipatedViewState extends State<AnticipatedView> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 2,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
       ),
-      margin: EdgeInsets.only(right: 5, bottom: 5),
+      margin: EdgeInsets.only(right: 10, bottom: 5),
       child: Container(
         height: _config.sh(200),
         width: _config.sw(250),

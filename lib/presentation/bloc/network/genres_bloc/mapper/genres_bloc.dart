@@ -17,10 +17,11 @@ class GenresBloc extends Bloc<GenresEvent, GenresState>{
         GenreModel model = await getGenresService();
         String genreString  = await getGenreString();
 
-        yield GenresLoadSuccess(model, genreString != null ? genreString.split(", "): null);
+        yield GenresLoadSuccess(model, genreString != null ? genreString.split(", "): <String>[]);
 
       }catch(e){
 
+        print("Gnere error: $e");
         yield GenresLoadFailure();
 
       }
