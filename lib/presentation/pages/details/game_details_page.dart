@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:game_app/domain/utils/navigator.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
+import 'package:game_app/presentation/pages/details/webview_screen.dart';
 import 'package:game_app/presentation/view/bland_picture_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:game_app/presentation/widgets/x_margin.dart';
@@ -133,6 +135,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           onTap: () {
                             if (state.gamesDetails.website != null) {
                               //Navigate to website
+                              navigate(context, WebviewScreen(initialUrl: state.gamesDetails.website));
                             }
                           },
                           child: Icon(
@@ -144,6 +147,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           onTap: () {
                             if (state.gamesDetails.redditUrl != null) {
                               //Navigate to website
+                              navigate(context, WebviewScreen(initialUrl: state.gamesDetails.redditUrl));
                             }
                           },
                           child: Icon(
