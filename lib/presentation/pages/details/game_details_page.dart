@@ -48,129 +48,76 @@ class _GameDetailsPageState extends State<GameDetailsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 200,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: BlandPictureView(widget.backgroundImage),
-              title: Align(
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TitleText(text: "${widget.name}", maxLines: 5,),
-                    NormalText(text: "Released: ${widget.releaseDate}!",),
-                    RatingBar(
-                      onRatingUpdate: (rating) {},
-                      allowHalfRating: true,
-                      itemCount: widget.ratingsTop,
-                      itemSize: 20,
-                      ignoreGestures: true,
-                      initialRating: widget.rating,
-                      glow: true,
-                      itemBuilder: (context, _) =>
-                          Icon(
-                            Icons.star,
-                            color: Colors.orange,
-                          ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: NestedScrollView(headerSliverBuilder: (BuildContext context, bool isScrolled){
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 400,
+              pinned: true,
+              floating: true,
+              elevation: 0,
+              toolbarHeight: 50,
+              collapsedHeight: 100,
 
-                    )
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.network(widget.backgroundImage,fit: BoxFit.cover,),
+                centerTitle: false,
+                titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TitleText(text: "${widget.name}", maxLines: 5,fontSize: 16 ,),
+                        NormalText(text: "Released: ${widget.releaseDate}!",),
+                        RatingBar(
+                          onRatingUpdate: (rating) {},
+                          allowHalfRating: true,
+                          itemCount: widget.ratingsTop,
+                          itemSize: 20,
+                          ignoreGestures: true,
+                          initialRating: widget.rating,
+                          glow: true,
+                          itemBuilder: (context, _) =>
+                              Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              ),
+
+                        )
+                      ],
+                    ),
                   ],
-                )
+                ),
               ),
             ),
-          ),
-
-          SliverFillRemaining(
-            child: CustomScrollView(
-              primary: false,
-              slivers:<Widget> [
-                SliverPadding(
-                  padding: EdgeInsets.only(top: 60, left: 15, right: 15),
-                  sliver: SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        YMargin(20,),
-                    TitleText(text: "Description", fontSize: 20,),
-                    YMargin(5,),
-                    _buildGameDetails(),
-                    YMargin(20,),
-                    TitleText(text: "Achievements", fontSize: 20,),
-                    YMargin(5,),
-                    _buildGameAchievements(),
-                    YMargin(20,),
-                    TitleText(text: "Screenshots", fontSize: 20,),
-                    YMargin(5,),
-                    _buildGameScreenshots(),
-                    YMargin(50,),
-                    //TODO: Might add trailer some.
+          ];
+        }, body: ListView(
+            padding: EdgeInsets.only(top: 60, left: 15, right: 15),
+          children: [
+            TitleText(text: "Description", fontSize: 20,),
+            YMargin(5,),
+            _buildGameDetails(),
+            YMargin(20,),
+            TitleText(text: "Achievements", fontSize: 20,),
+            YMargin(5,),
+            _buildGameAchievements(),
+            YMargin(20,),
+            TitleText(text: "Screenshots", fontSize: 20,),
+            YMargin(5,),
+            _buildGameScreenshots(),
+            YMargin(50,),
+            //TODO: Might add trailer some.
 //          Text("Trailers", style: Theme.of(context).textTheme.headline,),
 //          _buildGameTrailer(),
-                    ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          )
-        ]
-      )
-    );
-      /*ListView(
-        padding: EdgeInsets.only(top: 60, left: 15, right: 15),
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TitleText(text: "${widget.name}", maxLines: 5,),
-              NormalText(text: "Released: ${widget.releaseDate}!",),
-              RatingBar(
-                onRatingUpdate: (rating) {},
-                allowHalfRating: true,
-                itemCount: widget.ratingsTop,
-                itemSize: 20,
-                ignoreGestures: true,
-                initialRating: widget.rating,
-                glow: true,
-                itemBuilder: (context, _) =>
-                    Icon(
-                      Icons.star,
-                      color: Colors.orange,
-                    ),
-
-              )
-            ],
-          ),
-          YMargin(10,),
-          Hero(tag: widget.name,
-              child: BlandPictureView(widget.backgroundImage)),
-          YMargin(20,),
-          TitleText(text: "Description", fontSize: 20,),
-          YMargin(5,),
-          _buildGameDetails(),
-          YMargin(20,),
-          TitleText(text: "Achievements", fontSize: 20,),
-          YMargin(5,),
-          _buildGameAchievements(),
-          YMargin(20,),
-          TitleText(text: "Screenshots", fontSize: 20,),
-          YMargin(5,),
-          _buildGameScreenshots(),
-          YMargin(50,),
-          //TODO: Might add trailer some.
-//          Text("Trailers", style: Theme.of(context).textTheme.headline,),
-//          _buildGameTrailer(),
-//          SizedBox(height: 20,),
-
-        ],
+          ],
+        ))
       ),
-    );*/
+    );
   }
 
   Widget _buildGameDetails() {
