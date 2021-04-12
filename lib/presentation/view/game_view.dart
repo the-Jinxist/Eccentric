@@ -47,7 +47,7 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Hero(tag: widget.result.name,
+            Hero(tag: "image",
                 child: FadeInImage.assetNetwork(
                   placeholder: "assets/images/placeholder.png",
                   image: widget.result.backgroundImage,

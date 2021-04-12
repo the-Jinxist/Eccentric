@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:game_app/domain/utils/navigator.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
+import 'package:game_app/presentation/pages/details/view_picture_page.dart';
 import 'package:game_app/presentation/pages/details/webview_screen.dart';
 import 'package:game_app/presentation/view/bland_picture_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
@@ -157,8 +158,16 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                       ],
                     ),
                     YMargin(15,),
-                    BlandPictureView(
-                      state.gamesDetails.backgroundImageAdditional,),
+                    GestureDetector(
+                      onTap: (){
+                        navigate(context, ViewPicturePage(pictureUrls: <String>[state.gamesDetails.backgroundImageAdditional],));
+                      },
+                      child: Hero(
+                        tag: "image",
+                        child: BlandPictureView(
+                          state.gamesDetails.backgroundImageAdditional,),
+                      ),
+                    ),
                   ],
                 )
             );
@@ -280,6 +289,10 @@ class _GameDetailsPageState extends State<GameDetailsPage>
 
                 var model = state.screenshots;
 
+                List<String> imageUrlString = List.generate(model.results.length, (index){
+                  return model.results[index].image;
+                });
+
                 return Container(
                   height: _sizeConfig.sh(220),
                   width: SizeConfig.screenWidthDp,
@@ -287,8 +300,16 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                       itemCount: model.results.length,
                       itemBuilder: (context, position) {
                         return Container(margin: EdgeInsets.only(right: 5,),
-                            child: BlandPictureView(
-                                model.results[position].image));
+                            child: GestureDetector(
+                              onTap: (){
+                                navigate(context, ViewPicturePage(pictureUrls: imageUrlString, startPosition: position,));
+                              },
+                              child: Hero(
+                                tag: "image",
+                                child: BlandPictureView(
+                                    model.results[position].image),
+                              ),
+                            ));
                       }),
                 );
               }else if(state is ScreenshotLoadFailure){

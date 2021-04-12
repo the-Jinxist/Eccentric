@@ -7,6 +7,7 @@ import 'package:game_app/presentation/pages/details/game_details_page.dart';
 import 'package:game_app/presentation/view/game_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:game_app/presentation/widgets/y_margin.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 
 class PlatformPage extends StatefulWidget {
   final PlatformResult result;
@@ -55,55 +56,76 @@ class _PlatformPageState extends State<PlatformPage> {
                           ),
                         );
                       } else if (state is GamesViaPlatformLoadSuccess) {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: state.gamesDetails.results.length,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            itemBuilder: (context, position) {
-                              var currentGame =
-                                  state.gamesDetails.results[position];
-                              return InkWell(
-                                child: GameView(
-                                    onSavedTap: (string) {
-                                      if (string == "Added") {
-                                        Scaffold.of(context).showSnackBar(SnackBar(
-                                            backgroundColor: Colors.black,
-                                            content: NormalText(
-                                                text:
-                                                    "Game added to favourite!")));
-                                      } else {
-                                        Scaffold.of(context).showSnackBar(SnackBar(
-                                            backgroundColor: Colors.black,
-                                            content: NormalText(
-                                                text:
-                                                    "Game removed from favourite!")));
-                                      }
-                                    },
-                                    result:
-                                        state.gamesDetails.results[position]),
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => GameDetailsPage(
-                                            backgroundImage:
-                                                currentGame.backgroundImage,
-                                            id: currentGame.id,
-                                            metacriticRating:
-                                                currentGame.metacritic,
-                                            name: currentGame.name,
-                                            playTime: currentGame.playtime,
-                                            rating: currentGame.rating,
-                                            ratingsCount:
-                                                currentGame.ratingsCount,
-                                            ratingsTop: currentGame.ratingsTop,
-                                            releaseDate: currentGame.released,
-                                            slug: currentGame.slug,
-                                            suggestionsCount:
-                                                currentGame.suggestionsCount,
-                                          )));
-                                },
-                              );
-                            });
+
+                        if(state.gamesDetails.results.isEmpty){
+                          return Container(
+                            height: SizeConfig.screenHeightDp,
+                            width: SizeConfig.screenWidthDp,
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(LineAwesomeIcons.gamepad, color: Colors.grey,),
+                                  YMargin(5),
+                                  NormalText(text: "Coming soon", fontSize: 12, textColor: Colors.grey,)
+                                ],
+                              ),
+                            ),
+                          );
+                        }else{
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: state.gamesDetails.results.length,
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              itemBuilder: (context, position) {
+                                var currentGame =
+                                state.gamesDetails.results[position];
+                                return InkWell(
+                                  child: GameView(
+                                      onSavedTap: (string) {
+                                        if (string == "Added") {
+                                          Scaffold.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.black,
+                                              content: NormalText(
+                                                  text:
+                                                  "Game added to favourite!")));
+                                        } else {
+                                          Scaffold.of(context).showSnackBar(SnackBar(
+                                              backgroundColor: Colors.black,
+                                              content: NormalText(
+                                                  text:
+                                                  "Game removed from favourite!")));
+                                        }
+                                      },
+                                      result:
+                                      state.gamesDetails.results[position]),
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => GameDetailsPage(
+                                          backgroundImage:
+                                          currentGame.backgroundImage,
+                                          id: currentGame.id,
+                                          metacriticRating:
+                                          currentGame.metacritic,
+                                          name: currentGame.name,
+                                          playTime: currentGame.playtime,
+                                          rating: currentGame.rating,
+                                          ratingsCount:
+                                          currentGame.ratingsCount,
+                                          ratingsTop: currentGame.ratingsTop,
+                                          releaseDate: currentGame.released,
+                                          slug: currentGame.slug,
+                                          suggestionsCount:
+                                          currentGame.suggestionsCount,
+                                        )));
+                                  },
+                                );
+                              });
+                        }
+
+
                       } else if (state is GamesViaPlatformLoadFailure) {
                         return Container(
                           padding: EdgeInsets.all(20),
