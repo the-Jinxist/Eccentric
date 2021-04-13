@@ -58,19 +58,49 @@ class _GameDetailsPageState extends State<GameDetailsPage>
         body: NestedScrollView(headerSliverBuilder: (BuildContext context, bool isScrolled){
           return <Widget>[
             SliverAppBar(
-              expandedHeight: 400,
+              expandedHeight: _sizeConfig.sh(400),
               pinned: true,
               floating: true,
               elevation: 0,
-              toolbarHeight: 50,
-              collapsedHeight: 100,
+              toolbarHeight: _sizeConfig.sh(50),
+              collapsedHeight: _sizeConfig.sh(100),
 
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraint){
                   top = constraint.biggest.height;
                   print(top);
                   return FlexibleSpaceBar(
-                    background: Image.network(widget.backgroundImage,fit: BoxFit.cover,),
+                    background: Container(
+                        height: _sizeConfig.sh(400),
+                        child: Stack(
+                          children: <Widget>[
+                            Image.network(
+                              widget.backgroundImage,
+                              fit: BoxFit.cover,
+                              height: _sizeConfig.sh(400),
+                            ),
+                            Container(
+                              height: _sizeConfig.sh(400),
+                              width: SizeConfig.screenWidthDp,
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: FractionalOffset.topCenter,
+                                      end: FractionalOffset.bottomCenter,
+                                      colors: [
+                                        Colors.black.withOpacity(0.5),
+                                        Colors.black
+                                      ],
+                                      stops: [
+                                        0.2,
+                                        1.0
+                                      ]
+                                  )
+                              ),
+                            ),
+
+                          ]
+                        )
+                    ),
                     centerTitle: false,
                     titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     title: Row(
@@ -161,7 +191,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           onTap: () {
                             if (state.gamesDetails.website != null) {
                               //Navigate to website
-                              navigate(context, WebviewScreen(initialUrl: state.gamesDetails.website));
+                              navigate(context, WebViewPage(initialUrl: state.gamesDetails.website));
                             }
                           },
                           child: Icon(
@@ -173,7 +203,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           onTap: () {
                             if (state.gamesDetails.redditUrl != null) {
                               //Navigate to website
-                              navigate(context, WebviewScreen(initialUrl: state.gamesDetails.redditUrl));
+                              navigate(context, WebViewPage(initialUrl: state.gamesDetails.redditUrl));
                             }
                           },
                           child: Icon(

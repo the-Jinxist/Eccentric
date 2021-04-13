@@ -43,7 +43,7 @@ class _ViewPicturePageState extends State<ViewPicturePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(icon: Icon(LineAwesomeIcons.backward, color: Colors.white,), onPressed: (){
           popView(context);
