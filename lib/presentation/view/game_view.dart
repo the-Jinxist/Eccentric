@@ -47,18 +47,16 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Hero(tag: "image",
-                child: FadeInImage.assetNetwork(
-                  placeholder: "assets/images/placeholder.png",
-                  image: widget.result.backgroundImage,
-                  fit: BoxFit.cover,
-                  imageCacheHeight: _config.sh(450).toInt(),
-                  imageCacheWidth: _config.sw(800).toInt(),
-                  placeholderCacheHeight: _config.sh(400).toInt(),
-                  placeholderCacheWidth: _config.sw(400).toInt(),
-                  height: _config.sh(400),
-                  width: SizeConfig.screenWidthDp,
-                )
+            FadeInImage.assetNetwork(
+              placeholder: "assets/images/placeholder.png",
+              image: widget.result.backgroundImage,
+              fit: BoxFit.cover,
+              imageCacheHeight: _config.sh(450).toInt(),
+              imageCacheWidth: _config.sw(800).toInt(),
+              placeholderCacheHeight: _config.sh(400).toInt(),
+              placeholderCacheWidth: _config.sw(400).toInt(),
+              height: _config.sh(400),
+              width: SizeConfig.screenWidthDp,
             ),
             Container(
               height: _config.sh(400),
@@ -149,7 +147,7 @@ class _GameViewState extends State<GameView> {
               top: 10,
               child: IconButton(
                 onPressed: (){
-
+                  //TODO: Must add share functionality later
                 },
                 tooltip: "Share Game",
                 icon: Icon(LineAwesomeIcons.share, color: Colors.white,),

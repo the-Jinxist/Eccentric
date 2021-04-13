@@ -65,6 +65,9 @@ class _GameDetailsPageState extends State<GameDetailsPage>
               toolbarHeight: _sizeConfig.sh(50),
               collapsedHeight: _sizeConfig.sh(100),
 
+              leading: IconButton(icon: Icon(LineAwesomeIcons.close, color: top == _sizeConfig.sh(100)? Colors.black : Colors.white,), onPressed: (){
+                popView(context);
+              }),
               flexibleSpace: LayoutBuilder(
                 builder: (BuildContext context, BoxConstraints constraint){
                   top = constraint.biggest.height;
@@ -101,35 +104,41 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                           ]
                         )
                     ),
-                    centerTitle: false,
-                    titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TitleText(text: "${widget.name}", maxLines: 5,fontSize: 16 , textColor: top == 100? Colors.black : Colors.white,),
-                            NormalText(text: "Released: ${widget.releaseDate}!", textColor: top == 100? Colors.black : Colors.white),
-                            RatingBar(
-                              onRatingUpdate: (rating) {},
-                              allowHalfRating: true,
-                              itemCount: widget.ratingsTop,
-                              itemSize: 20,
-                              ignoreGestures: true,
-                              initialRating: widget.rating,
-                              glow: true,
-                              itemBuilder: (context, _) =>
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.orange,
-                                  ),
+                    centerTitle: true,
+                    stretchModes: [StretchMode.zoomBackground, StretchMode.blurBackground],
+                    titlePadding: EdgeInsets.only(right: 20, bottom: 30),
+                    title: SizedBox(
+                      width: SizeConfig.screenWidthDp - 150,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: SizeConfig.screenWidthDp - 150,
+                                child: TitleText(text: "${widget.name}", maxLines: 10,fontSize: 13 , textColor: top == _sizeConfig.sh(100)? Colors.black : Colors.white, textAlign: TextAlign.end, )),
+                              NormalText(text: "Released: ${widget.releaseDate}!", fontSize: 10, textColor: top == _sizeConfig.sh(100)? Colors.black : Colors.white, textAlign: TextAlign.end,),
+                              RatingBar(
+                                onRatingUpdate: (rating) {},
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 7,
+                                ignoreGestures: true,
+                                initialRating: widget.rating,
+                                glow: true,
+                                itemBuilder: (context, _) =>
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    ),
 
-                            )
-                          ],
-                        ),
-                      ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -137,7 +146,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
             ),
           ];
         }, body: ListView(
-            padding: EdgeInsets.only(top: 60, left: 15, right: 15),
+            padding: EdgeInsets.only(top: 40, left: 15, right: 15),
           children: [
             TitleText(text: "Description", fontSize: 20,),
             YMargin(5,),
@@ -217,11 +226,8 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                       onTap: (){
                         navigate(context, ViewPicturePage(pictureUrls: <String>[state.gamesDetails.backgroundImageAdditional],));
                       },
-                      child: Hero(
-                        tag: "image",
-                        child: BlandPictureView(
-                          state.gamesDetails.backgroundImageAdditional,),
-                      ),
+                      child: BlandPictureView(
+                        state.gamesDetails.backgroundImageAdditional,),
                     ),
                   ],
                 )
@@ -359,11 +365,8 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                               onTap: (){
                                 navigate(context, ViewPicturePage(pictureUrls: imageUrlString, startPosition: position,));
                               },
-                              child: Hero(
-                                tag: "image",
-                                child: BlandPictureView(
-                                    model.results[position].image),
-                              ),
+                              child: BlandPictureView(
+                                  model.results[position].image),
                             ));
                       }),
                 );
@@ -378,7 +381,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
                         NormalText(text: "Sorry an error occurred: ${state.error}",),
                         GestureDetector(
                           onTap: () {
-
+                            BlocProvider.of<ScreenshotBloc>(context).add(LoadScreenshot(widget.slug));
                           },
                           child: TitleText(text: "Reload", textColor: Colors
                               .orange, fontSize: 25,),

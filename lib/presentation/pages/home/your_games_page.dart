@@ -77,30 +77,27 @@ class _YourGamesPageState extends State<YourGamesPage> {
                               itemCount: state.games.results.length,
                               itemBuilder: (context, position){
                                 var currentGame = state.games.results[position];
-                                return InkWell(child: Hero(
-                                  tag: "image",
-                                  child: GameView(
-                                      onSavedTap: (string) {
-                                        if (string == "Added") {
-                                          Scaffold.of(context).showSnackBar(
-                                              SnackBar(
-                                                  elevation: 5,
-                                                  backgroundColor: Colors.orange,
-                                                  content: NormalText(text: "Game saved!", textColor: Colors.white)
-                                              )
-                                          );
-                                        } else {
-                                          Scaffold.of(context).showSnackBar(
-                                              SnackBar(
-                                                  elevation: 5,
-                                                  backgroundColor: Colors.orange,
-                                                  content: NormalText(text: "Game un-saved!", textColor: Colors.white)
-                                              )
-                                          );
-                                        }
-                                      },
-                                      result: state.games.results[position]),
-                                ),
+                                return InkWell(child: GameView(
+                                    onSavedTap: (string) {
+                                      if (string == "Added") {
+                                        Scaffold.of(context).showSnackBar(
+                                            SnackBar(
+                                                elevation: 5,
+                                                backgroundColor: Colors.orange,
+                                                content: NormalText(text: "Game saved!", textColor: Colors.white)
+                                            )
+                                        );
+                                      } else {
+                                        Scaffold.of(context).showSnackBar(
+                                            SnackBar(
+                                                elevation: 5,
+                                                backgroundColor: Colors.orange,
+                                                content: NormalText(text: "Game un-saved!", textColor: Colors.white)
+                                            )
+                                        );
+                                      }
+                                    },
+                                    result: state.games.results[position]),
                                   onTap: (){
                                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => GameDetailsPage(
                                       backgroundImage: currentGame.backgroundImage,

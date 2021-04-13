@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:game_app/domain/utils/navigator.dart';
 import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/widgets/texts.dart';
 import 'package:game_app/presentation/widgets/x_margin.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -28,7 +30,10 @@ class _WebViewPageState extends State<WebViewPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(icon: Icon(LineAwesomeIcons.close), onPressed: (){}),
+        title: NormalText(text: "Browser"),
+        leading: IconButton(icon: Icon(LineAwesomeIcons.close), onPressed: (){
+          popView(context);
+        }),
         actions: <Widget>[
           FutureBuilder<WebViewController>(
             future: _webViewController.future,
@@ -39,7 +44,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     IconButton(
                       icon: const Icon(
                         Icons.refresh,
-                        color: Colors.grey,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         setState((){

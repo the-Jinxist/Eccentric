@@ -31,21 +31,12 @@ class _ViewPicturePageState extends State<ViewPicturePage> {
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.light,
-        statusBarColor: Colors.black,
-        systemNavigationBarColor: Colors.black,
-        systemNavigationBarIconBrightness: Brightness.light
-      )
-    );
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        leading: IconButton(icon: Icon(LineAwesomeIcons.backward, color: Colors.white,), onPressed: (){
+        leading: IconButton(icon: Icon(LineAwesomeIcons.close, color: Colors.white,), onPressed: (){
           popView(context);
         }),
       ),
@@ -57,14 +48,32 @@ class _ViewPicturePageState extends State<ViewPicturePage> {
           itemCount: widget.pictureUrls.length,
           pageSnapping: true,
           controller: _controller,
+          clipBehavior: Clip.antiAlias,
           itemBuilder: (BuildContext context, int position){
-            return FadeInImage.assetNetwork(
-              placeholder: "assets/images/placeholder.png",
-              image: widget.pictureUrls[position],
-              placeholderCacheHeight: _config.sh(250).toInt(),
-              placeholderCacheWidth: SizeConfig.screenWidthDp.toInt(),
-              fit: BoxFit.cover,
-              width: SizeConfig.screenWidthDp,
+            return Container(
+              child: Stack(
+                children: [
+                  Container(
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  Container(
+                    height: SizeConfig.screenHeightDp,
+                    width: SizeConfig.screenWidthDp,
+                    child: Center(
+                      child: Image.network(
+                        widget.pictureUrls[position],
+                        fit: BoxFit.contain,
+                        width: SizeConfig.screenWidthDp,
+                      ),
+                    ),
+                  ),
+
+                ],
+              )
             );
           }
         )

@@ -59,7 +59,7 @@ class _PlatformPageState extends State<PlatformPage> {
 
                         if(state.gamesDetails.results.isEmpty){
                           return Container(
-                            height: SizeConfig.screenHeightDp,
+                            height: SizeConfig.screenHeightDp - 200,
                             width: SizeConfig.screenWidthDp,
                             child: Center(
                               child: Column(
