@@ -9,7 +9,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Game App"
+        android:label="Eccentric!"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
