@@ -48,6 +48,7 @@ class _GameDetailsPageState extends State<GameDetailsPage>
 
   @override
   Widget build(BuildContext context) {
+    var top = 0.0;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -61,39 +62,45 @@ class _GameDetailsPageState extends State<GameDetailsPage>
               toolbarHeight: 50,
               collapsedHeight: 100,
 
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(widget.backgroundImage,fit: BoxFit.cover,),
-                centerTitle: false,
-                titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+              flexibleSpace: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraint){
+                  top = constraint.biggest.height;
+                  print(top);
+                  return FlexibleSpaceBar(
+                    background: Image.network(widget.backgroundImage,fit: BoxFit.cover,),
+                    centerTitle: false,
+                    titlePadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    title: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TitleText(text: "${widget.name}", maxLines: 5,fontSize: 16 ,),
-                        NormalText(text: "Released: ${widget.releaseDate}!",),
-                        RatingBar(
-                          onRatingUpdate: (rating) {},
-                          allowHalfRating: true,
-                          itemCount: widget.ratingsTop,
-                          itemSize: 20,
-                          ignoreGestures: true,
-                          initialRating: widget.rating,
-                          glow: true,
-                          itemBuilder: (context, _) =>
-                              Icon(
-                                Icons.star,
-                                color: Colors.orange,
-                              ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TitleText(text: "${widget.name}", maxLines: 5,fontSize: 16 , textColor: top == 100? Colors.black : Colors.white,),
+                            NormalText(text: "Released: ${widget.releaseDate}!", textColor: top == 100? Colors.black : Colors.white),
+                            RatingBar(
+                              onRatingUpdate: (rating) {},
+                              allowHalfRating: true,
+                              itemCount: widget.ratingsTop,
+                              itemSize: 20,
+                              ignoreGestures: true,
+                              initialRating: widget.rating,
+                              glow: true,
+                              itemBuilder: (context, _) =>
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.orange,
+                                  ),
 
-                        )
+                            )
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
+                  );
+                },
+              ) /**/
             ),
           ];
         }, body: ListView(
