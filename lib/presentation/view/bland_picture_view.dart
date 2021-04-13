@@ -20,7 +20,7 @@ class BlandPictureView extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
       ),
       child: Container(
-        height: _config.sh(200),
+        height: _config.sh(250),
         child: FadeInImage.assetNetwork(
           placeholder: "assets/images/placeholder.png",
           image: imageString,

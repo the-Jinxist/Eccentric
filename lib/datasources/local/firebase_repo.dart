@@ -40,7 +40,7 @@ class DatabaseRepo{
   static Future<List<dynamic>> saveCloudGamesToDB({String userID}) async {
     var games = await getStoredSavedGames(userID: userID);
     if (games.isEmpty){
-      return await DatabaseHelper().insertGames(games);
+      return await DatabaseHelper().insertGamesService(games);
     }
 
     return null;

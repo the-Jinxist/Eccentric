@@ -1,5 +1,5 @@
 name: game_app
-description: A new Flutter project.
+description: A app with all your game info.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -35,6 +35,7 @@ dependencies:
   meta: ^1.1.6
   equatable: ^1.0.0
   flutter_bloc: ^5.0.0
+  webview_flutter: 0.3.24
 
 dev_dependencies:
   flutter_test:

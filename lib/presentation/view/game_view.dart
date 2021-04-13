@@ -27,7 +27,7 @@ class _GameViewState extends State<GameView> {
     super.initState();
 
     databaseHelper = DatabaseHelper();
-    savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+    savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
   }
 
   final SizeConfig _config = SizeConfig();
@@ -37,7 +37,7 @@ class _GameViewState extends State<GameView> {
     return Card(
       elevation: 5,
       clipBehavior: Clip.antiAlias,
-      margin: EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
+      margin: EdgeInsets.only(top: 5, bottom: 5,),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30)
       ),
@@ -47,18 +47,16 @@ class _GameViewState extends State<GameView> {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            Hero(tag: widget.result.name,
-                child: FadeInImage.assetNetwork(
-                  placeholder: "assets/images/placeholder.png",
-                  image: widget.result.backgroundImage,
-                  fit: BoxFit.cover,
-                  imageCacheHeight: _config.sh(450).toInt(),
-                  imageCacheWidth: _config.sw(800).toInt(),
-                  placeholderCacheHeight: _config.sh(400).toInt(),
-                  placeholderCacheWidth: _config.sw(400).toInt(),
-                  height: _config.sh(400),
-                  width: SizeConfig.screenWidthDp,
-                )
+            FadeInImage.assetNetwork(
+              placeholder: "assets/images/placeholder.png",
+              image: widget.result.backgroundImage,
+              fit: BoxFit.cover,
+              imageCacheHeight: _config.sh(450).toInt(),
+              imageCacheWidth: _config.sw(800).toInt(),
+              placeholderCacheHeight: _config.sh(400).toInt(),
+              placeholderCacheWidth: _config.sw(400).toInt(),
+              height: _config.sh(400),
+              width: SizeConfig.screenWidthDp,
             ),
             Container(
               height: _config.sh(400),
@@ -92,9 +90,9 @@ class _GameViewState extends State<GameView> {
                       if(listOfGames.isEmpty){
                         return IconButton(
                           onPressed: (){
-                            databaseHelper.insert(widget.result).then((int){
+                            databaseHelper.insertSingleGameService(widget.result).then((int){
                               setState(() {
-                                savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+                                savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
                               });
                             });
 
@@ -107,9 +105,9 @@ class _GameViewState extends State<GameView> {
                       }else{
                         return IconButton(
                           onPressed: (){
-                            databaseHelper.delete(widget.result.id).then((int){
+                            databaseHelper.deleteGameService(widget.result.id).then((int){
                               setState(() {
-                                savedFuture = databaseHelper.getSingleQueryResult(widget.result.slug);
+                                savedFuture = databaseHelper.getSingleGameService(widget.result.slug);
                               });
 
                             });
@@ -149,7 +147,7 @@ class _GameViewState extends State<GameView> {
               top: 10,
               child: IconButton(
                 onPressed: (){
-
+                  //TODO: Must add share functionality later
                 },
                 tooltip: "Share Game",
                 icon: Icon(LineAwesomeIcons.share, color: Colors.white,),
@@ -157,7 +155,7 @@ class _GameViewState extends State<GameView> {
 
             ),
             Positioned(
-              bottom: 20,
+              bottom: 50,
               left: 20,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -166,60 +164,40 @@ class _GameViewState extends State<GameView> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: SizedBox(
-                      width: SizeConfig.screenWidthDp - 50,
-                      child: NormalText(text: "${widget.result.name}",
+                      width: SizeConfig.screenWidthDp - 90,
+                      child: TitleText(text: "${widget.result.name}",
                         textColor: Colors.white,
+                        fontSize: 20,
                         textAlign: TextAlign.start,
                         maxLines: 1,
                       ),
                     ),
                   ),
                   SizedBox(height: 3,),
-                  NormalText(
-                    text: "Released: ${widget.result.released}",
-                    textColor: Colors.white,
-                    textAlign: TextAlign.start,
-                  ),
-                  SizedBox(
-                    width: _config.sw(300),
-                    child: NormalText(text: "MetaCritic Rating: ${widget.result.metacritic != null ? widget.result.metacritic : "None"}. Play time: ${widget.result.playtime}. "
-                        "Suggestions: ${widget.result.suggestionsCount}",
-                      maxLines: 3,
-                      textColor: Colors.white,
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  NormalText(text: "Rating",
-                    textColor: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    textAlign: TextAlign.start,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      RatingBar(
-                        onRatingUpdate: (rating){
+                  RatingBar(
+                    onRatingUpdate: (double){
 
-                        },
-                        itemSize: 20.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.orange,
-                        ),
-                        allowHalfRating: true,
-                        ignoreGestures: true,
-                        itemCount: widget.result.ratingsTop,
-                        tapOnlyMode: false,
-                        direction: Axis.horizontal,
-                        initialRating: widget.result.rating.roundToDouble(),
-                      ),
-                      SizedBox(width: 5),
-                      NormalText(text: "Rates: ${widget.result.ratingsCount}",
-                        textColor: Colors.white,
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  )
+                    },
+                    unratedColor: Colors.white,
+                    itemSize: 20.0,
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.orange,
+                    ),
+                    allowHalfRating: true,
+                    ignoreGestures: true,
+                    itemCount: 5,
+                    tapOnlyMode: false,
+                    glow: true,
+                    direction: Axis.horizontal,
+                    initialRating: widget.result.rating.roundToDouble(),
+                  ),
+                  SizedBox(width: 5),
+                  NormalText(text: "Rates: ${widget.result.ratingsCount}",
+                    textColor: Colors.white,
+                    textAlign: TextAlign.start,
+                  ),
+
                 ],
               ),
 

@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
+import 'package:game_app/presentation/widgets/y_margin.dart';
 
 class PopularView extends StatefulWidget {
 
@@ -21,7 +22,7 @@ class _PopularViewState extends State<PopularView> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
+      elevation: 2,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
@@ -74,7 +75,10 @@ class _PopularViewState extends State<PopularView> {
                     TitleText(text: "${widget.result.name}",
                       textColor: Colors.white,
                       textAlign: TextAlign.start,
+                      fontSize: 17,
+                      maxLines: 1,
                     ),
+                    YMargin(5),
                     RatingBar(
                       onRatingUpdate: (rating){
 

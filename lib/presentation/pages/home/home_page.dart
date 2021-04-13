@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:game_app/datasources/z_datasources.dart';
 import 'package:game_app/presentation/pages/home/discover_games_page.dart';
 import 'package:game_app/presentation/pages/home/profile_page.dart';
 import 'package:game_app/presentation/pages/home/saved_games_page.dart';
@@ -20,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 
-    storeSavedGames();
     pageController = PageController(initialPage: 0, keepPage: true);
     super.initState();
   }
@@ -93,16 +91,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future storeSavedGames() async{
-    print("Finding user");
-    var user = await AuthRepo.getCurrentUser();
-    if(user != null){
-      print("User dey");
-      var map = await DatabaseHelper().getGameList();
-      DatabaseRepo.storeSavedGames(userID: user.uid, savedGames: map);
-    }else{
-      print("User no dey");
-    }
-
-  }
 }

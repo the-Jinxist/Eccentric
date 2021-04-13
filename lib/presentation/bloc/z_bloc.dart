@@ -1,15 +1,2 @@
-export 'package:game_app/presentation/bloc/network/anticipated_bloc/z_anticipated_bloc.dart';
-export 'package:game_app/presentation/bloc/network/developers_bloc/z_developers_bloc.dart';
-export 'package:game_app/presentation/bloc/network/genres_bloc/z_genres_bloc_dart.dart';
-export 'package:game_app/presentation/bloc/network/popular_bloc/z_popular_bloc.dart';
-export 'package:game_app/presentation/bloc/network/publishers_bloc/z_publishers_bloc.dart';
-export 'package:game_app/presentation/bloc/network/search_bloc/z_search_bloc.dart';
-export 'package:game_app/presentation/bloc/network/your_games_bloc/z_your_games_bloc.dart';
-export 'package:game_app/presentation/bloc/network/details_bloc/z_details_bloc.dart';
-export 'package:game_app/presentation/bloc/network/platforms_bloc/z_platform_bloc.dart';
-export 'package:game_app/presentation/bloc/network/screenshot_bloc/z_screenshot_bloc.dart';
-export 'package:game_app/presentation/bloc/network/trailers_bloc/z_trailers_bloc.dart';
-export 'package:game_app/presentation/bloc/network/achievement_bloc/z_achievement_bloc.dart';
-export 'package:game_app/presentation/bloc/network/games_via_developers_bloc/z_games_via_developers_bloc.dart';
-export 'package:game_app/presentation/bloc/network/games_via_platform_bloc/z_games_via_platform_bloc.dart';
-export 'package:game_app/presentation/bloc/network/games_via_publishers_bloc/z_games_via_publishers_bloc.dart';
+export 'package:game_app/presentation/bloc/network/z_network_bloc.dart';
+export 'package:game_app/presentation/bloc/database/z_database_bloc.dart';

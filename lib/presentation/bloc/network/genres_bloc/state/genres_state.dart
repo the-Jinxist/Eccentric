@@ -32,3 +32,5 @@ class GenresLoadFailure extends GenresState {}
 class SaveGenresSuccess extends GenresState{}
 
 class SaveGenresFailure extends GenresState {}
+
+class SaveGenresLoadInProgress extends GenresState{}
