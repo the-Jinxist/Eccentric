@@ -36,6 +36,7 @@ dependencies:
   equatable: ^1.0.0
   flutter_bloc: ^5.0.0
   webview_flutter: 0.3.24
+#  mockito: ^5.0.5 Must use MTN to load this shit. SMH
 
 dev_dependencies:
   flutter_test:
