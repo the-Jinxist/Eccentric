@@ -48,7 +48,7 @@ void main() {
     expect(chipFinder, findsOneWidget);
 
     await tester.tap(chipFinder);
-    await tester.pumpAndSettle()
+    await tester.pumpAndSettle();
 
     expect(genreList.length, originalLength + 1);
 
