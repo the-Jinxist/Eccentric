@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:game_app/domain/models/games_model.dart';
 import 'package:game_app/domain/utils/size_config.dart';
@@ -31,7 +32,9 @@ void main(){
 
   setUp((){
 
+    //In order to use widgets that do a http connection
     HttpOverrides.global = null;
+
     app = MaterialApp(
       home: Scaffold(
           body: Builder(builder: (BuildContext context) {
@@ -48,15 +51,33 @@ void main(){
 
   });
 
-  testWidgets("Test to correlate text", (WidgetTester tester) async {
+  group("Anticipated view tests", (){
 
-    await tester.runAsync(() async {
-      await tester.pumpWidget(app);
+    testWidgets("Test to correlate text", (WidgetTester tester) async {
 
-      final Finder textFinder = find.text("Anticipated Test");
-      expect(textFinder, findsOneWidget);
+      //runAsync is used to make sure the http connection doesn't fail the test
+      await tester.runAsync(() async {
+        await tester.pumpWidget(app);
+
+        final Finder textFinder = find.text("Anticipated Test");
+        expect(textFinder, findsOneWidget);
+      });
+
+
     });
 
+    testWidgets("Test to make sure the rating widget is present", (WidgetTester tester) async {
+
+      //runAsync is used to make sure the http connection doesn't fail the test
+      await tester.runAsync(() async {
+        await tester.pumpWidget(app);
+
+        final Finder textFinder = find.byType(RatingBar);
+        expect(textFinder, findsOneWidget);
+      });
+
+
+    });
 
   });
 
