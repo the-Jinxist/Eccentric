@@ -13,53 +13,47 @@ void main() {
 
   setUp(() {
 
-    normalTextApp = MultiBlocProvider(
-        providers: blocs,
-        child: MaterialApp(
-          home: Scaffold(
-            body: Builder(builder: (BuildContext context) {
-              Size size = MediaQuery.of(context).size;
-              SizeConfig.init(context,
-                  width: size.width,
-                  height: size.height,
-                  allowFontScaling: true);
+    normalTextApp = MaterialApp(
+      home: Scaffold(
+        body: Builder(builder: (BuildContext context) {
+          Size size = MediaQuery.of(context).size;
+          SizeConfig.init(context,
+              width: size.width,
+              height: size.height,
+              allowFontScaling: true);
 
-              return NormalText(text: "Arcade");
-            }),
-          ),
-        ));
+          return NormalText(text: "Arcade");
+        }),
+      ),
+    );
 
-    titleTextApp = MultiBlocProvider(
-        providers: blocs,
-        child: MaterialApp(
-          home: Scaffold(
-            body: Builder(builder: (BuildContext context) {
-              Size size = MediaQuery.of(context).size;
-              SizeConfig.init(context,
-                  width: size.width,
-                  height: size.height,
-                  allowFontScaling: true);
+    titleTextApp = MaterialApp(
+      home: Scaffold(
+        body: Builder(builder: (BuildContext context) {
+          Size size = MediaQuery.of(context).size;
+          SizeConfig.init(context,
+              width: size.width,
+              height: size.height,
+              allowFontScaling: true);
 
-              return TitleText(text: "Arcade");
-            }),
-          ),
-        ));
+          return TitleText(text: "Arcade");
+        }),
+      ),
+    );
 
-    accentTextApp = MultiBlocProvider(
-        providers: blocs,
-        child: MaterialApp(
-          home: Scaffold(
-            body: Builder(builder: (BuildContext context) {
-              Size size = MediaQuery.of(context).size;
-              SizeConfig.init(context,
-                  width: size.width,
-                  height: size.height,
-                  allowFontScaling: true);
+    accentTextApp = MaterialApp(
+      home: Scaffold(
+        body: Builder(builder: (BuildContext context) {
+          Size size = MediaQuery.of(context).size;
+          SizeConfig.init(context,
+              width: size.width,
+              height: size.height,
+              allowFontScaling: true);
 
-              return AccentText(text: "Arcade");
-            }),
-          ),
-        ));
+          return AccentText(text: "Arcade");
+        }),
+      ),
+    );
 
   });
 

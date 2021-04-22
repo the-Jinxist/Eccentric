@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:game_app/domain/utils/size_config.dart';
-import 'package:game_app/presentation/bloc/bloc_util.dart';
 import 'package:game_app/presentation/widgets/filter_chip_widget.dart';
 
 void main() {
@@ -14,22 +12,20 @@ void main() {
   int originalLength = genreList.length;
 
   setUp(() {
-    app = MultiBlocProvider(
-        providers: blocs,
-        child: MaterialApp(
-          home: Scaffold(
-            body: Builder(builder: (BuildContext context) {
-              Size size = MediaQuery.of(context).size;
-              SizeConfig.init(context,
-                  width: size.width,
-                  height: size.height,
-                  allowFontScaling: true);
+    app = MaterialApp(
+      home: Scaffold(
+        body: Builder(builder: (BuildContext context) {
+          Size size = MediaQuery.of(context).size;
+          SizeConfig.init(context,
+              width: size.width,
+              height: size.height,
+              allowFontScaling: true);
 
-              return FilterChipWidget(
-                  "Arcade", genreList, slug, alreadySelectedGenres);
-            }),
-          ),
-        ));
+          return FilterChipWidget(
+              "Arcade", genreList, slug, alreadySelectedGenres);
+        }),
+      ),
+    );
   });
 
   testWidgets("Check to see if chip widget text correlate",

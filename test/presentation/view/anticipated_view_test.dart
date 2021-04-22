@@ -1,0 +1,63 @@
+
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:game_app/domain/models/games_model.dart';
+import 'package:game_app/domain/utils/size_config.dart';
+import 'package:game_app/presentation/view/anticipated_view.dart';
+
+void main(){
+
+  Widget app;
+  Result testResult = Result(
+    added: 0,
+    addedByStatus: {},
+    backgroundImage: "http://placehold.it/120x120&text=image1",
+    id: 0,
+    metacritic: 2,
+    name: "Anticipated Test",
+    playtime: 20,
+    rating: 4.0,
+    ratings: {},
+    ratingsCount: 25,
+    ratingsTop: 5,
+    released: "20th of May,",
+    reviewsTextCount: 25,
+    slug: "anticipated test",
+    suggestionsCount: 12,
+    tba: true
+  );
+
+  setUp((){
+
+    HttpOverrides.global = null;
+    app = MaterialApp(
+      home: Scaffold(
+          body: Builder(builder: (BuildContext context) {
+            Size size = MediaQuery.of(context).size;
+            SizeConfig.init(context,
+                width: size.width,
+                height: size.height,
+                allowFontScaling: true);
+
+            return AnticipatedView(testResult);
+          })
+      ),
+    );
+
+  });
+
+  testWidgets("Test to correlate text", (WidgetTester tester) async {
+
+    await tester.runAsync(() async {
+      await tester.pumpWidget(app);
+
+      final Finder textFinder = find.text("Anticipated Test");
+      expect(textFinder, findsOneWidget);
+    });
+
+
+  });
+
+}
