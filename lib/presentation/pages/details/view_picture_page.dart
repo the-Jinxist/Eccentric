@@ -43,7 +43,7 @@ class _ViewPicturePageState extends State<ViewPicturePage> {
       body: Container(
         height: SizeConfig.screenHeightDp,
         width: SizeConfig.screenWidthDp,
-        color: Colors.black,
+        color: Colors.white,
         child: PageView.builder(
           itemCount: widget.pictureUrls.length,
           pageSnapping: true,

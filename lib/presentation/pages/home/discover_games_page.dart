@@ -5,7 +5,6 @@ import 'package:game_app/domain/utils/size_config.dart';
 import 'package:game_app/presentation/bloc/z_bloc.dart';
 import 'package:game_app/presentation/pages/category/anticipated_page.dart';
 import 'package:game_app/presentation/pages/category/developers_page.dart';
-import 'package:game_app/presentation/pages/category/platform_page.dart';
 import 'package:game_app/presentation/pages/category/popular_page.dart';
 import 'package:game_app/presentation/pages/category/publishers_page.dart';
 import 'package:game_app/presentation/pages/details/game_details_page.dart';
@@ -13,7 +12,6 @@ import 'package:game_app/presentation/pages/details/search_page.dart';
 import 'package:game_app/presentation/pages/industry/all_developers_page.dart';
 import 'package:game_app/presentation/pages/industry/all_publishers_page.dart';
 import 'package:game_app/presentation/view/anticipated_view.dart';
-import 'package:game_app/presentation/view/platform_view.dart';
 import 'package:game_app/presentation/view/popular_view.dart';
 import 'package:game_app/presentation/view/publisher_view.dart';
 import 'package:game_app/presentation/widgets/texts.dart';
@@ -170,7 +168,21 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             ],
           ),
           YMargin(10),
-          _buildPlatform(),
+          Container(
+            height: _config.sh(250),
+            width: SizeConfig.screenWidthDp,
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(LineAwesomeIcons.gamepad, color: Colors.grey,),
+                  YMargin(5),
+                  NormalText(text: "Coming soon", fontSize: 12, textColor: Colors.grey,)
+                ],
+              ),
+            ),
+          ),
           SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -494,77 +506,5 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
         );
       }
     });
-  }
-
-  Widget _buildPlatform() {
-    return Column(
-      children: [
-        BlocBuilder<PlatformBloc, PlatformState>(
-            builder: (BuildContext context, PlatformState state) {
-          if (state is PlatformLoadInProgress) {
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if (state is PlatformLoadSuccess) {
-            return Container(
-              height: _config.sh(220),
-              width: SizeConfig.screenWidthDp,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: state.platforms.results.length,
-                  itemBuilder: (context, position) {
-                    var model = state.platforms.results[position];
-                    return InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PlatformPage(model)));
-                        },
-                        child: PlatformView(model));
-                  }),
-            );
-          } else if (state is PlatformLoadFailure) {
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    NormalText(
-                      text: "Sorry an error occurred",
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<PlatformBloc>(context)
-                            .add(LoadPlatform());
-                      },
-                      child: TitleText(
-                        text: "Reload",
-                        textColor: Colors.orange,
-                        fontSize: 25,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Container(
-              height: _config.sh(250),
-              width: SizeConfig.screenWidthDp,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-        }),
-      ],
-    );
   }
 }
