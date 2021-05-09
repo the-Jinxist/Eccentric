@@ -162,8 +162,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                 text: "Platforms",
                 fontSize: 20,
               ),
+              YMargin(5),
               NormalText(
-                text: "All the devices you play a game on",
+                  text: "All the devices you can play a game on",
+                  fontSize: 12
               ),
             ],
           ),
@@ -174,7 +176,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               NormalText(
-                text: "ECCENTRIC V1.0",
+                text: "ECCENTRIC V1.1",
               )
             ],
           ),
@@ -196,8 +198,10 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
               text: "$title",
               fontSize: 20,
             ),
+            YMargin(5),
             NormalText(
               text: "$desc",
+              fontSize: 12
             ),
           ],
         ),
