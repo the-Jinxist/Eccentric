@@ -365,7 +365,7 @@ class _DiscoverGamesPageState extends State<DiscoverGamesPage> {
                   child: TitleText(
                     text: "Reload",
                     textColor: Colors.orange,
-                    fontSize: 12,
+                    fontSize: 25,
                   ),
                 )
               ],
