@@ -1,9 +1,7 @@
 name: Android Release
 
 #The trigger for when we want this android-release ci to be executed
-on:
-  push:
-    branches: [ develop ]
+on: push
 
 #Jobs we want to execute
 jobs:
