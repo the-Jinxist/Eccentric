@@ -14,7 +14,6 @@ class LoadAchievement extends AchievementEvent {
   LoadAchievement([this.id]);
 
   @override
-  // TODO: implement props
   List<Object> get props => ['Slug: $id'];
 
 

@@ -32,18 +32,18 @@ class _ViewPicturePageState extends State<ViewPicturePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(icon: Icon(LineAwesomeIcons.close, color: Colors.white,), onPressed: (){
+        leading: IconButton(icon: Icon(LineAwesomeIcons.close, color: Colors.black,), onPressed: (){
           popView(context);
         }),
       ),
       body: Container(
         height: SizeConfig.screenHeightDp,
         width: SizeConfig.screenWidthDp,
-        color: Colors.black,
+        color: Colors.white,
         child: PageView.builder(
           itemCount: widget.pictureUrls.length,
           pageSnapping: true,

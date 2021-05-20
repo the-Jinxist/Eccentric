@@ -28,7 +28,7 @@ Map<String, String> _userAgentHeader = {
 Future<GenreModel> getGenresService() async {
   try {
     Response response = await get(
-      GENRE_ENDPOINT,
+      GENRE_ENDPOINT + '?key=$API_KEY',
       headers: _userAgentHeader,
     );
 
@@ -50,7 +50,7 @@ Future<GamesModel> getYourGamesService() async {
     String genreString = await getGenreString();
 
     Response response = await get(
-        GAMES_ENDPOINT + '?genres=$genreString&page=1',
+        GAMES_ENDPOINT + '?key=$API_KEY&genres=$genreString&page=1',
         headers: _userAgentHeader);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -69,7 +69,7 @@ Future<GamesModel> getYourGamesFromDevelopersService(
     {String developers}) async {
   try {
     Response response = await get(
-        GAMES_ENDPOINT + '?developers=$developers&page=1',
+        GAMES_ENDPOINT + '?key=$API_KEY&developers=$developers&page=1',
         headers: _userAgentHeader);
     if (response.statusCode == 200 || response.statusCode == 201) {
       GamesModel gameModel = GamesModel.fromJson(json.decode(response.body));
@@ -87,7 +87,7 @@ Future<GamesModel> getYourGamesFromPublishersService(
     {String publishers}) async {
   try {
     Response response = await get(
-        GAMES_ENDPOINT + '?publishers=$publishers&page=1',
+        GAMES_ENDPOINT + '?key=$API_KEY&publishers=$publishers&page=1',
         headers: _userAgentHeader);
     if (response.statusCode == 200 || response.statusCode == 201) {
       GamesModel gameModel = GamesModel.fromJson(json.decode(response.body));
@@ -104,7 +104,7 @@ Future<GamesModel> getYourGamesFromPublishersService(
 Future<GamesModel> getYourGamesFromPlatformService({String platform}) async {
   try {
     Response response = await get(
-        GAMES_ENDPOINT + '?platforms=$platform&page=1',
+        GAMES_ENDPOINT + '?key=$API_KEY&platforms=$platform&page=1',
         headers: _userAgentHeader);
     if (response.statusCode == 200 || response.statusCode == 201) {
       GamesModel gameModel = GamesModel.fromJson(json.decode(response.body));
@@ -120,7 +120,7 @@ Future<GamesModel> getYourGamesFromPlatformService({String platform}) async {
 
 Future<GamesModel> getYourGamesFromSearchService({String query}) async {
   try {
-    Response response = await get(GAMES_ENDPOINT + '?search=$query&page=1',
+    Response response = await get(GAMES_ENDPOINT + '?key=$API_KEY&search=$query&page=1',
         headers: _userAgentHeader);
     if (response.statusCode == 200 || response.statusCode == 201) {
       GamesModel gameModel = GamesModel.fromJson(json.decode(response.body));
@@ -137,7 +137,7 @@ Future<GamesModel> getYourGamesFromSearchService({String query}) async {
 Future<GameDetailModel> getGameDetailsService({int id}) async {
   try {
     Response response = await get(
-      GAMES_ENDPOINT + "/$id",
+      GAMES_ENDPOINT + "/$id?key=$API_KEY",
       headers: _userAgentHeader,
     );
 
@@ -156,7 +156,7 @@ Future<GameDetailModel> getGameDetailsService({int id}) async {
 Future<ScreenshotsModel> getGameScreenshotsService({String slug}) async {
   try {
     Response response = await get(
-      GAMES_ENDPOINT + "/$slug/screenshots",
+      GAMES_ENDPOINT + "/$slug/screenshots?key=$API_KEY",
       headers: _userAgentHeader,
     );
 
@@ -176,7 +176,7 @@ Future<ScreenshotsModel> getGameScreenshotsService({String slug}) async {
 Future<TrailersModel> getGameTrailersService({String slug}) async {
   try {
     Response response = await get(
-      GAMES_ENDPOINT + "/$slug/movies",
+      GAMES_ENDPOINT + "/$slug/movies?key=$API_KEY",
       headers: _userAgentHeader,
     );
 
@@ -195,7 +195,7 @@ Future<TrailersModel> getGameTrailersService({String slug}) async {
 Future<AchievementModel> getGameAchievementsService({int id}) async {
   try {
     Response response = await get(
-      GAMES_ENDPOINT + "/$id/achievements",
+      GAMES_ENDPOINT + "/$id/achievements?key=$API_KEY",
       headers: _userAgentHeader,
     );
 
@@ -214,7 +214,7 @@ Future<AchievementModel> getGameAchievementsService({int id}) async {
 Future<PlatformModel> getPlatformsService() async {
   try {
     Response response = await get(
-      PLATFORMS_ENDPOINT,
+      PLATFORMS_ENDPOINT + '?key=$API_KEY',
       headers: _userAgentHeader,
     );
 
@@ -233,7 +233,7 @@ Future<PlatformModel> getPlatformsService() async {
 Future<PublishersModel> getPublishersService() async {
   try {
     Response response = await get(
-      PUBLISHERS_ENDPOINT,
+      PUBLISHERS_ENDPOINT + '?key=$API_KEY',
       headers: _userAgentHeader,
     );
 
@@ -253,7 +253,7 @@ Future<GamesModel> getPopularService() async {
   try {
     Response response = await get(
       GAMES_ENDPOINT +
-          "?dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
+          "?key=$API_KEY&dates=${getPastYear()}-06-01,${getCurrentYear()}-06-01&ordering=-added&page=1",
       headers: _userAgentHeader,
     );
 
@@ -272,7 +272,7 @@ Future<GamesModel> getAnticipatedService() async {
   try {
     Response response = await get(
       GAMES_ENDPOINT +
-          "?dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
+          "?key=$API_KEY&dates=${getCurrentYear()}-06-01,${getNextYear()}-06-01&ordering=-added&page=1",
       headers: _userAgentHeader,
     );
 
@@ -291,7 +291,7 @@ Future<GamesModel> getAnticipatedService() async {
 Future<PublishersModel> getDevelopersService() async {
   try {
     Response response = await get(
-      DEVELOPERS_ENDPOINT,
+      DEVELOPERS_ENDPOINT + '?key=$API_KEY',
       headers: _userAgentHeader,
     );
 
@@ -307,4 +307,4 @@ Future<PublishersModel> getDevelopersService() async {
   }
 }
 
-//Game id: 36755
+//Game id: 36755 FOR TESTING

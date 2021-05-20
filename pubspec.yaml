@@ -36,6 +36,9 @@ dependencies:
   equatable: ^1.0.0
   flutter_bloc: ^5.0.0
   webview_flutter: 0.3.24
+  bloc_test: 6.0.0
+  mockito: 4.0.0
+  cubit_test: ^0.1.0
 
 dev_dependencies:
   flutter_test:
